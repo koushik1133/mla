@@ -37,7 +37,7 @@ export default function AboutPreview() {
                 }}
               >
                 <Image
-                  src="/images/beerla-portrait.jpg"
+                  src="/images/images (1).jpeg"
                   alt="Beerla Ilaiah — MLA, Alair constituency, Telangana"
                   fill
                   style={{ objectFit: "cover", objectPosition: "center top" }}

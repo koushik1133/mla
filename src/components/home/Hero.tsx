@@ -185,11 +185,11 @@ export default function Hero() {
               }}
             >
               <Image
-                src="/images/beerla-portrait.jpg"
+                src="/images/beerla-standing.jpg"
                 alt="Beerla Ilaiah — Member of Telangana Legislative Assembly, Alair"
                 fill
                 priority
-                style={{ objectFit: "cover", objectPosition: "center top" }}
+                style={{ objectFit: "cover", objectPosition: "center 20%" }}
                 sizes="(max-width: 768px) 100vw, 380px"
               />
               <div

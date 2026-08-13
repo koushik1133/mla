@@ -297,6 +297,21 @@ h1, h2, h3, h4, h5, h6 {
   overflow: hidden;
 }
 
+.hero-section {
+  position: relative;
+  min-height: clamp(550px, 80vh, 850px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--charcoal);
+}
+
+@media (max-width: 860px) {
+  .hero-section {
+    min-height: auto;
+  }
+}
+
 @media (max-width: 640px) {
   .announcement-bar {
     display: none !important;
