@@ -28,23 +28,28 @@ export default function ContactPage() {
     if (!result.success) {
       const fieldErrors: Record<string, string> = {};
       result.error.issues.forEach((issue) => {
-        if (issue.path[0]) {
-          fieldErrors[issue.path[0].toString()] = issue.message;
+        const field = issue.path[0] as string;
+        if (!fieldErrors[field]) {
+          if (lang === "te") {
+            if (field === "name") fieldErrors[field] = "దయచేసి మీ పూర్తి పేరు నమోదు చేయండి.";
+            else if (field === "email") fieldErrors[field] = "దయచేసి చెల్లుబాటు అయ్యే ఈమెయిల్ నమోదు చేయండి.";
+            else if (field === "message") fieldErrors[field] = "సందేశం కనీసం 20 అక్షరాలు ఉండాలి.";
+            else fieldErrors[field] = issue.message;
+          } else {
+            fieldErrors[field] = issue.message;
+          }
         }
       });
-      return fieldErrors;
+      setErrors(fieldErrors);
+      return false;
     }
-    return {};
+    setErrors({});
+    return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length > 0) {
-      setErrors(errs);
-      return;
-    }
-    setErrors({});
+    if (!validate()) return;
     setStatus("sending");
     await new Promise((r) => setTimeout(r, 1500));
     setStatus("sent");

@@ -139,7 +139,7 @@ export default function Navbar() {
                 }}
               >
                 <HandSymbolIcon size={12} style={{ fill: "#166A2F" }} />
-                <span style={{ fontSize: "0.65rem", fontWeight: 700, color: "var(--congress-green)", letterSpacing: "0.04em", textTransform: "uppercase" }}>INC</span>
+                <span style={{ fontSize: "0.65rem", fontWeight: 700, color: "var(--congress-green)", letterSpacing: "0.04em", textTransform: "uppercase", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{lang === "te" ? "ఐఎన్‌సి" : "INC"}</span>
               </div>
 
               {/* Hamburger */}

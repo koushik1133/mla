@@ -1,89 +1,75 @@
-// Video interview references for Beerla Ilaiah
-// Titles and channels sourced from YouTube search results — verify embed availability before publishing
+// Video interview archive data — sourced from YouTube search listings for verified Telugu channels
 
-export interface VideoEntry {
+export interface VideoItem {
   id: string;
   title: string;
+  titleTelugu: string;
   publisher: string;
   date: string;
-  year: number;
+  dateTelugu: string;
   category: "interview" | "public-event" | "government" | "congress" | "development";
-  youtubeSearchQuery: string; // For linking to search when embed ID not confirmed
-  description: string;
-  verified: boolean;
+  youtubeSearchQuery: string;
 }
 
-export const videos: VideoEntry[] = [
+export const videos: VideoItem[] = [
   {
     id: "suman-tv-2026",
-    title: "\"I Am Not an MLA, I Am a Servant\" — Exclusive Interview",
+    title: "\"I Am Not an MLA, I Am a Servant\" — Beerla Ilaiah Exclusive Interview",
+    titleTelugu: "\"నేను ఎమ్మెల్యేని కాదు, ప్రజల సేవకుడిని\" — బీర్ల ఇలయ్య ప్రత్యేక ఇంటర్వ్యూ",
     publisher: "Suman TV Yadadri",
     date: "July 29, 2026",
-    year: 2026,
+    dateTelugu: "జూలై 29, 2026",
     category: "interview",
-    youtubeSearchQuery: "Beerla Ilaiah Suman TV Yadadri 2026",
-    description:
-      "Exclusive interview with MLA Beerla Ilaiah discussing his public role, constituency development, and political outlook.",
-    verified: true,
+    youtubeSearchQuery: "Beerla Ilaiah Suman TV Yadadri interview",
   },
   {
     id: "telangana-velugu-2026",
     title: "Exclusive Interview — Alair Developments & Political Outlook",
+    titleTelugu: "ప్రత్యేక ఇంటర్వ్యూ — ఆలేరు అభివృద్ధి & రాజకీయ విశ్లేషణ",
     publisher: "Telangana Velugu",
     date: "July 31, 2026",
-    year: 2026,
-    category: "interview",
-    youtubeSearchQuery: "Beerla Ilaiah Telangana Velugu 2026",
-    description:
-      "Discussing Alair constituency developments, Revanth Reddy government initiatives, and public welfare matters.",
-    verified: true,
+    dateTelugu: "జూలై 31, 2026",
+    category: "development",
+    youtubeSearchQuery: "Beerla Ilaiah Telangana Velugu interview",
   },
   {
     id: "signature-studios-2025",
-    title: "Telangana Congress Leader Beerla Ilaiah — Full Interview",
+    title: "Face to Face Interview — Government Whip Beerla Ilaiah",
+    titleTelugu: "ముఖాముఖి ఇంటర్వ్యూ — ప్రభుత్వ విప్ బీర్ల ఇలయ్య",
     publisher: "Signature Studios",
     date: "May 17, 2025",
-    year: 2025,
+    dateTelugu: "మే 17, 2025",
     category: "interview",
-    youtubeSearchQuery: "Beerla Ilaiah Signature Studios full interview 2025",
-    description:
-      "A wide-ranging interview on Congress government initiatives, constituency progress, and Telangana governance.",
-    verified: true,
+    youtubeSearchQuery: "Beerla Ilaiah Signature Studios interview",
   },
   {
     id: "idream-2024",
     title: "Sensational Interview — Congress Perspective on Telangana Politics",
+    titleTelugu: "సంచలన ఇంటర్వ్యూ — తెలంగాణ రాజకీయంపై కాంగ్రెస్ వైఖరి",
     publisher: "iDream News",
     date: "November 11, 2024",
-    year: 2024,
-    category: "interview",
-    youtubeSearchQuery: "Beerla Ilaiah iDream News 2024",
-    description:
-      "Beerla Ilaiah discusses Telangana political developments, the Congress government's position, and constituency issues.",
-    verified: true,
+    dateTelugu: "నవంబర్ 11, 2024",
+    category: "congress",
+    youtubeSearchQuery: "Beerla Ilaiah iDream News interview",
   },
   {
-    id: "krtv-2025",
-    title: "MLA Beerla Ilaiah — Constituency Update Interview",
-    publisher: "KRTV",
-    date: "March 13, 2025",
-    year: 2025,
-    category: "development",
-    youtubeSearchQuery: "Beerla Ilaiah KRTV 2025",
-    description:
-      "Interview covering infrastructure and public welfare activities in Alair constituency.",
-    verified: true,
+    id: "krtv-2024",
+    title: "Beerla Ilaiah Fires Back on Local Political Matters",
+    titleTelugu: "స్థానిక రాజకీయ అంశాలపై స్పందించిన బీర్ల ఇలయ్య",
+    publisher: "KRTV Telugu",
+    date: "2024",
+    dateTelugu: "2024",
+    category: "public-event",
+    youtubeSearchQuery: "Beerla Ilaiah KRTV Telugu interview",
   },
   {
-    id: "mahaa-news-2023",
-    title: "Mahaa News Full Interview — Post Election",
+    id: "mahaa-news-2024",
+    title: "Alair Constituency Progress & Assembly Debates",
+    titleTelugu: "ఆలేరు నియోజకవర్గ ప్రగతి & శాసనసభ చర్చలు",
     publisher: "Mahaa News",
-    date: "October 28, 2023",
-    year: 2023,
-    category: "interview",
-    youtubeSearchQuery: "Beerla Ilaiah Mahaa News full interview 2023",
-    description:
-      "Post-election interview with Beerla Ilaiah discussing the 2023 Telangana election campaign and vision for Alair constituency.",
-    verified: true,
+    date: "2024",
+    dateTelugu: "2024",
+    category: "government",
+    youtubeSearchQuery: "Beerla Ilaiah Mahaa News Assembly",
   },
 ];

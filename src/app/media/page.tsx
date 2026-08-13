@@ -94,7 +94,7 @@ export default function MediaPage() {
                         {video.publisher}
                       </p>
                       <p style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.3, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {video.title.slice(0, 70)}{video.title.length > 70 ? "…" : ""}
+                        {lang === "te" && video.titleTelugu ? (video.titleTelugu.slice(0, 70) + (video.titleTelugu.length > 70 ? "…" : "")) : (video.title.slice(0, 70) + (video.title.length > 70 ? "…" : ""))}
                       </p>
                     </div>
                   </div>
@@ -110,12 +110,14 @@ export default function MediaPage() {
                     <span className="tag tag-saffron" style={{ fontSize: "0.65rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                       {t.categories[video.category] || video.category}
                     </span>
-                    <span style={{ fontSize: "0.72rem", color: "var(--muted-light)" }}>{video.date}</span>
+                    <span style={{ fontSize: "0.72rem", color: "var(--muted-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                      {lang === "te" && video.dateTelugu ? video.dateTelugu : video.date}
+                    </span>
                   </div>
                   <p style={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--charcoal)", lineHeight: 1.3, marginBottom: "0.4rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                    {video.title}
+                    {lang === "te" && video.titleTelugu ? video.titleTelugu : video.title}
                   </p>
-                  <p style={{ fontSize: "0.8rem", color: "var(--muted)", marginBottom: "0.75rem" }}>
+                  <p style={{ fontSize: "0.8rem", color: "var(--muted)", marginBottom: "0.75rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                     {video.publisher}
                   </p>
                   <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.75rem", color: "var(--saffron)", fontWeight: 600, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>

@@ -74,7 +74,7 @@ export default function JourneyPage() {
                   }}
                 />
 
-                <p className="timeline-year">{entry.period || entry.year}</p>
+                <p className="timeline-year">{lang === "te" && entry.periodTelugu ? entry.periodTelugu : (entry.period || entry.year)}</p>
 
                 <span
                   style={{
@@ -107,8 +107,8 @@ export default function JourneyPage() {
                   {lang === "te" ? entry.descriptionTelugu : entry.description}
                 </p>
 
-                <p style={{ fontSize: "0.68rem", color: "var(--muted-light)", marginTop: "0.5rem", display: "flex", alignItems: "center", gap: "0.3rem" }}>
-                  <span style={{ opacity: 0.5 }}>{lang === "te" ? "మూలం:" : "Source:"}</span> {entry.source}
+                <p style={{ fontSize: "0.68rem", color: "var(--muted-light)", marginTop: "0.5rem", display: "flex", alignItems: "center", gap: "0.3rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                  <span style={{ opacity: 0.5 }}>{lang === "te" ? "మూలం:" : "Source:"}</span> {lang === "te" && entry.sourceTelugu ? entry.sourceTelugu : entry.source}
                 </p>
               </motion.div>
             ))}

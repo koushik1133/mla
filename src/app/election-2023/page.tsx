@@ -156,7 +156,9 @@ export default function Election2023Page() {
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "0.75rem" }}>
                     <div>
                       <p style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {lang === "te" && candidate.name === "Beerla Ilaiah" ? "బీర్ల ఇలయ్య" : candidate.name}
+                        {lang === "te"
+                          ? candidate.name === "Beerla Ilaiah" ? "బీర్ల ఇలయ్య" : candidate.name === "Gongidi Sunitha" ? "గొంగిడి సునీత" : candidate.name === "Kallu Sanjeeva Reddy" ? "కల్లు సంజీవ రెడ్డి" : candidate.name
+                          : candidate.name}
                         {candidate.isWinner && (
                           <span style={{ marginLeft: "0.5rem", fontSize: "0.65rem", background: "rgba(22,106,47,0.12)", color: "var(--congress-green)", padding: "0.15rem 0.5rem", borderRadius: "100px", fontWeight: 700, letterSpacing: "0.04em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                             {t.winner}
@@ -164,7 +166,9 @@ export default function Election2023Page() {
                         )}
                       </p>
                       <p style={{ fontSize: "0.85rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {lang === "te" && candidate.party === "Indian National Congress" ? "భారత జాతీయ కాంగ్రెస్" : candidate.party}
+                        {lang === "te"
+                          ? candidate.party === "Indian National Congress" ? "భారత జాతీయ కాంగ్రెస్" : candidate.party === "Bharat Rashtra Samithi" ? "భారత రాష్ట్ర సమితి" : candidate.party === "Bharatiya Janata Party" ? "భారతీయ జనతా పార్టీ" : candidate.party
+                          : candidate.party}
                       </p>
                     </div>
                     <div style={{ textAlign: "right" }}>
@@ -203,9 +207,9 @@ export default function Election2023Page() {
                   href={result.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ fontSize: "0.75rem", color: "var(--saffron)", textDecoration: "none", display: "flex", alignItems: "center", gap: "0.3rem" }}
+                  style={{ fontSize: "0.75rem", color: "var(--saffron)", textDecoration: "none", display: "flex", alignItems: "center", gap: "0.3rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}
                 >
-                  View source: ADR India <ExternalLink size={11} />
+                  {lang === "te" ? "మూలం చూడండి: ఏడీఆర్ ఇండియా" : "View source: ADR India"} <ExternalLink size={11} />
                 </a>
               </div>
             </div>
