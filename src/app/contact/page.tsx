@@ -47,11 +47,39 @@ export default function ContactPage() {
     return true;
   };
 
+  const sanitize = (text: string) => text.replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m] || m));
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
+
+    // Rate Limiting check
+    const lastSub = localStorage.getItem("beerla_last_contact_sub");
+    if (lastSub && Date.now() - parseInt(lastSub, 10) < 45000) {
+      setErrors({ form: lang === "te" ? "దయచేసి కొద్దిసేపు ఆగి మళ్ళీ పంపండి." : "Please wait 45 seconds before submitting another request." });
+      return;
+    }
+
     setStatus("sending");
-    await new Promise((r) => setTimeout(r, 1500));
+    // Sanitize inputs
+    const sanitizedMsg = {
+      id: `msg_${Date.now()}`,
+      name: sanitize(form.name),
+      email: sanitize(form.email),
+      phone: sanitize(form.phone || ""),
+      message: sanitize(form.message),
+      date: new Date().toLocaleString(),
+    };
+
+    try {
+      const existing = JSON.parse(localStorage.getItem("beerla_contact_messages") || "[]");
+      localStorage.setItem("beerla_contact_messages", JSON.stringify([sanitizedMsg, ...existing]));
+    } catch {
+      // Fallback
+    }
+
+    await new Promise((r) => setTimeout(r, 1000));
+    localStorage.setItem("beerla_last_contact_sub", Date.now().toString());
     setStatus("sent");
   };
 
@@ -228,7 +256,7 @@ export default function ContactPage() {
 
             {/* Right — form */}
             <div>
-              <div style={{ background: "var(--white)", border: "1px solid var(--border)", borderRadius: "16px", padding: "2.5rem" }}>
+              <div style={{ background: "var(--white)", border: "1px solid var(--border)", borderRadius: "16px", padding: "clamp(1.25rem, 4vw, 2.5rem)" }}>
                 <h2 style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, color: "var(--charcoal)", letterSpacing: "-0.02em", marginBottom: "0.5rem" }}>
                   {t.formTitle}
                 </h2>

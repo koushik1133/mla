@@ -126,6 +126,7 @@ export default function BeerlaAIAssistant() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            className="ai-chat-drawer"
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -175,9 +176,9 @@ export default function BeerlaAIAssistant() {
               <button
                 onClick={() => setIsOpen(false)}
                 aria-label="Close Assistant"
-                style={{ background: "rgba(255,255,255,0.1)", border: "none", color: "white", borderRadius: "50%", width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                style={{ background: "rgba(255,255,255,0.1)", border: "none", color: "white", borderRadius: "50%", width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
               >
-                <X size={18} />
+                <X size={20} />
               </button>
             </div>
 
@@ -233,6 +234,7 @@ export default function BeerlaAIAssistant() {
                   onClick={() => handleSend(sug)}
                   style={{
                     padding: "0.25rem 0.6rem",
+                    minHeight: "44px",
                     borderRadius: "100px",
                     background: "rgba(238,90,28,0.08)",
                     border: "1px solid rgba(238,90,28,0.2)",
@@ -265,6 +267,7 @@ export default function BeerlaAIAssistant() {
                 style={{
                   flex: 1,
                   padding: "0.6rem 0.875rem",
+                  minHeight: "44px",
                   borderRadius: "100px",
                   border: "1px solid var(--border)",
                   fontSize: "0.85rem",
@@ -277,8 +280,8 @@ export default function BeerlaAIAssistant() {
                 disabled={!input.trim()}
                 aria-label="Send message"
                 style={{
-                  width: "36px",
-                  height: "36px",
+                  width: "44px",
+                  height: "44px",
                   borderRadius: "50%",
                   background: input.trim() ? "var(--saffron)" : "var(--border)",
                   color: "white",

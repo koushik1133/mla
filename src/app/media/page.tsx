@@ -99,7 +99,7 @@ export default function MediaPage() {
                     </div>
                   </div>
                   <div className="play-button">
-                    <div style={{ width: "44px", height: "44px", borderRadius: "50%", background: "rgba(238,90,28,0.9)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <div style={{ width: "44px", height: "44px", borderRadius: "50%", background: "var(--saffron)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(0,0,0,0.3)" }}>
                       <Play size={18} color="white" fill="white" style={{ marginLeft: "2px" }} />
                     </div>
                   </div>

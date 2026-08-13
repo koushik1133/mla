@@ -685,7 +685,11 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Mobile Hero & AI Assistant Enhancements */
+/* Mobile Touch Targets & Breakpoint Responsiveness (WCAG 2.2 AA Minimum 44px) */
+a, button, input, select, textarea {
+  touch-action: manipulation;
+}
+
 @media (max-width: 640px) {
   .hero-btn-group {
     flex-direction: column !important;
@@ -697,5 +701,36 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center !important;
     justify-content: center !important;
   }
+  .hero-chevron {
+    display: none !important;
+  }
 }
+
+@media (max-width: 480px) {
+  .grid-4-col {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+  .mandal-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .ai-chat-drawer {
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    border-radius: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .grid-4-col {
+    grid-template-columns: 1fr !important;
+  }
+  .grid-2-col {
+    gap: 1.25rem !important;
+  }
+}
+
 

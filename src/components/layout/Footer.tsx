@@ -50,8 +50,8 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Social Links */}
-            <div style={{ display: "flex", gap: "0.5rem", marginTop: "1.25rem", flexWrap: "wrap" }}>
+            {/* Social Links - Uniform Size & Matching Theme */}
+            <div style={{ display: "flex", gap: "0.6rem", marginTop: "1.25rem", flexWrap: "wrap", alignItems: "center" }}>
               <a
                 href={politician.social.facebook}
                 target="_blank"
@@ -62,15 +62,16 @@ export default function Footer() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: "2.25rem",
-                  height: "2.25rem",
+                  width: "2.75rem",
+                  height: "2.75rem",
                   borderRadius: "50%",
-                  background: "#1877F2",
+                  background: "rgba(255,255,255,0.12)",
                   color: "white",
                   textDecoration: "none",
+                  transition: "all 0.2s ease",
                 }}
               >
-                <FacebookIcon size={15} />
+                <FacebookIcon size={18} />
               </a>
               <a
                 href={politician.social.twitter}
@@ -81,15 +82,16 @@ export default function Footer() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: "2.25rem",
-                  height: "2.25rem",
+                  width: "2.75rem",
+                  height: "2.75rem",
                   borderRadius: "50%",
                   background: "rgba(255,255,255,0.12)",
                   color: "white",
                   textDecoration: "none",
+                  transition: "all 0.2s ease",
                 }}
               >
-                <TwitterXIcon size={15} />
+                <TwitterXIcon size={18} />
               </a>
               <a
                 href={politician.social.instagram}
@@ -101,15 +103,16 @@ export default function Footer() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: "2.25rem",
-                  height: "2.25rem",
+                  width: "2.75rem",
+                  height: "2.75rem",
                   borderRadius: "50%",
                   background: "rgba(255,255,255,0.12)",
                   color: "white",
                   textDecoration: "none",
+                  transition: "all 0.2s ease",
                 }}
               >
-                <InstagramIcon size={15} />
+                <InstagramIcon size={18} />
               </a>
               <a
                 href={politician.social.instagramFoundation}
@@ -121,15 +124,16 @@ export default function Footer() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: "2.25rem",
-                  height: "2.25rem",
+                  width: "2.75rem",
+                  height: "2.75rem",
                   borderRadius: "50%",
-                  background: "rgba(238,90,28,0.25)",
-                  color: "var(--saffron-light)",
+                  background: "rgba(255,255,255,0.12)",
+                  color: "white",
                   textDecoration: "none",
+                  transition: "all 0.2s ease",
                 }}
               >
-                <InstagramIcon size={15} />
+                <InstagramIcon size={18} />
               </a>
               <a
                 href={`https://www.youtube.com/results?search_query=Beerla+Ilaiah`}
@@ -140,16 +144,16 @@ export default function Footer() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  width: "2.25rem",
-                  height: "2.25rem",
+                  width: "2.75rem",
+                  height: "2.75rem",
                   borderRadius: "50%",
                   background: "rgba(255,255,255,0.12)",
                   color: "white",
-                  transition: "background 0.2s, color 0.2s",
                   textDecoration: "none",
+                  transition: "all 0.2s ease",
                 }}
               >
-                <YoutubeIcon size={15} />
+                <YoutubeIcon size={18} />
               </a>
             </div>
           </div>

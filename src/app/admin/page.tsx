@@ -19,6 +19,8 @@ import {
   Sparkles,
   RefreshCw,
   Palette,
+  Mail,
+  Inbox,
 } from "lucide-react";
 import { useSiteConfig, TickerItem } from "@/context/SiteConfigContext";
 import { useLang } from "@/lib/lang-context";
@@ -52,7 +54,25 @@ export default function AdminPage() {
   const [pinSuccessMsg, setPinSuccessMsg] = useState("");
 
   // Active Tab
-  const [activeTab, setActiveTab] = useState<"hero" | "ticker" | "security">("ticker");
+  const [activeTab, setActiveTab] = useState<"hero" | "ticker" | "security" | "messages">("ticker");
+  const [messages, setMessages] = useState<any[]>([]);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = JSON.parse(localStorage.getItem("beerla_contact_messages") || "[]");
+        setMessages(stored);
+      } catch {
+        setMessages([]);
+      }
+    }
+  }, [activeTab]);
+
+  const deleteMessage = (id: string) => {
+    const updated = messages.filter((m) => m.id !== id);
+    setMessages(updated);
+    localStorage.setItem("beerla_contact_messages", JSON.stringify(updated));
+  };
 
   // New Ticker Form
   const [newTickerEn, setNewTickerEn] = useState("");
@@ -115,7 +135,7 @@ export default function AdminPage() {
             maxWidth: "420px",
             background: "var(--white)",
             borderRadius: "20px",
-            padding: "2.5rem 2rem",
+            padding: "clamp(1.25rem, 5vw, 2.5rem)",
             boxShadow: "0 20px 50px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)",
             textAlign: "center",
           }}
@@ -207,8 +227,8 @@ export default function AdminPage() {
             </h1>
           </div>
 
-          <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-            <Link href="/" target="_blank" className="btn-outline-white" style={{ fontSize: "0.8rem", padding: "0.5rem 1rem" }}>
+          <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
+            <Link href="/" target="_blank" className="btn-outline-white" style={{ fontSize: "0.8rem", padding: "0.5rem 1rem", minHeight: "44px", display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
               <Eye size={14} /> {lang === "te" ? "లైవ్ సైట్ చూడండి" : "View Live Site"}
             </Link>
             <button
@@ -225,6 +245,7 @@ export default function AdminPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.4rem",
+                minHeight: "44px",
               }}
             >
               <LogOut size={14} /> {lang === "te" ? "నిష్క్రమించు" : "Sign Out"}
@@ -233,12 +254,24 @@ export default function AdminPage() {
         </div>
       </div>
 
-      <div className="container-site" style={{ marginTop: "2rem" }}>
+      <div className="container-site" style={{ marginTop: "1.5rem" }}>
         {/* Navigation Tabs */}
-        <div style={{ display: "flex", gap: "0.5rem", marginBottom: "2rem", borderBottom: "1px solid var(--border)", paddingBottom: "0.5rem", overflowX: "auto" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "0.5rem",
+            marginBottom: "1.5rem",
+            borderBottom: "1px solid var(--border)",
+            paddingBottom: "0.75rem",
+            overflowX: "auto",
+            WebkitOverflowScrolling: "touch",
+            scrollbarWidth: "none",
+          }}
+        >
           {[
             { id: "ticker", labelEn: "Scrolling News Ticker", labelTe: "స్క్రోలింగ్ బ్రేకింగ్ అప్‌డేట్లు", icon: Megaphone },
             { id: "hero", labelEn: "Hero Section Studio", labelTe: "హీరో సెక్షన్ డిజైన్", icon: Layout },
+            { id: "messages", labelEn: `Citizen Messages (${messages.length})`, labelTe: `ప్రజా వినతులు (${messages.length})`, icon: Inbox },
             { id: "security", labelEn: "Security & Passcode", labelTe: "పాస్‌కోడ్ సెట్టింగ్‌లు", icon: Key },
           ].map((tab) => {
             const Icon = tab.icon;
@@ -249,6 +282,7 @@ export default function AdminPage() {
                 onClick={() => setActiveTab(tab.id as any)}
                 style={{
                   padding: "0.65rem 1.25rem",
+                  minHeight: "44px",
                   borderRadius: "100px",
                   border: "none",
                   background: isActive ? "var(--saffron)" : "var(--white)",
@@ -259,6 +293,8 @@ export default function AdminPage() {
                   display: "flex",
                   alignItems: "center",
                   gap: "0.5rem",
+                  flexShrink: 0,
+                  whiteSpace: "nowrap",
                   boxShadow: isActive ? "0 4px 12px rgba(238,90,28,0.25)" : "none",
                   transition: "all 0.2s ease",
                   fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
@@ -275,7 +311,7 @@ export default function AdminPage() {
         {activeTab === "ticker" && (
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }} className="grid-2-col">
             {/* Add New Ticker Item */}
-            <div style={{ background: "var(--white)", padding: "1.75rem", borderRadius: "16px", border: "1px solid var(--border)" }}>
+            <div style={{ background: "var(--white)", padding: "clamp(1rem, 4vw, 1.75rem)", borderRadius: "16px", border: "1px solid var(--border)" }}>
               <h2 style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
                 <Plus size={18} color="var(--saffron)" />
                 {lang === "te" ? "క్రొత్త బ్రేకింగ్ అప్‌డేట్ జోడించండి" : "Add New Scrolling Update"}
@@ -328,7 +364,7 @@ export default function AdminPage() {
             </div>
 
             {/* Existing Ticker Items List */}
-            <div style={{ background: "var(--white)", padding: "1.75rem", borderRadius: "16px", border: "1px solid var(--border)" }}>
+            <div style={{ background: "var(--white)", padding: "clamp(1rem, 4vw, 1.75rem)", borderRadius: "16px", border: "1px solid var(--border)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
                 <h2 style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
                   {lang === "te" ? "ప్రస్తుత అప్‌డేట్ల జాబితా" : "Active Marquee Items"} ({tickerItems.length})
@@ -401,7 +437,7 @@ export default function AdminPage() {
         {activeTab === "hero" && (
           <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "2rem" }} className="grid-2-col">
             {/* Hero Form */}
-            <div style={{ background: "var(--white)", padding: "1.75rem", borderRadius: "16px", border: "1px solid var(--border)" }}>
+            <div style={{ background: "var(--white)", padding: "clamp(1rem, 4vw, 1.75rem)", borderRadius: "16px", border: "1px solid var(--border)" }}>
               <h2 style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "1.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
                 {lang === "te" ? "హీరో సెక్షన్ ఫోటోలు & పాఠం నవీకరించండి" : "Customize Hero Section Assets & Typography"}
               </h2>
@@ -582,6 +618,84 @@ export default function AdminPage() {
                   {lang === "te" ? "పాస్‌కోడ్ మార్చండి" : "Update Access Passcode"}
                 </button>
               </form>
+            </div>
+          </div>
+        )}
+
+        {/* Tab: Messages Inbox */}
+        {activeTab === "messages" && (
+          <div>
+            <div style={{ background: "var(--white)", padding: "2rem", borderRadius: "16px", border: "1px solid var(--border)", marginBottom: "2rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
+                <div>
+                  <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                    📬 {lang === "te" ? "ప్రజా వినతులు & సందేశాల నిధి" : "Citizen Submissions & Grievance Inbox"}
+                  </h2>
+                  <p style={{ fontSize: "0.85rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                    {lang === "te" ? "ఆలేరు నియోజకవర్గ ప్రజలు సంప్రదింపుల ఫారమ్ ద్వారా పంపిన వినతులు." : "Messages sent directly by citizens via the website contact form."}
+                  </p>
+                </div>
+                {messages.length > 0 && (
+                  <button
+                    onClick={() => {
+                      if (confirm("Clear all received messages?")) {
+                        setMessages([]);
+                        localStorage.removeItem("beerla_contact_messages");
+                      }
+                    }}
+                    style={{ padding: "0.5rem 1rem", background: "rgba(229,62,62,0.1)", color: "#E53E3E", border: "none", borderRadius: "100px", fontSize: "0.8rem", fontWeight: 700, cursor: "pointer" }}
+                  >
+                    Clear All Inbox
+                  </button>
+                )}
+              </div>
+
+              {messages.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "3rem 1rem", background: "var(--warm-bg)", borderRadius: "12px", border: "1px dashed var(--border)" }}>
+                  <Inbox size={40} color="var(--muted-light)" style={{ margin: "0 auto 0.75rem" }} />
+                  <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                    {lang === "te" ? "ఇంకా సందేశాలు ఏవీ రాలేదు." : "No citizen messages in inbox yet."}
+                  </p>
+                  <p style={{ fontSize: "0.8rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                    {lang === "te" ? "సందేశాలు సంప్రదింపుల ఫారమ్ ద్వారా పంపినపుడు ఇక్కడ కనిపిస్తాయి." : "Messages submitted via /contact form will automatically land here."}
+                  </p>
+                </div>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  {messages.map((msg) => (
+                    <div key={msg.id} style={{ padding: "1.25rem", borderRadius: "12px", background: "var(--warm-bg)", border: "1px solid var(--border-light)", display: "flex", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
+                      <div style={{ flex: 1, minWidth: "260px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
+                          <span style={{ fontSize: "1rem", fontWeight: 800, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                            {msg.name}
+                          </span>
+                          <span style={{ fontSize: "0.72rem", background: "var(--white)", padding: "0.2rem 0.5rem", borderRadius: "4px", border: "1px solid var(--border)", color: "var(--muted)" }}>
+                            {msg.date}
+                          </span>
+                        </div>
+
+                        <div style={{ display: "flex", gap: "1rem", fontSize: "0.8rem", color: "var(--saffron-dark)", fontWeight: 600, marginBottom: "0.75rem", flexWrap: "wrap" }}>
+                          <span>📧 {msg.email}</span>
+                          {msg.phone && <span>📞 {msg.phone}</span>}
+                        </div>
+
+                        <p style={{ fontSize: "0.9rem", color: "var(--charcoal)", lineHeight: 1.6, background: "white", padding: "0.875rem", borderRadius: "8px", border: "1px solid var(--border-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                          "{msg.message}"
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={() => deleteMessage(msg.id)}
+                        aria-label="Delete message"
+                        style={{ background: "none", border: "none", color: "#E53E3E", cursor: "pointer", padding: "0.5rem" }}
+                        title="Delete Message"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}
