@@ -12,6 +12,7 @@ export interface TickerItem {
 
 export interface HeroConfig {
   bgImage: string;
+  bgImages?: string[];
   sideImage: string;
   alignment: "left" | "center" | "right";
   headlineEn: string;
@@ -65,12 +66,18 @@ const defaultTickerItems: TickerItem[] = [
 
 const defaultHeroConfig: HeroConfig = {
   bgImage: "/images/hero-bg.jpg",
+  bgImages: [
+    "/images/hero-bg.jpg",
+    "/images/hero2.png",
+    "/images/alair-agriculture.jpg",
+    "/images/yadadri-temple.jpg",
+  ],
   sideImage: "/images/beerla-standing.jpg",
   alignment: "left",
   headlineEn: "Beerla Ilaiah",
   headlineTe: "బీర్ల ఇలయ్య",
-  subtitleEn: "Member of the Telangana Legislative Assembly | Alair Constituency No. 97",
-  subtitleTe: "ఆలేరు శాసనసభ్యులు (నెం. 97) | తెలంగాణ శాసనసభ",
+  subtitleEn: "Member of the Telangana Legislative Assembly — Alair No. 97",
+  subtitleTe: "తెలంగాణ శాసనసభ సభ్యులు — ఆలేరు సంఖ్య 97",
   partyBadgeEn: "Indian National Congress",
   partyBadgeTe: "భారత జాతీయ కాంగ్రెస్",
 };
