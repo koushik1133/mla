@@ -46,5 +46,5 @@ export const politician = {
   },
   // Hero tagline (neutral public service framing)
   tagline: "Leadership rooted in the people of Alair.",
-  taglineTelugu: "ఆలేరు ప్రజలలో పాతుకున్న నాయకత్వం.",
+  taglineTelugu: "ఆలేరు ప్రజల నుండి ఎదిగిన నాయకత్వం.",
 } as const;

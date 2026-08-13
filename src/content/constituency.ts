@@ -29,7 +29,7 @@ export const constituency = {
     { name: "Turkapally", nameTelugu: "తుర్కపల్లి", isHeadquarters: false },
     { name: "Gundala", nameTelugu: "గుండాల", isHeadquarters: false },
     { name: "Atmakur (M)", nameTelugu: "ఆత్మకూరు (మ)", isHeadquarters: false },
-    { name: "Bommala Ramaram", nameTelugu: "బొమ్మలరామమ్", isHeadquarters: false },
+    { name: "Bommala Ramaram", nameTelugu: "బొమ్మల రామారం", isHeadquarters: false },
     { name: "Motakondur", nameTelugu: "మోటకొండూరు", isHeadquarters: false },
   ],
   // Source: Wikipedia / The Hindu

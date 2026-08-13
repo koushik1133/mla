@@ -142,7 +142,7 @@ export const serviceCategories: ServiceCategory[] = [
   {
     id: "community",
     title: "Community Engagement",
-    titleTelugu: "సమాజ నిమగ్నత",
+    titleTelugu: "ప్రజా భాగస్వామ్యం",
     icon: "Users",
     description:
       "Regular public meetings, community outreach, and constituent engagement across the eight mandals of Alair constituency.",

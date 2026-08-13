@@ -162,7 +162,7 @@ export const timelineEntries: TimelineEntry[] = [
     description:
       "Appointed as the President of the Yadadri Bhuvanagiri District Congress Committee (DCC), further cementing his role as a key Congress leader in the district.",
     descriptionTelugu:
-      "యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డిసిసి) అధ్యక్షుడిగా నియామకమయ్యారు.",
+      "యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డిసిసి) అధ్యక్షుడిగా నియమితులయ్యారు.",
     category: "party",
     source: "Poliple / BCSamachar",
     confidence: "medium",

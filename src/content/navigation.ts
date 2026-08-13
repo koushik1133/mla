@@ -3,7 +3,7 @@
 export const navLinks = [
   { label: "Home", labelTe: "హోమ్", href: "/" },
   { label: "About", labelTe: "గురించి", href: "/about" },
-  { label: "Journey", labelTe: "యాత్ర", href: "/journey" },
+  { label: "Journey", labelTe: "ప్రస్థానం", href: "/journey" },
   { label: "Alair", labelTe: "ఆలేరు", href: "/alair" },
   { label: "Public Service", labelTe: "ప్రజా సేవ", href: "/public-service" },
   { label: "Media", labelTe: "మీడియా", href: "/media" },
