@@ -130,9 +130,7 @@ export default function NewsPreview() {
           ))}
         </div>
 
-        <p style={{ fontSize: "0.72rem", color: "var(--muted-light)", marginTop: "1rem", display: "flex", alignItems: "center", gap: "0.35rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-          {t.disclaimer}
-        </p>
+
       </div>
     </section>
   );

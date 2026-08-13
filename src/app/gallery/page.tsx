@@ -114,13 +114,6 @@ export default function GalleryPage() {
               </div>
             ))}
           </div>
-
-          <div style={{ marginTop: "3rem", padding: "1rem 1.25rem", background: "var(--white)", border: "1px solid var(--border)", borderRadius: "10px", display: "flex", gap: "0.5rem", alignItems: "center" }}>
-            <Info size={14} color="var(--muted-light)" />
-            <p style={{ fontSize: "0.78rem", color: "var(--muted)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-              {t.attributionNote}
-            </p>
-          </div>
         </div>
       </section>
 

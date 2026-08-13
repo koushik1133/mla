@@ -49,6 +49,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: "/congress-hand.png",
+    shortcut: "/congress-hand.png",
+    apple: "/congress-hand.png",
+  },
 };
 
 export default function RootLayout({

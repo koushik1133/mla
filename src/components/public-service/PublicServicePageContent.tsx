@@ -34,13 +34,7 @@ export default function PublicServicePageContent() {
             {lang === "te" ? "ఆలేరు శాసనసభ్యులు బీర్ల ఇలయ్య గారి నియోజకవర్గ అభివృద్ది మరియు ప్రజా సేవ రంగాలు." : "Areas of constituency engagement and public activity by Beerla Ilaiah, MLA, Alair No. 97."}
           </p>
 
-          {/* Disclaimer */}
-          <div style={{ marginTop: "1.5rem", display: "flex", alignItems: "flex-start", gap: "0.5rem", padding: "0.875rem 1rem", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", maxWidth: "560px" }}>
-            <Info size={14} color="rgba(255,255,255,0.35)" style={{ flexShrink: 0, marginTop: "2px" }} />
-            <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-              {lang === "te" ? "ప్రజా సేవ వివరాలు అధికారిక పత్రికా సమాచారాలు మరియు నియోజకవర్గ కార్యక్రమాల ఆధారంగా ప్రచురించబడ్డాయి." : "Activities described are based on publicly available information and are characterised as constituency engagement."}
-            </p>
-          </div>
+
         </div>
       </section>
 

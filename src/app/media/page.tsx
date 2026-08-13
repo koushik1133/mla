@@ -136,11 +136,7 @@ export default function MediaPage() {
             </div>
           )}
 
-          <div style={{ marginTop: "3rem", padding: "1.25rem", background: "var(--white)", border: "1px solid var(--border)", borderRadius: "12px" }}>
-            <p style={{ fontSize: "0.8rem", color: "var(--muted)", lineHeight: 1.55, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-              {t.disclaimer}
-            </p>
-          </div>
+
         </div>
       </section>
     </div>

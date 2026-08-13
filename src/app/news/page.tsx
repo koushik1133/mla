@@ -136,17 +136,7 @@ export default function NewsPage() {
         </div>
       </section>
 
-      {/* Disclaimer */}
-      <div style={{ background: "var(--white)", borderBottom: "1px solid var(--border)", padding: "1rem 0" }}>
-        <div className="container-site">
-          <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
-            <Info size={14} color="var(--muted-light)" />
-            <p style={{ fontSize: "0.78rem", color: "var(--muted)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-              {t.disclaimer}
-            </p>
-          </div>
-        </div>
-      </div>
+
 
       {/* News list */}
       <section className="section-padding">
