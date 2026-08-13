@@ -2,20 +2,29 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { MessageSquare, X, Send, Bot, User, Sparkles, RefreshCw } from "lucide-react";
+import { MessageSquare, X, Send, Bot, User, Sparkles, RefreshCw, ExternalLink, Phone, Mail } from "lucide-react";
+import { InstagramIcon, FacebookIcon, TwitterXIcon } from "@/components/icons/SocialIcons";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useLang } from "@/lib/lang-context";
-import { getAIResponse } from "@/lib/ai-knowledge";
+import { getAIResponse, getAIResponseTopic } from "@/lib/ai-knowledge";
 
 interface Message {
   id: string;
   sender: "user" | "ai";
   text: string;
   timestamp: string;
+  showSocialButtons?: boolean;
 }
 
 export default function BeerlaAIAssistant() {
+  const pathname = usePathname();
   const { lang } = useLang();
+
+  // Hide AI Assistant completely on Admin page
+  if (pathname && pathname.startsWith("/admin")) {
+    return null;
+  }
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -30,8 +39,8 @@ export default function BeerlaAIAssistant() {
         sender: "ai",
         text:
           lang === "te"
-            ? "నమస్కారం! నేను బీర్ల ఇలయ్య గారి AI సహాయకుని (Beerla's AI Assistant). ఆలేరు నియోజకవర్గం, ఎమ్మెల్యే గారి సేవలు, ఎన్నికల ఫలితాలు లేదా కార్యాలయ వివరాల గురించి మీరు నన్ను ఏమైనా అడగవచ్చు."
-            : "Namaste! I am Beerla's AI Assistant. Ask me anything about MLA Beerla Ilaiah, Alair Constituency No. 97, 2023 election results, public service schemes, or office contact details.",
+            ? "నమస్కారం! నేను బీర్ల ఐలయ్య గారి AI సహాయకుని (Beerla's AI Assistant). ఆలేరు నియోజకవర్గం, ఎమ్మెల్యే గారి సేవలు, యాదాద్రి ఆలయం లేదా సంప్రదింపు వివరాల గురించి నన్ను ఏమైనా అడగవచ్చు."
+            : "Namaste! I am Beerla's AI Assistant. Ask me anything about MLA Beerla Ilaiah, Alair Constituency No. 97, Yadadri Temple, 2023 election results, or office contact details.",
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       },
     ]);
@@ -41,7 +50,7 @@ export default function BeerlaAIAssistant() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const query = textToSend || input;
     if (!query.trim()) return;
 
@@ -56,31 +65,64 @@ export default function BeerlaAIAssistant() {
     if (!textToSend) setInput("");
     setIsTyping(true);
 
+    try {
+      // Check if Groq API endpoint is available
+      const apiRes = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [{ role: "user", content: query }],
+          lang,
+        }),
+      });
+
+      if (apiRes.ok) {
+        const data = await apiRes.json();
+        if (data.text) {
+          const aiMsg: Message = {
+            id: `a_${Date.now()}`,
+            sender: "ai",
+            text: data.text,
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            showSocialButtons: query.toLowerCase().includes("contact") || query.toLowerCase().includes("social") || query.includes("సంప్రదించ"),
+          };
+          setMessages((prev) => [...prev, aiMsg]);
+          setIsTyping(false);
+          return;
+        }
+      }
+    } catch {
+      // Fallthrough to client knowledge base
+    }
+
+    // Fallback to local knowledge base
     setTimeout(() => {
+      const topic = getAIResponseTopic(query);
       const responseText = getAIResponse(query, lang);
       const aiMsg: Message = {
         id: `a_${Date.now()}`,
         sender: "ai",
         text: responseText,
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        showSocialButtons: topic?.showSocialButtons || query.toLowerCase().includes("contact") || query.includes("సంప్రదించ"),
       };
       setMessages((prev) => [...prev, aiMsg]);
       setIsTyping(false);
-    }, 600);
+    }, 450);
   };
 
   const suggestedQueriesEn = [
     "Who is Beerla Ilaiah?",
-    "2023 Alair election results",
-    "How to contact MLA office?",
     "Tell me about Yadadri Temple",
+    "How to contact MLA office?",
+    "2023 Alair election results",
   ];
 
   const suggestedQueriesTe = [
-    "బీర్ల ఇలయ్య గారి గురించి చెప్పండి",
-    "2023 ఆలేరు ఎన్నికల ఫలితాలు",
+    "బీర్ల ఐలయ్య గారి గురించి చెప్పండి",
+    "యాదాద్రి క్షేత్రం గురించి చెప్పండి",
     "ఎమ్మెల్యే కార్యాలయం సంప్రదించడం ఎలా?",
-    "యాదాద్రి క్షేత్ర అభివృద్ధి పనులు",
+    "2023 ఆలేరు ఎన్నికల ఫలితాలు",
   ];
 
   const suggestions = lang === "te" ? suggestedQueriesTe : suggestedQueriesEn;
@@ -135,8 +177,8 @@ export default function BeerlaAIAssistant() {
               position: "fixed",
               bottom: "5.5rem",
               right: "1.75rem",
-              width: "min(380px, calc(100vw - 2.5rem))",
-              height: "min(540px, calc(100vh - 7rem))",
+              width: "min(390px, calc(100vw - 2rem))",
+              height: "min(560px, calc(100vh - 7rem))",
               zIndex: 9999,
               background: "var(--white)",
               borderRadius: "20px",
@@ -159,16 +201,16 @@ export default function BeerlaAIAssistant() {
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                <div style={{ position: "relative", width: "36px", height: "36px", borderRadius: "50%", overflow: "hidden", border: "2px solid var(--saffron)" }}>
+                <div style={{ position: "relative", width: "38px", height: "38px", borderRadius: "50%", overflow: "hidden", border: "2px solid var(--saffron)" }}>
                   <Image src="/images/images (1).jpeg" alt="Beerla Ilaiah MLA" fill style={{ objectFit: "cover" }} />
                 </div>
                 <div>
                   <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "white", lineHeight: 1.2, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
                     {lang === "te" ? "బీర్ల AI సహాయకుడు" : "Beerla's AI Assistant"}
                   </h3>
-                  <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.5)", display: "flex", alignItems: "center", gap: "0.3rem" }}>
-                    <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4CAF6E" }} />
-                    {lang === "te" ? "ఆలేరు ఎమ్మెల్యే సమాచార వ్యవస్థ" : "Trained Alair Knowledge Base"}
+                  <p style={{ fontSize: "0.72rem", color: "#4CAF6E", display: "flex", alignItems: "center", gap: "0.35rem", fontWeight: 600, margin: 0 }}>
+                    <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#4CAF6E" }} />
+                    {lang === "te" ? "ఆన్‌లైన్" : "Online"}
                   </p>
                 </div>
               </div>
@@ -195,7 +237,7 @@ export default function BeerlaAIAssistant() {
                 >
                   <div
                     style={{
-                      maxWidth: "85%",
+                      maxWidth: "88%",
                       padding: "0.75rem 1rem",
                       borderRadius: msg.sender === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
                       background: msg.sender === "user" ? "var(--saffron)" : "var(--white)",
@@ -207,7 +249,43 @@ export default function BeerlaAIAssistant() {
                       fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
                     }}
                   >
-                    {msg.text}
+                    <p style={{ margin: 0 }}>{msg.text}</p>
+
+                    {/* Interactive Social Media Buttons */}
+                    {msg.sender === "ai" && msg.showSocialButtons && (
+                      <div style={{ marginTop: "0.85rem", paddingTop: "0.75rem", borderTop: "1px solid var(--border)", display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
+                        <a
+                          href="https://www.instagram.com/beerla_ilaiah_inc/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", padding: "0.35rem 0.65rem", borderRadius: "100px", background: "linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366)", color: "white", fontSize: "0.72rem", fontWeight: 700, textDecoration: "none" }}
+                        >
+                          <InstagramIcon style={{ width: "13px", height: "13px", fill: "white" }} /> Instagram
+                        </a>
+                        <a
+                          href="https://www.facebook.com/BeerIaIlaiahINCAlairIncharge/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", padding: "0.35rem 0.65rem", borderRadius: "100px", background: "#1877F2", color: "white", fontSize: "0.72rem", fontWeight: 700, textDecoration: "none" }}
+                        >
+                          <FacebookIcon style={{ width: "13px", height: "13px", fill: "white" }} /> Facebook
+                        </a>
+                        <a
+                          href="https://twitter.com/IlaiahBeerla"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", padding: "0.35rem 0.65rem", borderRadius: "100px", background: "#000000", color: "white", fontSize: "0.72rem", fontWeight: 700, textDecoration: "none" }}
+                        >
+                          <TwitterXIcon style={{ width: "13px", height: "13px", fill: "white" }} /> X (Twitter)
+                        </a>
+                        <a
+                          href="tel:+919866652347"
+                          style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", padding: "0.35rem 0.65rem", borderRadius: "100px", background: "#10B981", color: "white", fontSize: "0.72rem", fontWeight: 700, textDecoration: "none" }}
+                        >
+                          <Phone size={12} /> Call Office
+                        </a>
+                      </div>
+                    )}
                   </div>
                   <span style={{ fontSize: "0.65rem", color: "var(--muted-light)", marginTop: "0.25rem", padding: "0 0.25rem" }}>
                     {msg.timestamp}
@@ -233,13 +311,13 @@ export default function BeerlaAIAssistant() {
                   key={sug}
                   onClick={() => handleSend(sug)}
                   style={{
-                    padding: "0.25rem 0.6rem",
+                    padding: "0.25rem 0.65rem",
                     minHeight: "44px",
                     borderRadius: "100px",
                     background: "rgba(238,90,28,0.08)",
                     border: "1px solid rgba(238,90,28,0.2)",
                     color: "var(--saffron-dark)",
-                    fontSize: "0.72rem",
+                    fontSize: "0.75rem",
                     fontWeight: 600,
                     whiteSpace: "nowrap",
                     cursor: "pointer",

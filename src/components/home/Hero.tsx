@@ -13,9 +13,11 @@ import { useSiteConfig } from "@/context/SiteConfigContext";
 
 const defaultSlides = [
   "/images/hero-bg.jpg",
+  "/images/yadadri-temple.jpg",
   "/images/hero2.png",
   "/images/alair-agriculture.jpg",
-  "/images/yadadri-temple.jpg",
+  "/images/kolanupaka-temple.jpg",
+  "/images/alair-development.jpg",
 ];
 
 export default function Hero() {
@@ -27,6 +29,7 @@ export default function Hero() {
   const slides = Array.from(
     new Set([
       heroConfig.bgImage || "/images/hero-bg.jpg",
+      "/images/yadadri-temple.jpg",
       "/images/hero2.png",
       ...(heroConfig.bgImages || defaultSlides),
     ])
@@ -51,13 +54,16 @@ export default function Hero() {
     setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
   };
 
+  const currentSlide = slides[currentSlideIndex] || "";
+  const isTempleSlide = currentSlide.includes("yadadri") || currentSlide.includes("kolanupaka");
+
   return (
     <section className="hero-section" aria-label="Introduction" style={{ position: "relative", overflow: "hidden", minHeight: "85vh", display: "flex", alignItems: "center" }}>
       {/* Background Slideshow with AnimatePresence */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden" }}>
         <AnimatePresence mode="wait">
           <motion.div
-            key={slides[currentSlideIndex]}
+            key={currentSlide}
             initial={{ opacity: 0, scale: 1.04 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
@@ -65,22 +71,28 @@ export default function Hero() {
             style={{ position: "absolute", inset: 0 }}
           >
             <Image
-              src={slides[currentSlideIndex]}
+              src={currentSlide}
               alt="Alair Constituency & Beerla Ilaiah MLA"
               fill
               priority={currentSlideIndex === 0}
-              style={{ objectFit: "cover", objectPosition: "center 40%" }}
+              style={{
+                objectFit: "cover",
+                objectPosition: isTempleSlide ? "center 25%" : "center 40%",
+              }}
               sizes="100vw"
+              quality={95}
             />
           </motion.div>
         </AnimatePresence>
 
-        {/* Multi-layer gradient overlays to guarantee perfect text contrast */}
+        {/* Multi-layer gradient overlays to guarantee perfect text contrast while highlighting temple architecture */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: "linear-gradient(105deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.8) 50%, rgba(10,10,10,0.55) 80%, rgba(10,10,10,0.3) 100%)",
+            background: isTempleSlide
+              ? "linear-gradient(105deg, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.68) 45%, rgba(10,10,10,0.35) 80%, rgba(10,10,10,0.18) 100%)"
+              : "linear-gradient(105deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.8) 50%, rgba(10,10,10,0.55) 80%, rgba(10,10,10,0.3) 100%)",
           }}
         />
         <div

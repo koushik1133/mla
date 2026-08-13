@@ -4,78 +4,112 @@ export interface KnowledgeTopic {
   responseTe: string;
 }
 
+export interface KnowledgeTopic {
+  id: string;
+  keywords: string[];
+  responseEn: string;
+  responseTe: string;
+  showSocialButtons?: boolean;
+}
+
 export const beerlaKnowledge: KnowledgeTopic[] = [
+  // 1. TEMPLE & HERITAGE (Priority match for Yadadri / Kolanupaka queries)
   {
-    keywords: ["who is", "about", "bio", "biography", "born", "birth", "saidapur", "education", "degree", "ఎవరు", "గురించి", "జననం", "చదువు", "నేపథ్యం"],
+    id: "temple",
+    keywords: ["yadadri", "temple", "narasimha", "kolanupaka", "jain", "స్వామి", "దేవాలయం", "యాదగిరిగుట్ట", "కొలనుపాక", "క్షేత్రం", "యాదాద్రి"],
     responseEn:
-      "Beerla Ilaiah is the Member of the Telangana Legislative Assembly (MLA) representing Alair Constituency No. 97, Yadadri Bhuvanagiri district. He was born on June 6, 1975 in Saidapur village to Somajaru and Buchamma. He completed his secondary education at ZPHS Saidapur and earned his Bachelor of Arts (B.A.) from Sri Laxmi Narasimha Degree College, Bhongir in 2000.",
+      "Alair Constituency No. 97 is world-renowned for its sacred heritage landmarks: the magnificent Yadadri Sri Lakshmi Narasimha Swamy Temple in Yadagirigutta mandal, the 2,000-year-old historic Kolanupaka Jain & Someswara Temple complex, and the historic Alair Fort. Under MLA Beerla Ilaiah's leadership, major pilgrim amenities, transport infrastructure, and heritage conservation projects are underway.",
     responseTe:
-      "బీర్ల ఇలయ్య గారు యాదాద్రి భువనగిరి జిల్లాలోని ఆలేరు శాసనసభ నియోజకవర్గం (నెం. 97) ఎమ్మెల్యే. ఆయన 1975 జూన్ 6న సైదాపూర్ గ్రామంలో సోమజారు, బుచ్చమ్మ దంపతులకు జన్మించారు. జడ్పీహెచ్‌ఎస్ సైదాపూర్‌లో పాఠశాల విద్యను, భువనగిరి శ్రీ లక్ష్మీ నరసింహ డిగ్రీ కళాశాల నుండి బి.ఎ. పట్టాను పూర్తి చేశారు.",
+      "ఆలేరు నియోజకవర్గం (సంఖ్య 97) ప్రపంచ ప్రసిద్ధ పుణ్యక్షేత్రాలకు నిలయం: యాదగిరిగుట్ట మండలంలోని శ్రీ యాదగిరి లక్ష్మీ నరసింహ స్వామి ఆలయం, 2,000 సంవత్సరాల ప్రాచీన కొలనుపాక జైన మరియు సోమేశ్వర ఆలయ ప్రాంగణం మరియు ఆలేరు చారిత్రక కోట. ఎమ్మెల్యే బీర్ల ఐలయ్య గారి నేతృత్వంలో భక్తుల వసతులు, రహదారుల విస్తరణ మరియు క్షేత్ర అభివృద్ధి పనులు వేగవంతంగా జరుగుతున్నాయి.",
   },
+  // 2. CONTACT & SOCIAL MEDIA (Priority match for Contact queries with action buttons)
   {
-    keywords: ["party", "congress", "inc", "dcc", "whip", "president", "కాంగ్రెస్", "పార్టీ", "విప్", "అధ్యక్షుడు", "డిసిసి"],
+    id: "contact",
+    keywords: ["contact", "office", "phone", "email", "address", "meet", "facebook", "instagram", "social", "twitter", "సంప్రదించండి", "ఆఫీస్", "ఫోన్", "అడ్రస్", "చిరునామా", "ఫేస్‌బుక్", "ఇన్‌స్టాగ్రామ్", "ట్విట్టర్"],
     responseEn:
-      "Beerla Ilaiah belongs to the Indian National Congress (INC). He serves as a Government Whip in the Telangana Legislative Assembly and was appointed as the President of the Yadadri Bhuvanagiri District Congress Committee (DCC) in November 2025.",
+      "You can contact MLA Beerla Ilaiah's Public Office at Alair Town, Yadadri Bhuvanagiri District. Click below to directly call, email, or visit official social media profiles:",
     responseTe:
-      "బీర్ల ఇలయ్య గారు భారత జాతీయ కాంగ్రెస్ పార్టీ నాయకులు. ఆయన తెలంగాణ శాసనసభలో ప్రభుత్వ విప్‌గా బాధ్యతలు నిర్వర్తిస్తున్నారు. 2025 నవంబర్‌లో యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డిసిసి) అధ్యక్షుడిగా నియమితులయ్యారు.",
+      "బీర్ల ఐలయ్య గారి ఎమ్మెల్యే ప్రజా కార్యాలయం చిరునామా: ఆలేరు టౌన్, యాదాద్రి భువనగిరి జిల్లా. ఎమ్మెల్యే గారిని మరియు వారి బృందాన్ని సంప్రదించడానికి క్రింది సోషల్ మీడియా బటన్లను క్లిక్ చేయండి:",
+    showSocialButtons: true,
   },
+  // 3. ELECTION 2023 & MANDATES
   {
+    id: "election",
     keywords: ["election", "2023", "votes", "margin", "win", "majority", "ఎన్నికలు", "ఓట్లు", "మెజారిటీ", "గెలుపు", "ఫలితాలు"],
     responseEn:
-      "In the 2023 Telangana Assembly Elections, Beerla Ilaiah won Alair Constituency No. 97 with a landslide 122,140 votes (57.41% vote share), securing a massive victory margin of 49,636 votes against BRS candidate Gongidi Sunitha (72,504 votes).",
+      "In the 2023 Telangana Legislative Assembly Elections, Beerla Ilaiah won Alair Constituency No. 97 as the INC candidate, securing a massive victory margin of 49,204 votes against BRS candidate Gongidi Sunitha.",
     responseTe:
-      "2023 తెలంగాణ శాసనసభ ఎన్నికలలో బీర్ల ఇలయ్య గారు ఆలేరు నియోజకవర్గంలో 1,22,140 ఓట్లు (57.41%) సాధించి, 49,636 ఓట్ల భారీ మెజారిటీతో బిఆర్‌ఎస్ అభ్యర్థి గొంగిడి సునీతపై ఘన విజయం సాధించారు.",
+      "2023 తెలంగాణ శాసనసభ ఎన్నికలలో బీర్ల ఐలయ్య గారు ఆలేరు నియోజకవర్గంలో కాంగ్రెస్ అభ్యర్థిగా పోటీ చేసి, 49,204 ఓట్ల భారీ మెజారిటీతో బిఆర్‌ఎస్ అభ్యర్థి గొంగిడి సునీతపై ఘన విజయం సాధించి ఎమ్మెల్యేగా గెలిచారు.",
   },
+  // 4. MANDALS & GEOGRAPHY
   {
-    keywords: ["alair", "constituency", "mandals", "district", "ఆలేరు", "మండలాలు", "నియోజకవర్గం", "యాదాద్రి"],
+    id: "mandals",
+    keywords: ["alair", "constituency", "mandals", "district", "ఆలేరు", "మండలాలు", "నియోజకవర్గం", "భువనగిరి"],
     responseEn:
-      "Alair (Assembly Constituency No. 97) is located in Yadadri Bhuvanagiri district, Telangana. It encompasses 8 mandals: Alair, Rajapet, Yadagirigutta, Turkapally, Gundala, Atmakur (M), Bommala Ramaram, and Motakondur, with over 2.27 lakh registered voters.",
+      "Alair (Assembly Constituency No. 97) is located in Yadadri Bhuvanagiri district, Telangana. It encompasses 8 mandals: Alair, Rajapet, Yadagirigutta, Turkapally, Gundala, Atmakur (Mandal), Bommala Ramaram, and Motakonduru, with over 2.27 lakh registered voters.",
     responseTe:
-      "ఆలేరు (శాసనసభ నియోజకవర్గం 97) యాదాద్రి భువనగిరి జిల్లాలో ఉంది. ఇది 8 మండలాలను కలిగి ఉంది: ఆలేరు, రాజాపేట, యాదగిరిగుట్ట, తుర్కపల్లి, గుండాల, ఆత్మకూర్ (ఎం), బొమ్మలరామారం, మోటకొండూర్. ఇందులో సుమారు 2.27 లక్షల మంది నమోదిత ఓటర్లు ఉన్నారు.",
+      "ఆలేరు (శాసనసభ నియోజకవర్గం సంఖ్య 97) యాదాద్రి భువనగిరి జిల్లాలో ఉంది. ఇందులో 8 మండలాలు ఉన్నాయి: ఆలేరు, రాజాపేట, యాదగిరిగుట్ట, తుర్కపల్లి, గుండాల, ఆత్మకూరు (మండలం), బొమ్మల రామారం, మోటకొండూరు. ఇందులో సుమారు 2.27 లక్షల మంది నమోదిత ఓటర్లు ఉన్నారు.",
   },
+  // 5. PARTY & ROLES
   {
-    keywords: ["temple", "yadadri", "narasimha", "kolanupaka", "jain", "దేవాలయం", "యాదగిరిగుట్ట", "కొలనుపాక", "క్షేత్రం"],
+    id: "party",
+    keywords: ["party", "congress", "inc", "dcc", "whip", "president", "కాంగ్రెస్", "పార్టీ", "విప్", "అధ్యక్షుడు", "డీసీసీ", "డిసిసి"],
     responseEn:
-      "Alair constituency is home to sacred heritage landmarks, including the world-famous Yadadri Sri Lakshmi Narasimha Swamy Temple in Yadagirigutta, the ancient Kolanupaka Jain Temple (over 2,000 years old), and historical Alair Town Fort ruins.",
+      "Beerla Ilaiah belongs to the Indian National Congress (INC). He was appointed as Government Whip in the Telangana Legislative Assembly on December 15, 2023, and was appointed President of the Yadadri Bhuvanagiri District Congress Committee (DCC) on November 22, 2025.",
     responseTe:
-      "ఆలేరు నియోజకవర్గంలో ప్రపంచ ప్రసిద్ధి చెందిన యాదగిరిగుట్ట శ్రీ లక్ష్మీ నరసింహ స్వామి క్షేత్రం, 2000 సంవత్సరాల ప్రాచీన కొలనుపాక జైన దేవాలయం, ఆలేరు చారిత్రక కోట శిథిలాలు వంటి ప్రముఖ ధార్మిక, పర్యాటక ప్రదేశాలు ఉన్నాయి.",
+      "బీర్ల ఐలయ్య గారు భారత జాతీయ కాంగ్రెస్ పార్టీ నాయకులు. 2023 డిసెంబర్ 15న తెలంగాణ శాసనసభలో ప్రభుత్వ విప్‌గా నియామకమయ్యారు. అలాగే 2025 నవంబర్ 22న యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డీసీసీ) అధ్యక్షుడిగా నియమితులయ్యారు.",
   },
+  // 6. CAREER & JOURNEY
   {
-    keywords: ["journey", "career", "sarpanch", "nsui", "history", "ప్రయాణం", "సర్పంచ్", "రాజకీయ", "చరిత్ర"],
+    id: "journey",
+    keywords: ["journey", "career", "sarpanch", "nsui", "history", "ప్రయాణం", "సర్పంచ్", "రాజకీయ", "చరిత్ర", "పాలసంఘం", "ఎంపీటీసీ"],
     responseEn:
-      "Beerla Ilaiah began his public service as an NSUI student leader. He served as the Sarpanch of his native Saidapur village (2006), later became the Mandal President of Yadadri Bhuvanagiri (2009), INC Alair Constituency In-charge, and was elected MLA in December 2023.",
+      "Beerla Ilaiah's public career began in 1991 as Chairman of the Saidapur Dairy Cooperative Society and NSUI College Secretary. He served as Saidapur Sarpanch (2006), Yadagirigutta Mandal Congress President (2008), MPTC Yadagirigutta Town (2013), TPCC Secretary, INC Alair In-charge, and was elected MLA in December 2023.",
     responseTe:
-      "బీర్ల ఇలయ్య గారి ప్రజా సేవ ఎన్‌ఎస్‌యుఐ విద్యార్థి నాయకుడిగా ప్రారంభమైంది. 2006లో ఆయన సొంత ఊరు సైదాపూర్ సర్పంచ్‌గా, 2009లో యాదాద్రి భువనగిరి మండల అధ్యక్షుడిగా, కాంగ్రెస్ ఆలేరు ఇంఛార్జిగా సేవలు అందించి, 2023 డిసెంబర్‌లో ఎమ్మెల్యేగా ఎన్నికయ్యారు.",
+      "బీర్ల ఐలయ్య గారి ప్రజా సేవ ప్రస్థానం 1991లో సైదాపురం పాలసంఘం చైర్మన్‌గా మరియు ఎన్ఎస్యుఐ (NSUI) కాలేజీ సెక్రటరీగా ప్రారంభమైంది. 2006లో సైదాపూర్ సర్పంచ్‌గా, 2008లో యాదగిరిగుట్ట మండల కాంగ్రెస్ అధ్యక్షుడిగా, 2013లో యాదగిరిగుట్ట ఎంపీటీసీగా, టీపీసీసీ కార్యదర్శిగా మరియు ఆలేరు కాంగ్రెస్ ఇన్‌ఛార్జిగా సేవలు అందించి 2023లో ఎమ్మెల్యేగా ఎన్నికయ్యారు.",
   },
+  // 7. DEVELOPMENT & SCHEMES
   {
-    keywords: ["contact", "office", "phone", "email", "address", "meet", "facebook", "instagram", "social", "సంప్రదించండి", "ఆఫీస్", "ఫోన్", "అడ్రస్", "చిరునామా", "ఫేస్‌బుక్", "ఇన్‌స్టాగ్రామ్"],
-    responseEn:
-      "You can contact MLA Beerla Ilaiah's Office at Aleru (Alair), Yadadri Bhuvanagiri District, Telangana. Phone: +91 98666 52347 | Email: beerlailaiah@gmail.com | Official Facebook: Beerla Ilaiah (43K Followers - facebook.com/BeerIaIlaiahINCAlairIncharge) | Instagram Team: @beerla_foundation & @beerla_ilaiah_inc | X/Twitter: @IlaiahBeerla.",
-    responseTe:
-      "బీర్ల ఇలయ్య గారి ఎమ్మెల్యే ప్రజా కార్యాలయం చిరునామా: ఆలేరు టౌన్, యాదాద్రి భువనగిరి జిల్లా. ఫోన్: +91 98666 52347 | ఇమెయిల్: beerlailaiah@gmail.com | ఫేస్‌బుక్: బీర్ల ఇలయ్య (43,000+ ఫాలోవర్లు) | ఇన్‌స్టాగ్రామ్ ఫౌండేషన్: @beerla_foundation | X (ట్విట్టర్): @IlaiahBeerla.",
-  },
-  {
-    keywords: ["development", "work", "bc", "reservation", "schemes", "అభివృద్ధి", "పనులు", "బిసి", "రిజర్వేషన్లు", "పథకాలు"],
+    id: "development",
+    keywords: ["development", "work", "bc", "reservation", "schemes", "అభివృద్ధి", "పనులు", "బీసీ", "రిజర్వేషన్లు", "పథకాలు"],
     responseEn:
       "MLA Beerla Ilaiah focuses on rural irrigation canals, drinking water distribution, handloom weaver support schemes, Yadadri pilgrim amenities, 42% BC reservation policy advocacy, and quality healthcare across all 8 mandals of Alair.",
     responseTe:
-      "ఎమ్మెల్యే బీర్ల ఇలయ్య గారు ఆలేరు 8 మండలాల్లో సాగునీటి కాలువల పునరుద్ధరణ, మంచినీటి సరఫరా, చేనేత కార్మికుల సంక్షేమం, యాదగిరిగుట్ట భక్తుల సౌకర్యాలు, 42% బిసి రిజర్వేషన్ల సాధన మరియు ఉచిత వైద్య ఆరోగ్య సేవలపై ప్రత్యేక దృష్టి సారించారు.",
+      "ఎమ్మెల్యే బీర్ల ఐలయ్య గారు ఆలేరు నియోజకవర్గంలోని 8 మండలాల్లో సాగునీటి కాలువల పునరుద్ధరణ, మంచినీటి సరఫరా, చేనేత కార్మికుల సంక్షేమం, యాదగిరిగుట్ట భక్తుల సౌకర్యాలు, 42% బీసీ రిజర్వేషన్ల సాధన మరియు ఉచిత వైద్య ఆరోగ్య సేవలపై ప్రత్యేక దృష్టి సారించారు.",
+  },
+  // 8. GENERAL BIO / WHO IS (Catch-all for bio queries)
+  {
+    id: "bio",
+    keywords: ["who is", "about", "bio", "biography", "born", "birth", "saidapur", "education", "degree", "ఎవరు", "గురించి", "జననం", "చదువు", "నేపథ్యం"],
+    responseEn:
+      "Beerla Ilaiah is the Government Whip and Member of the Telangana Legislative Assembly (MLA) representing Alair Constituency No. 97, Yadadri Bhuvanagiri district. He was born on June 6, 1975 in Saidapur village, Yadagirigutta mandal to Beerla Samaraju and Buchamma. His spouse is Anita. He completed schooling at ZPHS Bhongir (1991), Intermediate at Sri Yadagiri Lakshmi Narasimha Swamy College, Alair (1994), and earned his B.A. from Sri Laxmi Narasimha Degree College, Bhongir in 1997.",
+    responseTe:
+      "బీర్ల ఐలయ్య గారు యాదాద్రి భువనగిరి జిల్లాలోని ఆలేరు శాసనసభ నియోజకవర్గం (సంఖ్య 97) ఎమ్మెల్యే మరియు తెలంగాణ ప్రభుత్వ విప్. ఆయన 1975 జూన్ 6న సైదాపూర్ గ్రామంలో బీర్ల సామరాజు, బుచ్చమ్మ దంపతులకు జన్మించారు. వీరి జీవిత భాగస్వామి అనిత గారు. 1991లో జిల్లా పరిషత్ హైస్కూల్ భువనగిరిలో పాఠశాల విద్యను, 1994లో ఆలేరు శ్రీ యాదగిరి లక్ష్మీ నరసింహ స్వామి కళాశాలలో ఇంటర్మీడియట్, 1997లో భువనగిరి శ్రీ లక్ష్మీ నరసింహ డిగ్రీ కళాశాల నుండి బి.ఏ. పట్టాను పూర్తి చేశారు.",
   },
 ];
 
-export function getAIResponse(query: string, lang: "en" | "te"): string {
+export function getAIResponseTopic(query: string): KnowledgeTopic | null {
   const normalized = query.toLowerCase().trim();
 
   // Find best topic match
   for (const topic of beerlaKnowledge) {
     if (topic.keywords.some((kw) => normalized.includes(kw))) {
-      return lang === "te" ? topic.responseTe : topic.responseEn;
+      return topic;
     }
+  }
+
+  return null;
+}
+
+export function getAIResponse(query: string, lang: "en" | "te"): string {
+  const topic = getAIResponseTopic(query);
+  if (topic) {
+    return lang === "te" ? topic.responseTe : topic.responseEn;
   }
 
   // Fallback polite intelligent response
   if (lang === "te") {
-    return `ధన్యవాదాలు! బీర్ల ఇలయ్య గారి ఆలేరు నియోజకవర్గ సేవలు, 2023 ఎన్నికల ఫలితాలు, మండలాల వివరాలు, యాదగిరిగుట్ట క్షేత్ర అభివృద్ధి మరియు ఎమ్మెల్యే కార్యాలయ సమాచారం కోసం మీరు నన్ను అడగవచ్చు.`;
+    return `ధన్యవాదాలు! బీర్ల ఐలయ్య గారి ఆలేరు నియోజకవర్గ సేవలు, 2023 ఎన్నికల ఫలితాలు, మండలాల వివరాలు, యాదాద్రి శ్రీ లక్ష్మీ నరసింహ స్వామి ఆలయ అభివృద్ధి మరియు ఎమ్మెల్యే కార్యాలయ సమాచారం కోసం మీరు నన్ను అడగవచ్చు.`;
   }
   return `Thank you for reaching out! I can answer any questions regarding Beerla Ilaiah MLA, Alair Constituency No. 97, 2023 election statistics, public welfare works, Yadadri temple, and how to contact the MLA Public Office.`;
 }

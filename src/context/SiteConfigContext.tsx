@@ -69,9 +69,11 @@ const defaultHeroConfig: HeroConfig = {
   bgImage: "/images/hero-bg.jpg",
   bgImages: [
     "/images/hero-bg.jpg",
+    "/images/yadadri-temple.jpg",
     "/images/hero2.png",
     "/images/alair-agriculture.jpg",
-    "/images/yadadri-temple.jpg",
+    "/images/kolanupaka-temple.jpg",
+    "/images/alair-development.jpg",
   ],
   sideImage: "/images/beerla-standing.jpg",
   alignment: "left",

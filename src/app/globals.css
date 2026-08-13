@@ -511,16 +511,16 @@ h1, h2, h3, h4, h5, h6 {
 .gallery-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0);
-  transition: background 0.25s ease;
+  background: linear-gradient(to top, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.4) 50%, transparent 100%);
+  transition: all 0.25s ease;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 1rem;
+  padding: 1.25rem;
 }
 
 .gallery-item:hover .gallery-overlay {
-  background: rgba(0,0,0,0.45);
+  background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.55) 60%, rgba(10,10,10,0.2) 100%);
 }
 
 /* Video & News Cards */

@@ -6,6 +6,7 @@ import { TwitterXIcon, InstagramIcon, YoutubeIcon, FacebookIcon } from "@/compon
 import { politician } from "@/content/politician";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
+import { submitContactMessage } from "@/lib/supabase";
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -61,21 +62,23 @@ export default function ContactPage() {
     }
 
     setStatus("sending");
-    // Sanitize inputs
-    const sanitizedMsg = {
-      id: `msg_${Date.now()}`,
-      name: sanitize(form.name),
-      email: sanitize(form.email),
-      phone: sanitize(form.phone || ""),
-      message: sanitize(form.message),
-      date: new Date().toLocaleString(),
-    };
 
     try {
-      const existing = JSON.parse(localStorage.getItem("beerla_contact_messages") || "[]");
-      localStorage.setItem("beerla_contact_messages", JSON.stringify([sanitizedMsg, ...existing]));
+      const sanitizedMsg = {
+        name: sanitize(form.name),
+        email: sanitize(form.email),
+        phone: sanitize(form.phone || ""),
+        mandal: "Alair Constituency",
+        message: sanitize(form.message),
+      };
+
+      await submitContactMessage(sanitizedMsg);
+      localStorage.setItem("beerla_last_contact_sub", Date.now().toString());
+
+      setStatus("sent");
+      setForm({ name: "", email: "", phone: "", message: "" });
     } catch {
-      // Fallback
+      setStatus("error");
     }
 
     await new Promise((r) => setTimeout(r, 1000));

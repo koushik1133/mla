@@ -6,7 +6,21 @@ import { X, Info } from "lucide-react";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
 
-const galleryImages = [
+interface GalleryItem {
+  id: string;
+  src: string;
+  title: string;
+  titleTelugu: string;
+  category: string;
+  categoryTelugu: string;
+  caption: string;
+  captionTelugu: string;
+  objectFit?: "cover" | "contain";
+  objectPosition?: string;
+  bgColor?: string;
+}
+
+const galleryImages: GalleryItem[] = [
   {
     id: "g1",
     src: "/images/hero-bg.jpg",
@@ -16,6 +30,8 @@ const galleryImages = [
     categoryTelugu: "ప్రకృతి దృశ్యం",
     caption: "Golden hour over the agricultural farmlands of Alair assembly constituency, Yadadri Bhuvanagiri district.",
     captionTelugu: "యాదాద్రి భువనగిరి జిల్లా ఆలేరు నియోజకవర్గ వ్యవసాయ భూముల దృశ్యం.",
+    objectFit: "cover",
+    objectPosition: "center center",
   },
   {
     id: "g2",
@@ -24,18 +40,22 @@ const galleryImages = [
     titleTelugu: "యాదాద్రి శ్రీ లక్ష్మీ నరసింహ స్వామి దేవాలయం",
     category: "Heritage",
     categoryTelugu: "పుణ్యక్షేత్రం",
-    caption: "The magnificent stone-carved Yadadri temple complex in Yadagirigutta mandal.",
-    captionTelugu: "యాదగిరిగుట్ట మండలంలో కొలువైన ఆధ్యాత్మిక క్షేత్రం యాదాద్రి ఆలయం.",
+    caption: "The magnificent 4K stone-carved Yadadri temple complex in Yadagirigutta mandal.",
+    captionTelugu: "యాదగిరిగుట్ట మండలంలో కొలువైన 4K ఆధ్యాత్మిక క్షేత్రం యాదాద్రి ఆలయం.",
+    objectFit: "cover",
+    objectPosition: "center 25%",
   },
   {
     id: "g3",
     src: "/images/beerla-portrait.jpg",
     title: "Beerla Ilaiah — MLA, Alair",
-    titleTelugu: "బీర్ల ఇలయ్య — ఆలేరు శాసనసభ్యులు",
+    titleTelugu: "బీర్ల ఐలయ్య — ఆలేరు శాసనసభ్యులు",
     category: "Leadership",
     categoryTelugu: "నాయకత్వం",
     caption: "Beerla Ilaiah, Member of Telangana Legislative Assembly representing Alair Constituency No. 97.",
-    captionTelugu: "ఆలేరు నియోజకవర్గం 97 శాసనసభ్యులు బీర్ల ఇలయ్య గారు.",
+    captionTelugu: "ఆలేరు నియోజకవర్గం 97 శాసనసభ్యులు బీర్ల ఐలయ్య గారు.",
+    objectFit: "cover",
+    objectPosition: "center top",
   },
   {
     id: "g4",
@@ -46,6 +66,8 @@ const galleryImages = [
     categoryTelugu: "వ్యవసాయం",
     caption: "Lush green agricultural fields representing the rural farming economy of Alair.",
     captionTelugu: "ఆలేరు నియోజకవర్గ పచ్చని వ్యవసాయ పొలాలు.",
+    objectFit: "cover",
+    objectPosition: "center center",
   },
   {
     id: "g5",
@@ -56,13 +78,40 @@ const galleryImages = [
     categoryTelugu: "భౌగోళికం",
     caption: "Illustrative map showing the eight mandals of Alair Assembly Constituency.",
     captionTelugu: "ఆలేరు నియోజకవర్గ ఎనిమిది మండలాల ప్రాంత పటం.",
+    objectFit: "contain",
+    objectPosition: "center center",
+    bgColor: "#FAF6F0",
+  },
+  {
+    id: "g6",
+    src: "/images/kolanupaka-temple.jpg",
+    title: "Historic Kolanupaka Temple Complex",
+    titleTelugu: "ప్రాచీన కొలనుపాక జైన దేవాలయం",
+    category: "Heritage",
+    categoryTelugu: "పుణ్యక్షేత్రం",
+    caption: "2,000-year-old historic Kolanupaka Jain & Someswara temple heritage site in Alair constituency.",
+    captionTelugu: "ఆలేరు నియోజకవర్గంలో 2000 సంవత్సరాల ప్రాచీన కొలనుపాక జైన దేవాలయం.",
+    objectFit: "cover",
+    objectPosition: "center 30%",
+  },
+  {
+    id: "g7",
+    src: "/images/alair-development.jpg",
+    title: "Alair Infrastructure & Development",
+    titleTelugu: "ఆలేరు మౌలిక సదుపాయాలు & అభివృద్ధి",
+    category: "Development",
+    categoryTelugu: "అభివృద్ధి",
+    caption: "Modern infrastructure, roads, and constituency development projects under leadership of MLA Beerla Ilaiah.",
+    captionTelugu: "ఎమ్మెల్యే బీర్ల ఐలయ్య గారి నాయకత్వంలో ఆలేరు రోడ్లు, ఉపాధి మరియు మౌలిక వసతుల కల్పన.",
+    objectFit: "cover",
+    objectPosition: "center 35%",
   },
 ];
 
 export default function GalleryPage() {
   const { lang } = useLang();
   const t = translations[lang].gallery;
-  const [selected, setSelected] = useState<typeof galleryImages[0] | null>(null);
+  const [selected, setSelected] = useState<GalleryItem | null>(null);
 
   return (
     <div style={{ background: "var(--warm-bg)" }}>
@@ -94,12 +143,16 @@ export default function GalleryPage() {
                 aria-label={`View image: ${img.title}`}
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelected(img); }}
               >
-                <div style={{ position: "relative", width: "100%", aspectRatio: "4/3", borderRadius: "12px", overflow: "hidden" }}>
+                <div style={{ position: "relative", width: "100%", aspectRatio: "4/3", borderRadius: "12px", overflow: "hidden", background: img.bgColor || "var(--charcoal)" }}>
                   <Image
                     src={img.src}
                     alt={img.title}
                     fill
-                    style={{ objectFit: "cover" }}
+                    style={{
+                      objectFit: img.objectFit || "cover",
+                      objectPosition: img.objectPosition || "center center",
+                      padding: img.objectFit === "contain" ? "12px" : "0",
+                    }}
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   <div className="gallery-overlay">
@@ -170,12 +223,16 @@ export default function GalleryPage() {
               <X size={18} />
             </button>
 
-            <div style={{ position: "relative", width: "100%", aspectRatio: "16/10" }}>
+            <div style={{ position: "relative", width: "100%", aspectRatio: "16/10", background: selected.bgColor || "var(--charcoal)" }}>
               <Image
                 src={selected.src}
                 alt={selected.title}
                 fill
-                style={{ objectFit: "cover" }}
+                style={{
+                  objectFit: selected.objectFit || "cover",
+                  objectPosition: selected.objectPosition || "center center",
+                  padding: selected.objectFit === "contain" ? "16px" : "0",
+                }}
                 sizes="900px"
               />
             </div>
