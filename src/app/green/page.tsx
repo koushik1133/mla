@@ -29,7 +29,7 @@ export default function GreenThemePage() {
       {/* Green Version Active Banner Bar */}
       <div
         style={{
-          background: "#138808",
+          background: "#009A44",
           color: "white",
           padding: "0.75rem 1rem",
           display: "flex",
@@ -37,7 +37,7 @@ export default function GreenThemePage() {
           justifyContent: "space-between",
           flexWrap: "wrap",
           gap: "0.75rem",
-          boxShadow: "0 4px 12px rgba(19,136,8,0.3)",
+          boxShadow: "0 4px 12px rgba(0,154,68,0.3)",
           position: "relative",
           zIndex: 60,
         }}
@@ -45,7 +45,7 @@ export default function GreenThemePage() {
         <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
           <CheckCircle2 size={18} color="#FFFFFF" />
           <span style={{ fontSize: "0.85rem", fontWeight: 800, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
-            {lang === "te" ? "🟢 కాంగ్రెస్ గ్రీన్ వర్షన్ సక్రియంగా ఉంది (#138808)" : "🟢 Congress Green Theme Version Active (#138808)"}
+            {lang === "te" ? "🟢 కాంగ్రెస్ గ్రీన్ వర్షన్ సక్రియంగా ఉంది (#009A44)" : "🟢 Congress Green Theme Version Active (#009A44)"}
           </span>
         </div>
 
@@ -56,7 +56,7 @@ export default function GreenThemePage() {
               padding: "0.35rem 0.875rem",
               borderRadius: "100px",
               background: "white",
-              color: "#138808",
+              color: "#009A44",
               border: "none",
               fontSize: "0.78rem",
               fontWeight: 800,

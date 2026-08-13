@@ -520,7 +520,7 @@ export default function AdminPage() {
                 {lang === "te" ? "థీమ్ స్విచ్చర్ బాటన్ (ఆరెంజ్ / గ్రీన్)" : "Theme Version Switcher Button"}
               </h2>
               <p style={{ fontSize: "0.82rem", color: "var(--muted)", marginBottom: "1.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                {lang === "te" ? "హెడర్‌లో ఆరెంజ్ / కాంగ్రెస్ గ్రీన్ థీమ్ మార్చే బటన్‌ను చూపించండి లేదా దాచండి." : "Show or hide the theme toggle button (Orange vs Congress Green #138808) in the header."}
+                {lang === "te" ? "హెడర్‌లో ఆరెంజ్ / కాంగ్రెస్ గ్రీన్ థీమ్ మార్చే బటన్‌ను చూపించండి లేదా దాచండి." : "Show or hide the theme toggle button (Orange vs Congress Green #009A44) in the header."}
               </p>
 
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", borderRadius: "10px", background: "var(--warm-bg)", border: "1px solid var(--border)" }}>
