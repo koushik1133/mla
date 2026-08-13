@@ -40,6 +40,15 @@
   --container-padding: clamp(1rem, 4vw, 2.5rem);
 }
 
+[data-theme="green"] {
+  --saffron: #138808;
+  --saffron-light: #48C03D;
+  --saffron-dark: #0D6106;
+  --congress-green: #138808;
+  --congress-green-light: #48C03D;
+  --congress-green-dark: #0D6106;
+}
+
 /* Base Reset */
 *, *::before, *::after {
   box-sizing: border-box;

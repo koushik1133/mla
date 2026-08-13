@@ -38,11 +38,22 @@ export const politician = {
       confidence: "medium" as const,
     },
   ],
+  contact: {
+    phone: "+91 98666 52347",
+    email: "beerlailaiah@gmail.com",
+    address: "Aleru (Alair), Yadadri Bhuvanagiri District, Telangana, India",
+    office: "MLA Public Office, Main Road, Alair Town",
+  },
   social: {
     twitter: "https://twitter.com/IlaiahBeerla",
     twitterHandle: "@IlaiahBeerla",
-    instagram: "https://instagram.com/beerla_ilaiah_inc",
+    instagram: "https://www.instagram.com/beerla_ilaiah_inc",
     instagramHandle: "@beerla_ilaiah_inc",
+    instagramFoundation: "https://www.instagram.com/beerla_foundation/",
+    instagramFoundationHandle: "@beerla_foundation",
+    facebook: "https://www.facebook.com/BeerIaIlaiahINCAlairIncharge/",
+    facebookReels: "https://www.facebook.com/BeerIaIlaiahINCAlairIncharge/reels/",
+    facebookFollowers: "43K Followers",
   },
   // Hero tagline (neutral public service framing)
   tagline: "Leadership rooted in the people of Alair.",

@@ -48,11 +48,11 @@ export const beerlaKnowledge: KnowledgeTopic[] = [
       "బీర్ల ఇలయ్య గారి ప్రజా సేవ ఎన్‌ఎస్‌యుఐ విద్యార్థి నాయకుడిగా ప్రారంభమైంది. 2006లో ఆయన సొంత ఊరు సైదాపూర్ సర్పంచ్‌గా, 2009లో యాదాద్రి భువనగిరి మండల అధ్యక్షుడిగా, కాంగ్రెస్ ఆలేరు ఇంఛార్జిగా సేవలు అందించి, 2023 డిసెంబర్‌లో ఎమ్మెల్యేగా ఎన్నికయ్యారు.",
   },
   {
-    keywords: ["contact", "office", "phone", "email", "address", "meet", "సంప్రదించండి", "ఆఫీస్", "ఫోన్", "అడ్రస్", "చిరునామా"],
+    keywords: ["contact", "office", "phone", "email", "address", "meet", "facebook", "instagram", "social", "సంప్రదించండి", "ఆఫీస్", "ఫోన్", "అడ్రస్", "చిరునామా", "ఫేస్‌బుక్", "ఇన్‌స్టాగ్రామ్"],
     responseEn:
-      "You can contact the MLA Public Office in Alair Town, Yadadri Bhuvanagiri District, Telangana. Email: contact@beerla-ilaiah.in | Office Phone: +91 85000 00097 | X/Twitter: @IlaiahBeerla | Instagram: @beerla_ilaiah_inc.",
+      "You can contact MLA Beerla Ilaiah's Office at Aleru (Alair), Yadadri Bhuvanagiri District, Telangana. Phone: +91 98666 52347 | Email: beerlailaiah@gmail.com | Official Facebook: Beerla Ilaiah (43K Followers - facebook.com/BeerIaIlaiahINCAlairIncharge) | Instagram Team: @beerla_foundation & @beerla_ilaiah_inc | X/Twitter: @IlaiahBeerla.",
     responseTe:
-      "మీరు ఆలేరు టౌన్ లోని ఎమ్మెల్యే ప్రజా కార్యాలయాన్ని నేరుగా కలవవచ్చు. ఇమెయిల్: contact@beerla-ilaiah.in | కార్యాలయం ఫోన్: +91 85000 00097 | X (ట్విట్టర్): @IlaiahBeerla | ఇన్‌స్టాగ్రామ్: @beerla_ilaiah_inc.",
+      "బీర్ల ఇలయ్య గారి ఎమ్మెల్యే ప్రజా కార్యాలయం చిరునామా: ఆలేరు టౌన్, యాదాద్రి భువనగిరి జిల్లా. ఫోన్: +91 98666 52347 | ఇమెయిల్: beerlailaiah@gmail.com | ఫేస్‌బుక్: బీర్ల ఇలయ్య (43,000+ ఫాలోవర్లు) | ఇన్‌స్టాగ్రామ్ ఫౌండేషన్: @beerla_foundation | X (ట్విట్టర్): @IlaiahBeerla.",
   },
   {
     keywords: ["development", "work", "bc", "reservation", "schemes", "అభివృద్ధి", "పనులు", "బిసి", "రిజర్వేషన్లు", "పథకాలు"],

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Send, CheckCircle, AlertCircle } from "lucide-react";
-import { TwitterXIcon, InstagramIcon, YoutubeIcon } from "@/components/icons/SocialIcons";
+import { Send, CheckCircle, AlertCircle, Phone, Mail } from "lucide-react";
+import { TwitterXIcon, InstagramIcon, YoutubeIcon, FacebookIcon } from "@/components/icons/SocialIcons";
 import { politician } from "@/content/politician";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
@@ -88,6 +88,103 @@ export default function ContactPage() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem", marginBottom: "2rem" }}>
+                {/* Official Phone */}
+                <a
+                  href={`tel:${politician.contact.phone}`}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1rem",
+                    padding: "1rem 1.25rem",
+                    background: "var(--white)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "14px",
+                    textDecoration: "none",
+                  }}
+                >
+                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "rgba(238,90,28,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Phone size={18} color="var(--saffron)" />
+                  </div>
+                  <div>
+                    <p style={{ fontSize: "0.78rem", color: "var(--muted-light)", marginBottom: "0.1rem" }}>{lang === "te" ? "ఫోన్ నంబర్" : "Mobile Phone"}</p>
+                    <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)" }}>{politician.contact.phone}</p>
+                  </div>
+                </a>
+
+                {/* Official Email */}
+                <a
+                  href={`mailto:${politician.contact.email}`}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1rem",
+                    padding: "1rem 1.25rem",
+                    background: "var(--white)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "14px",
+                    textDecoration: "none",
+                  }}
+                >
+                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "rgba(238,90,28,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Mail size={18} color="var(--saffron)" />
+                  </div>
+                  <div>
+                    <p style={{ fontSize: "0.78rem", color: "var(--muted-light)", marginBottom: "0.1rem" }}>{lang === "te" ? "ఇమెయిల్ చిరునామా" : "Email Address"}</p>
+                    <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)" }}>{politician.contact.email}</p>
+                  </div>
+                </a>
+
+                {/* Facebook 43K Followers */}
+                <a
+                  href={politician.social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1rem",
+                    padding: "1rem 1.25rem",
+                    background: "var(--white)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "14px",
+                    textDecoration: "none",
+                  }}
+                >
+                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "#1877F2", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+                    <FacebookIcon size={18} />
+                  </div>
+                  <div>
+                    <p style={{ fontSize: "0.78rem", color: "var(--muted-light)", marginBottom: "0.1rem" }}>Facebook Page ({politician.social.facebookFollowers})</p>
+                    <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)" }}>Beerla Ilaiah INC</p>
+                  </div>
+                </a>
+
+                {/* Instagram Foundation */}
+                <a
+                  href={politician.social.instagramFoundation}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1rem",
+                    padding: "1rem 1.25rem",
+                    background: "var(--white)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "14px",
+                    textDecoration: "none",
+                  }}
+                >
+                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+                    <InstagramIcon size={18} />
+                  </div>
+                  <div>
+                    <p style={{ fontSize: "0.78rem", color: "var(--muted-light)", marginBottom: "0.1rem" }}>Instagram Team / Foundation</p>
+                    <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)" }}>{politician.social.instagramFoundationHandle}</p>
+                  </div>
+                </a>
+
+                {/* Twitter / X */}
                 <a
                   href={politician.social.twitter}
                   target="_blank"
@@ -99,56 +196,16 @@ export default function ContactPage() {
                     padding: "1rem 1.25rem",
                     background: "var(--white)",
                     border: "1px solid var(--border)",
-                    borderRadius: "100px",
+                    borderRadius: "14px",
                     textDecoration: "none",
                   }}
                 >
-                  <TwitterXIcon size={20} color="#1DA1F2" />
+                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "#101010", display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+                    <TwitterXIcon size={18} />
+                  </div>
                   <div>
                     <p style={{ fontSize: "0.78rem", color: "var(--muted-light)", marginBottom: "0.1rem" }}>X (Twitter)</p>
                     <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)" }}>{politician.social.twitterHandle}</p>
-                  </div>
-                </a>
-                <a
-                  href={politician.social.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "1rem",
-                    padding: "1rem 1.25rem",
-                    background: "var(--white)",
-                    border: "1px solid var(--border)",
-                    borderRadius: "100px",
-                    textDecoration: "none",
-                  }}
-                >
-                  <InstagramIcon size={20} color="#E1306C" />
-                  <div>
-                    <p style={{ fontSize: "0.78rem", color: "var(--muted-light)", marginBottom: "0.1rem" }}>Instagram</p>
-                    <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)" }}>{politician.social.instagramHandle}</p>
-                  </div>
-                </a>
-                <a
-                  href="https://www.youtube.com/results?search_query=Beerla+Ilaiah"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "1rem",
-                    padding: "1rem 1.25rem",
-                    background: "var(--white)",
-                    border: "1px solid var(--border)",
-                    borderRadius: "100px",
-                    textDecoration: "none",
-                  }}
-                >
-                  <YoutubeIcon size={20} color="#FF0000" />
-                  <div>
-                    <p style={{ fontSize: "0.78rem", color: "var(--muted-light)", marginBottom: "0.1rem" }}>YouTube</p>
-                    <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)" }}>Beerla Ilaiah</p>
                   </div>
                 </a>
               </div>

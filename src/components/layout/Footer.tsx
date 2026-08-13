@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
-import { TwitterXIcon, InstagramIcon, YoutubeIcon } from "@/components/icons/SocialIcons";
+import { TwitterXIcon, InstagramIcon, YoutubeIcon, FacebookIcon } from "@/components/icons/SocialIcons";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
 import { politician } from "@/content/politician";
@@ -51,12 +51,32 @@ export default function Footer() {
             </div>
 
             {/* Social Links */}
-            <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.5rem" }}>
+            <div style={{ display: "flex", gap: "0.5rem", marginTop: "1.25rem", flexWrap: "wrap" }}>
               <a
-                href="https://twitter.com/IlaiahBeerla"
+                href={politician.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Beerla Ilaiah on X (Twitter)"
+                aria-label="Beerla Ilaiah on Facebook (43K Followers)"
+                title="Facebook (43K Followers)"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "2.25rem",
+                  height: "2.25rem",
+                  borderRadius: "50%",
+                  background: "#1877F2",
+                  color: "white",
+                  textDecoration: "none",
+                }}
+              >
+                <FacebookIcon size={15} />
+              </a>
+              <a
+                href={politician.social.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Beerla Ilaiah on X / Twitter"
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -66,17 +86,17 @@ export default function Footer() {
                   borderRadius: "50%",
                   background: "rgba(255,255,255,0.12)",
                   color: "white",
-                  transition: "background 0.2s, color 0.2s",
                   textDecoration: "none",
                 }}
               >
                 <TwitterXIcon size={15} />
               </a>
               <a
-                href="https://instagram.com/beerla_ilaiah_inc"
+                href={politician.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Beerla Ilaiah on Instagram"
+                aria-label="Beerla Ilaiah Personal Instagram"
+                title="Instagram Personal"
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -86,7 +106,26 @@ export default function Footer() {
                   borderRadius: "50%",
                   background: "rgba(255,255,255,0.12)",
                   color: "white",
-                  transition: "background 0.2s, color 0.2s",
+                  textDecoration: "none",
+                }}
+              >
+                <InstagramIcon size={15} />
+              </a>
+              <a
+                href={politician.social.instagramFoundation}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Beerla Foundation Team on Instagram"
+                title="Beerla Foundation Instagram"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "2.25rem",
+                  height: "2.25rem",
+                  borderRadius: "50%",
+                  background: "rgba(238,90,28,0.25)",
+                  color: "var(--saffron-light)",
                   textDecoration: "none",
                 }}
               >
