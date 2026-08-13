@@ -81,9 +81,6 @@ export default function AboutPageContent() {
             </p>
           </div>
 
-          <p style={{ fontSize: "0.72rem", color: "var(--muted-light)", display: "flex", alignItems: "center", gap: "0.35rem", marginBottom: "3rem", paddingBottom: "3rem", borderBottom: "1px solid var(--border)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-            <Info size={13} /> {t.sourcesNote}
-          </p>
 
           <h2 style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontSize: "clamp(1.5rem, 2.5vw, 2rem)", fontWeight: 800, color: "var(--charcoal)", letterSpacing: "-0.02em", marginBottom: "2rem" }}>
             {t.journeyTitle}
@@ -105,35 +102,13 @@ export default function AboutPageContent() {
             {t.electionTitle}
           </h2>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginBottom: "2rem" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem", marginBottom: "3rem" }}>
             <p style={{ fontSize: "1.05rem", color: "var(--charcoal-60)", lineHeight: 1.75, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
               {t.electionP1}
             </p>
             <p style={{ fontSize: "1.05rem", color: "var(--charcoal-60)", lineHeight: 1.75, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
               {t.electionP2}
             </p>
-          </div>
-
-          <div style={{ padding: "1.5rem", background: "var(--white)", border: "1px solid var(--border)", borderRadius: "12px", marginBottom: "3rem" }}>
-            <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "var(--muted-light)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.75rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-              {t.sourcesLabel}
-            </p>
-            <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
-              {[
-                { text: lang === "te" ? "PRS India శాసన పరిశోధన — ఎమ్మెల్యే వివరాలు, 2023 డిసెంబర్ 3 నుండి కాలపరిమితి" : "PRS Legislative Research — MLA profile, term from December 3, 2023", confidence: "High" },
-                { text: lang === "te" ? "భారత ఎన్నికల సంఘం — 2023 ఆలేరు నియోజకవర్గ ఫలితాలు" : "Election Commission of India — 2023 election results, Alair constituency", confidence: "High" },
-                { text: lang === "te" ? "వికీపీడియా — జీవిత చరిత్ర, రాజకీయ రంగం" : "Wikipedia — biographical details, political career", confidence: "Medium" },
-                { text: lang === "te" ? "ది హన్స్ ఇండియా / హలోహైదరాబాద్ — విద్య, తొలి జీవితం" : "Hans India / HelloHyderabad — community, education, early career", confidence: "Medium" },
-                { text: lang === "te" ? "పాలిపుల్ / బిసిసమాచార్ — డిసిసి అధ్యక్షుడుగా నియామకం, 2025 నవంబర్" : "Poliple / BCSamachar — DCC President appointment, November 2025", confidence: "Medium" },
-              ].map((src) => (
-                <li key={src.text} style={{ display: "flex", gap: "0.75rem", fontSize: "0.82rem" }}>
-                  <span style={{ color: src.confidence === "High" ? "var(--congress-green)" : "var(--muted-light)", fontWeight: 700, minWidth: "50px" }}>
-                    {src.confidence}
-                  </span>
-                  <span style={{ color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{src.text}</span>
-                </li>
-              ))}
-            </ul>
           </div>
 
           <div style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap" }}>

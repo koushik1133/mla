@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, Newspaper, Info } from "lucide-react";
+import { Calendar, Newspaper, Info, ArrowRight } from "lucide-react";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
 
@@ -153,48 +153,66 @@ export default function NewsPage() {
         <div className="container-site" style={{ maxWidth: "900px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "1px", border: "1px solid var(--border)", borderRadius: "14px", overflow: "hidden", background: "var(--border)" }}>
             {newsItems.map((item) => (
-              <div
+              <a
                 key={item.id}
-                style={{ background: "var(--white)", padding: "1.75rem 2rem" }}
+                href={`https://www.google.com/search?q=${encodeURIComponent("Beerla Ilaiah MLA " + item.headline)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  background: "var(--white)",
+                  padding: "1.75rem 2rem",
+                  textDecoration: "none",
+                  color: "inherit",
+                  display: "block",
+                  transition: "background 0.2s ease",
+                }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
-                  <span
-                    style={{
-                      display: "inline-block",
-                      padding: "0.15rem 0.65rem",
-                      borderRadius: "100px",
-                      fontSize: "0.65rem",
-                      fontWeight: 700,
-                      letterSpacing: "0.05em",
-                      textTransform: "uppercase",
-                      background: `${categoryColors[item.category] || "#666"}18`,
-                      color: categoryColors[item.category] || "#666",
-                      fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
-                    }}
-                  >
-                    {lang === "te" ? item.categoryTelugu : item.category}
-                  </span>
-                  <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.72rem", color: "var(--muted-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                    <Calendar size={11} /> {lang === "te" ? item.dateTelugu : item.date}
-                  </span>
-                  <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.72rem", color: "var(--muted-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                    <Newspaper size={11} /> {lang === "te" ? item.publicationTelugu : item.publication}
-                  </span>
-                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "1rem" }}>
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
+                      <span
+                        style={{
+                          display: "inline-block",
+                          padding: "0.15rem 0.65rem",
+                          borderRadius: "100px",
+                          fontSize: "0.65rem",
+                          fontWeight: 700,
+                          letterSpacing: "0.05em",
+                          textTransform: "uppercase",
+                          background: `${categoryColors[item.category] || "#666"}18`,
+                          color: categoryColors[item.category] || "#666",
+                          fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
+                        }}
+                      >
+                        {lang === "te" ? item.categoryTelugu : item.category}
+                      </span>
+                      <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.72rem", color: "var(--muted-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                        <Calendar size={11} /> {lang === "te" ? item.dateTelugu : item.date}
+                      </span>
+                      <span style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontSize: "0.72rem", color: "var(--muted-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                        <Newspaper size={11} /> {lang === "te" ? item.publicationTelugu : item.publication}
+                      </span>
+                    </div>
 
-                <h2 style={{ fontSize: "1.05rem", fontWeight: 800, color: "var(--charcoal)", lineHeight: 1.35, marginBottom: "0.5rem", letterSpacing: "-0.01em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                  {lang === "te" ? item.headlineTelugu : item.headline}
-                </h2>
-                <p style={{ fontSize: "0.875rem", color: "var(--muted)", lineHeight: 1.6, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                  {lang === "te" ? item.summaryTelugu : item.summary}
-                </p>
+                    <h2 style={{ fontSize: "1.05rem", fontWeight: 800, color: "var(--charcoal)", lineHeight: 1.35, marginBottom: "0.5rem", letterSpacing: "-0.01em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                      {lang === "te" ? item.headlineTelugu : item.headline}
+                    </h2>
+                    <p style={{ fontSize: "0.875rem", color: "var(--muted)", lineHeight: 1.6, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                      {lang === "te" ? item.summaryTelugu : item.summary}
+                    </p>
+                  </div>
+
+                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "rgba(238,90,28,0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "0.25rem" }}>
+                    <ArrowRight size={16} color="var(--saffron)" />
+                  </div>
+                </div>
 
                 {(item.note || item.noteTelugu) && (
                   <p style={{ fontSize: "0.75rem", color: "var(--muted-light)", marginTop: "0.75rem", padding: "0.5rem 0.75rem", background: "var(--warm-bg)", borderRadius: "6px", borderLeft: "3px solid var(--border)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                     ℹ {lang === "te" ? item.noteTelugu : item.note}
                   </p>
                 )}
-              </div>
+              </a>
             ))}
           </div>
         </div>

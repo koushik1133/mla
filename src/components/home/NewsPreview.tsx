@@ -77,8 +77,11 @@ export default function NewsPreview() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: "1px", border: "1px solid var(--border)", borderRadius: "14px", overflow: "hidden", background: "var(--border)" }}>
           {newsItems.map((item, i) => (
-            <motion.div
+            <motion.a
               key={item.id}
+              href={`https://www.google.com/search?q=${encodeURIComponent("Beerla Ilaiah MLA " + item.headline)}`}
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -90,10 +93,13 @@ export default function NewsPreview() {
                 gridTemplateColumns: "auto 1fr auto",
                 gap: "1.5rem",
                 alignItems: "center",
-                transition: "background 0.15s",
+                textDecoration: "none",
+                color: "inherit",
+                cursor: "pointer",
+                transition: "background 0.2s ease",
               }}
             >
-              <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "var(--warm-bg)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "rgba(238,90,28,0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <Newspaper size={17} color="var(--saffron)" />
               </div>
 
@@ -117,8 +123,10 @@ export default function NewsPreview() {
                 </p>
               </div>
 
-              <ArrowRight size={16} color="var(--border)" style={{ flexShrink: 0 }} />
-            </motion.div>
+              <div style={{ width: "36px", height: "36px", borderRadius: "50%", background: "rgba(238,90,28,0.08)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <ArrowRight size={16} color="var(--saffron)" />
+              </div>
+            </motion.a>
           ))}
         </div>
 
