@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { electionResults2023 } from "@/content/election";
 import { Info, ExternalLink } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useLang } from "@/lib/lang-context";
+import { translations } from "@/content/translations";
 
 function AnimatedNumber({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [display, setDisplay] = useState(0);
@@ -39,25 +41,27 @@ function AnimatedNumber({ target, suffix = "" }: { target: number; suffix?: stri
 
 export default function Election2023Page() {
   const result = electionResults2023;
+  const { lang } = useLang();
+  const t = translations[lang].election;
 
   return (
     <div style={{ background: "var(--warm-bg)" }}>
       {/* Header */}
       <section style={{ background: "var(--charcoal)", padding: "5rem 0 4rem" }}>
         <div className="container-site">
-          <p className="section-label" style={{ color: "var(--saffron-light)" }}>Election Record</p>
+          <p className="section-label" style={{ color: "var(--saffron-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{t.label}</p>
           <span style={{ display: "block", width: "3rem", height: "3px", background: "var(--saffron)", borderRadius: "2px", marginBottom: "1rem" }} />
-          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, color: "white", letterSpacing: "-0.03em", marginBottom: "0.75rem" }}>
-            2023 Telangana Legislative Assembly Election
+          <h1 style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, color: "white", letterSpacing: "-0.03em", marginBottom: "0.75rem" }}>
+            {t.title}
           </h1>
-          <p style={{ fontSize: "1.05rem", color: "rgba(255,255,255,0.55)" }}>
-            Alair Assembly Constituency No. 97 · Yadadri Bhuvanagiri District
+          <p style={{ fontSize: "1.05rem", color: "rgba(255,255,255,0.55)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            {lang === "te" ? "ఆలేరు శాసనసభ నియోజకవర్గం 97 · యాదాద్రి భువనగిరి జిల్లా" : "Alair Assembly Constituency No. 97 · Yadadri Bhuvanagiri District"}
           </p>
 
           <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginTop: "1rem" }}>
             <Info size={14} color="rgba(255,255,255,0.3)" />
-            <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.35)" }}>
-              Source: Election Commission of India / ADR India. Election held November 30, 2023. Results declared December 3, 2023.
+            <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.35)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.sourceNote}
             </p>
           </div>
         </div>
@@ -87,31 +91,37 @@ export default function Election2023Page() {
             <div style={{ position: "absolute", top: 0, left: 0, width: "6px", height: "100%", background: "var(--saffron)", borderRadius: "3px 0 0 3px" }} />
             <div style={{ paddingLeft: "1rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.75rem" }}>
-                <span style={{ fontSize: "0.65rem", fontWeight: 700, color: "var(--congress-green-light)", letterSpacing: "0.1em", textTransform: "uppercase", background: "rgba(22,106,47,0.15)", padding: "0.2rem 0.6rem", borderRadius: "100px" }}>
-                  Winner
+                <span style={{ fontSize: "0.65rem", fontWeight: 700, color: "var(--congress-green-light)", letterSpacing: "0.1em", textTransform: "uppercase", background: "rgba(22,106,47,0.15)", padding: "0.2rem 0.6rem", borderRadius: "100px", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                  {t.winner}
                 </span>
-                <span style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.35)" }}>Alair Constituency No. 97</span>
+                <span style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.35)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                  {lang === "te" ? "ఆలేరు నియోజకవర్గం 97" : "Alair Constituency No. 97"}
+                </span>
               </div>
-              <p style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.5rem, 3vw, 2.25rem)", fontWeight: 800, color: "white", letterSpacing: "-0.02em", marginBottom: "0.25rem" }}>
-                Beerla Ilaiah
+              <p style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontSize: "clamp(1.5rem, 3vw, 2.25rem)", fontWeight: 800, color: "white", letterSpacing: "-0.02em", marginBottom: "0.25rem" }}>
+                {lang === "te" ? "బీర్ల ఇలయ్య" : "Beerla Ilaiah"}
               </p>
-              <p style={{ fontSize: "0.9rem", color: "var(--saffron-light)" }}>Indian National Congress</p>
+              <p style={{ fontSize: "0.9rem", color: "var(--saffron-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                {lang === "te" ? "భారత జాతీయ కాంగ్రెస్" : "Indian National Congress"}
+              </p>
             </div>
             <div style={{ textAlign: "right" }}>
               <p style={{ fontFamily: "var(--font-display)", fontSize: "clamp(3rem, 6vw, 5rem)", fontWeight: 800, color: "var(--saffron)", letterSpacing: "-0.04em", lineHeight: 1 }}>
                 <AnimatedNumber target={122140} />
               </p>
-              <p style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.5)", marginTop: "0.25rem" }}>votes received</p>
+              <p style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.5)", marginTop: "0.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                {t.votesReceived}
+              </p>
             </div>
           </motion.div>
 
           {/* Key numbers */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem", marginBottom: "3rem" }}>
+          <div className="grid-4-col" style={{ marginBottom: "3rem" }}>
             {[
-              { label: "Vote Share", value: result.winner.votePercentage, suffix: "%" },
-              { label: "Victory Margin", value: result.margin, suffix: "" },
-              { label: "Total Electors", value: result.totalElectors, suffix: "" },
-              { label: "Votes Cast", value: result.totalVotesCast, suffix: "" },
+              { label: t.voteShare, value: result.winner.votePercentage, suffix: "%" },
+              { label: t.victoryMargin, value: result.margin, suffix: "" },
+              { label: t.totalVoters, value: result.totalElectors, suffix: "" },
+              { label: t.votesCast, value: result.totalVotesCast, suffix: "" },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -124,7 +134,7 @@ export default function Election2023Page() {
                 <p style={{ fontFamily: "var(--font-display)", fontSize: "1.85rem", fontWeight: 800, color: "var(--charcoal)", letterSpacing: "-0.03em", marginBottom: "0.25rem" }}>
                   <AnimatedNumber target={stat.value} suffix={stat.suffix} />
                 </p>
-                <p style={{ fontSize: "0.8rem", color: "var(--muted)", fontWeight: 600 }}>{stat.label}</p>
+                <p style={{ fontSize: "0.8rem", color: "var(--muted)", fontWeight: 600, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -136,8 +146,8 @@ export default function Election2023Page() {
             viewport={{ once: true }}
             style={{ background: "var(--white)", border: "1px solid var(--border)", borderRadius: "16px", padding: "2.5rem" }}
           >
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, color: "var(--charcoal)", letterSpacing: "-0.02em", marginBottom: "2rem" }}>
-              Candidate Results — Alair Constituency 2023
+            <h2 style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, color: "var(--charcoal)", letterSpacing: "-0.02em", marginBottom: "2rem" }}>
+              {t.candidateComparison}
             </h2>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
@@ -145,22 +155,24 @@ export default function Election2023Page() {
                 <div key={candidate.name}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "0.75rem" }}>
                     <div>
-                      <p style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "0.2rem" }}>
-                        {candidate.name}
+                      <p style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                        {lang === "te" && candidate.name === "Beerla Ilaiah" ? "బీర్ల ఇలయ్య" : candidate.name}
                         {candidate.isWinner && (
-                          <span style={{ marginLeft: "0.5rem", fontSize: "0.65rem", background: "rgba(22,106,47,0.12)", color: "var(--congress-green)", padding: "0.15rem 0.5rem", borderRadius: "100px", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase" }}>
-                            Winner
+                          <span style={{ marginLeft: "0.5rem", fontSize: "0.65rem", background: "rgba(22,106,47,0.12)", color: "var(--congress-green)", padding: "0.15rem 0.5rem", borderRadius: "100px", fontWeight: 700, letterSpacing: "0.04em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                            {t.winner}
                           </span>
                         )}
                       </p>
-                      <p style={{ fontSize: "0.85rem", color: "var(--muted)" }}>{candidate.party}</p>
+                      <p style={{ fontSize: "0.85rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                        {lang === "te" && candidate.party === "Indian National Congress" ? "భారత జాతీయ కాంగ్రెస్" : candidate.party}
+                      </p>
                     </div>
                     <div style={{ textAlign: "right" }}>
                       <p style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.75rem", color: "var(--charcoal)", letterSpacing: "-0.03em" }}>
                         {candidate.votePercentage}%
                       </p>
-                      <p style={{ fontSize: "0.85rem", color: "var(--muted)" }}>
-                        {candidate.votes.toLocaleString("en-IN")} votes
+                      <p style={{ fontSize: "0.85rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                        {candidate.votes.toLocaleString("en-IN")} {lang === "te" ? "ఓట్లు" : "votes"}
                       </p>
                     </div>
                   </div>
@@ -184,8 +196,8 @@ export default function Election2023Page() {
             <div style={{ marginTop: "2rem", padding: "1rem", background: "var(--warm-bg)", borderRadius: "8px", display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
               <Info size={14} color="var(--muted-light)" style={{ flexShrink: 0, marginTop: "2px" }} />
               <div>
-                <p style={{ fontSize: "0.78rem", color: "var(--muted)", lineHeight: 1.5, marginBottom: "0.35rem" }}>
-                  {result.notes}
+                <p style={{ fontSize: "0.78rem", color: "var(--muted)", lineHeight: 1.5, marginBottom: "0.35rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                  {lang === "te" ? "ఫలితాలు 2023 ఎన్నికల అధికారిక రికార్డుల ఆధారంగా అందించబడ్డాయి." : result.notes}
                 </p>
                 <a
                   href={result.sourceUrl}
@@ -199,12 +211,6 @@ export default function Election2023Page() {
             </div>
           </motion.div>
         </div>
-        <style jsx>{`
-          @media (max-width: 768px) {
-            div[style*="gridTemplateColumns: repeat(4, 1fr)"] { grid-template-columns: repeat(2, 1fr) !important; }
-            div[style*="gridTemplateColumns: 1fr auto"] { grid-template-columns: 1fr !important; }
-          }
-        `}</style>
       </section>
     </div>
   );

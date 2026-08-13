@@ -4,8 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLang } from "@/lib/lang-context";
+import { translations } from "@/content/translations";
 
 export default function AboutPreview() {
+  const { lang } = useLang();
+  const t = translations[lang].about;
+
   return (
     <section
       className="section-padding"
@@ -29,7 +34,6 @@ export default function AboutPreview() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
             <div style={{ position: "relative" }}>
-              {/* Main image */}
               <div
                 style={{
                   borderRadius: "16px",
@@ -47,7 +51,6 @@ export default function AboutPreview() {
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
-              {/* Accent card overlay */}
               <div
                 style={{
                   position: "absolute",
@@ -57,20 +60,19 @@ export default function AboutPreview() {
                   borderRadius: "12px",
                   padding: "1.25rem 1.5rem",
                   boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
-                  maxWidth: "200px",
+                  maxWidth: "220px",
                 }}
               >
-                <p style={{ fontSize: "0.68rem", fontWeight: 700, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.4rem" }}>
-                  Born in
+                <p style={{ fontSize: "0.68rem", fontWeight: 700, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.4rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                  {t.bornIn}
                 </p>
-                <p style={{ fontSize: "1rem", fontWeight: 800, color: "white", fontFamily: "var(--font-display)", letterSpacing: "-0.01em", lineHeight: 1.2 }}>
-                  Saidapur
+                <p style={{ fontSize: "1rem", fontWeight: 800, color: "white", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", letterSpacing: "-0.01em", lineHeight: 1.2 }}>
+                  {lang === "te" ? "సైదాపూర్" : "Saidapur"}
                 </p>
-                <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.5)", marginTop: "0.2rem" }}>
-                  Yadadri Bhuvanagiri, Telangana
+                <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.5)", marginTop: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                  {t.saidapurLocation}
                 </p>
               </div>
-              {/* Saffron accent block */}
               <div
                 style={{
                   position: "absolute",
@@ -92,25 +94,21 @@ export default function AboutPreview() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="section-label">Who is Beerla Ilaiah?</p>
+            <p className="section-label" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.label}
+            </p>
             <span className="accent-line" />
-            <h2 className="section-title" id="about-heading">
-              From Saidapur to the Telangana Assembly
+            <h2 className="section-title" id="about-heading" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+              {t.title}
             </h2>
-            <p className="section-subtitle" style={{ marginBottom: "1.5rem" }}>
-              Born on June 6, 1975, in Saidapur village, Beerla Ilaiah's journey in public life began with
-              student activism in NSUI at Sri Laxmi Narasimha Degree College in Bhongir, where he completed
-              his B.A. in 2000.
+            <p className="section-subtitle" style={{ marginBottom: "1.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.subtitle}
             </p>
-            <p style={{ fontSize: "1rem", color: "var(--muted)", lineHeight: 1.7, marginBottom: "1.5rem" }}>
-              From serving as Sarpanch of his home village in 2006 to Mandal President of Yadadri
-              Bhuvanagiri in 2008, and later as Congress in-charge for Alair constituency — his rise has
-              been a steady, grassroots progression through public service.
+            <p style={{ fontSize: "1rem", color: "var(--muted)", lineHeight: 1.7, marginBottom: "1.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.para2}
             </p>
-            <p style={{ fontSize: "1rem", color: "var(--muted)", lineHeight: 1.7, marginBottom: "2rem" }}>
-              In the 2023 Telangana Legislative Assembly election, he won Alair Constituency No. 97 with
-              122,140 votes and 57.41% vote share. He has since served as Government Whip and, from
-              November 2025, as President of the Yadadri Bhuvanagiri District Congress Committee.
+            <p style={{ fontSize: "1rem", color: "var(--muted)", lineHeight: 1.7, marginBottom: "2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.para3}
             </p>
 
             {/* Key facts */}
@@ -127,16 +125,16 @@ export default function AboutPreview() {
               }}
             >
               {[
-                { label: "Education", value: "B.A., SLNS Degree College, Bhongir" },
-                { label: "Community", value: "Golla-Kuruma" },
-                { label: "Party", value: "Indian National Congress" },
-                { label: "In Public Life Since", value: "1990s (NSUI)" },
+                { label: t.educationLabel, value: lang === "te" ? "బి.ఏ, ఎస్‌ఎల్ఎన్ఎస్ డిగ్రీ కళాశాల, భువనగిరి" : "B.A., SLNS Degree College, Bhongir" },
+                { label: t.communityLabel, value: lang === "te" ? "గొల్ల-కురుమ" : "Golla-Kuruma" },
+                { label: t.partyLabel, value: lang === "te" ? "భారత జాతీయ కాంగ్రెస్" : "Indian National Congress" },
+                { label: t.lifeLabel, value: lang === "te" ? "1990ల నుండి (ఎన్.ఎస్.యు.ఐ)" : "1990s (NSUI)" },
               ].map((item) => (
                 <div key={item.label}>
-                  <p style={{ fontSize: "0.68rem", fontWeight: 700, color: "var(--muted-light)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.2rem" }}>
+                  <p style={{ fontSize: "0.68rem", fontWeight: 700, color: "var(--muted-light)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                     {item.label}
                   </p>
-                  <p style={{ fontSize: "0.88rem", fontWeight: 600, color: "var(--charcoal)" }}>
+                  <p style={{ fontSize: "0.88rem", fontWeight: 600, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                     {item.value}
                   </p>
                 </div>
@@ -144,11 +142,11 @@ export default function AboutPreview() {
             </div>
 
             <div style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap" }}>
-              <Link href="/about" className="btn-primary">
-                Full Biography <ArrowRight size={16} />
+              <Link href="/about" className="btn-primary" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                {t.btnBio} <ArrowRight size={16} />
               </Link>
-              <Link href="/journey" className="btn-secondary">
-                Political Journey
+              <Link href="/journey" className="btn-secondary" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                {t.btnJourney}
               </Link>
             </div>
           </motion.div>

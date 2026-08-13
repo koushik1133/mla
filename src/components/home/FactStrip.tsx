@@ -1,16 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
-
-const facts = [
-  { value: "No. 97", label: "Constituency" },
-  { value: "8", label: "Mandals" },
-  { value: "2.27L", label: "Registered Voters" },
-  { value: "57.41%", label: "Vote Share (2023)" },
-  { value: "2023", label: "MLA Since" },
-];
+import { useLang } from "@/lib/lang-context";
+import { translations } from "@/content/translations";
 
 export default function FactStrip() {
+  const { lang } = useLang();
+  const t = translations[lang].factStrip;
+
+  const facts = [
+    { value: t.constituencyNo, label: t.constituencyLabel },
+    { value: t.mandalsNo, label: t.mandalsLabel },
+    { value: t.votersNo, label: t.votersLabel },
+    { value: t.voteShareNo, label: t.voteShareLabel },
+    { value: t.termNo, label: t.termLabel },
+  ];
+
   return (
     <section
       className="fact-strip"
@@ -36,11 +41,14 @@ export default function FactStrip() {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
             >
-              <span className="fact-value">{fact.value}</span>
-              <span className="fact-label">{fact.label}</span>
+              <span className="fact-value" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                {fact.value}
+              </span>
+              <span className="fact-label" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                {fact.label}
+              </span>
             </motion.div>
           ))}
-          {/* Dividers between facts */}
         </div>
       </div>
     </section>

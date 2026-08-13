@@ -5,13 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks } from "@/content/navigation";
+import { HandSymbolIcon } from "@/components/icons/SocialIcons";
+import { useLang } from "@/lib/lang-context";
+import { translations } from "@/content/translations";
+import { politician } from "@/content/politician";
 
-interface NavbarProps {
-  lang: "en" | "te";
-  onLangToggle: () => void;
-}
-
-export default function Navbar({ lang, onLangToggle }: NavbarProps) {
+export default function Navbar() {
+  const { lang, toggle } = useLang();
+  const t = translations[lang].nav;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -39,13 +40,13 @@ export default function Navbar({ lang, onLangToggle }: NavbarProps) {
       {/* Announcement Bar */}
       <div className="announcement-bar">
         <div className="container-site">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1.5rem", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1.5rem", flexWrap: "wrap", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
             <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.7rem" }}>◆</span>
-            <span>Government Whip · Telangana Legislative Assembly</span>
+            <span>{t.whipBanner}</span>
             <span style={{ color: "rgba(255,255,255,0.3)" }}>|</span>
-            <span>MLA, Alair No. 97 · Yadadri Bhuvanagiri</span>
+            <span>{t.mlaBanner}</span>
             <span style={{ color: "rgba(255,255,255,0.3)" }}>|</span>
-            <span style={{ color: "#EE5A1C", fontWeight: 600 }}>Indian National Congress</span>
+            <span style={{ color: "#EE5A1C", fontWeight: 600 }}>{t.partyBanner}</span>
             <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.7rem" }}>◆</span>
           </div>
         </div>
@@ -75,11 +76,11 @@ export default function Navbar({ lang, onLangToggle }: NavbarProps) {
           >
             {/* Logo */}
             <Link href="/" style={{ textDecoration: "none", display: "flex", flexDirection: "column", lineHeight: 1.2 }}>
-              <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.05rem", color: "var(--charcoal)", letterSpacing: "-0.02em" }}>
-                Beerla Ilaiah
+              <span style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontWeight: 800, fontSize: "1.05rem", color: "var(--charcoal)", letterSpacing: "-0.02em" }}>
+                {lang === "te" ? politician.nameTelugu : politician.name}
               </span>
-              <span style={{ fontSize: "0.68rem", color: "var(--muted)", fontWeight: 500, letterSpacing: "0.04em" }}>
-                MLA · Alair · Indian National Congress
+              <span style={{ fontSize: "0.68rem", color: "var(--muted)", fontWeight: 500, letterSpacing: "0.04em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                {lang === "te" ? "ఆలేరు ఎమ్మెల్యే · కాంగ్రెస్" : "MLA · Alair · Indian National Congress"}
               </span>
             </Link>
 
@@ -90,7 +91,10 @@ export default function Navbar({ lang, onLangToggle }: NavbarProps) {
                   key={link.href}
                   href={link.href}
                   className={`nav-link ${isActive(link.href) ? "active" : ""}`}
-                  style={{ padding: "0.35rem 0.75rem" }}
+                  style={{
+                    padding: "0.35rem 0.75rem",
+                    fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
+                  }}
                 >
                   {lang === "te" ? link.labelTe : link.label}
                 </Link>
@@ -101,28 +105,28 @@ export default function Navbar({ lang, onLangToggle }: NavbarProps) {
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
               {/* Language Switcher */}
               <button
-                onClick={onLangToggle}
+                onClick={toggle}
                 aria-label={`Switch to ${lang === "en" ? "Telugu" : "English"}`}
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: "0.35rem",
-                  padding: "0.35rem 0.75rem",
-                  border: "1.5px solid var(--border)",
+                  padding: "0.35rem 0.85rem",
+                  border: "1.5px solid var(--saffron)",
                   borderRadius: "100px",
-                  background: "transparent",
+                  background: "rgba(238,90,28,0.06)",
                   cursor: "pointer",
-                  fontSize: "0.75rem",
-                  fontWeight: 600,
-                  color: "var(--charcoal-60)",
+                  fontSize: "0.8rem",
+                  fontWeight: 700,
+                  color: "var(--saffron-dark)",
                   transition: "all 0.2s ease",
-                  fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
+                  fontFamily: lang === "en" ? "var(--font-telugu)" : "var(--font-body)",
                 }}
               >
-                {lang === "en" ? "తెలుగు" : "English"}
+                {t.switchLang}
               </button>
 
-              {/* Congress Badge — compact */}
+              {/* Congress Badge */}
               <div
                 style={{
                   display: "flex",
@@ -134,10 +138,7 @@ export default function Navbar({ lang, onLangToggle }: NavbarProps) {
                   borderRadius: "100px",
                 }}
               >
-                {/* INC Hand symbol — SVG */}
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M12 2C10.9 2 10 2.9 10 4V11C10 11.6 9.6 12 9 12C8.4 12 8 11.6 8 11V7C8 5.9 7.1 5 6 5C4.9 5 4 5.9 4 7V14C4 17.3 6.7 20 10 20H14C17.3 20 20 17.3 20 14V8C20 6.9 19.1 6 18 6C16.9 6 16 6.9 16 8V11C16 11.6 15.6 12 15 12C14.4 12 14 11.6 14 11V4C14 2.9 13.1 2 12 2Z" fill="#166A2F"/>
-                </svg>
+                <HandSymbolIcon size={12} style={{ fill: "#166A2F" }} />
                 <span style={{ fontSize: "0.65rem", fontWeight: 700, color: "var(--congress-green)", letterSpacing: "0.04em", textTransform: "uppercase" }}>INC</span>
               </div>
 
@@ -173,8 +174,8 @@ export default function Navbar({ lang, onLangToggle }: NavbarProps) {
           <div style={{ padding: "1.25rem var(--container-padding)" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "2rem" }}>
               <Link href="/" onClick={() => setMobileOpen(false)} style={{ textDecoration: "none" }}>
-                <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.1rem", color: "var(--charcoal)" }}>
-                  Beerla Ilaiah
+                <span style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontWeight: 800, fontSize: "1.1rem", color: "var(--charcoal)" }}>
+                  {lang === "te" ? politician.nameTelugu : politician.name}
                 </span>
               </Link>
               <button
@@ -195,7 +196,7 @@ export default function Navbar({ lang, onLangToggle }: NavbarProps) {
                     display: "block",
                     padding: "1rem 0",
                     borderBottom: "1px solid var(--border-light)",
-                    fontFamily: "var(--font-display)",
+                    fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)",
                     fontSize: "1.2rem",
                     fontWeight: 700,
                     color: isActive(link.href) ? "var(--saffron)" : "var(--charcoal)",
@@ -209,25 +210,26 @@ export default function Navbar({ lang, onLangToggle }: NavbarProps) {
 
             <div style={{ marginTop: "2rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
               <button
-                onClick={() => { onLangToggle(); setMobileOpen(false); }}
+                onClick={() => { toggle(); setMobileOpen(false); }}
                 style={{
                   padding: "0.6rem 1.25rem",
-                  border: "1.5px solid var(--border)",
+                  border: "1.5px solid var(--saffron)",
                   borderRadius: "100px",
-                  background: "transparent",
-                  fontSize: "0.85rem",
-                  fontWeight: 600,
+                  background: "rgba(238,90,28,0.08)",
+                  fontSize: "0.9rem",
+                  fontWeight: 700,
+                  color: "var(--saffron-dark)",
                   cursor: "pointer",
-                  fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
+                  fontFamily: lang === "en" ? "var(--font-telugu)" : "var(--font-body)",
                 }}
               >
-                {lang === "en" ? "తెలుగు" : "English"}
+                {t.switchLang}
               </button>
             </div>
 
             <div style={{ marginTop: "2.5rem", padding: "1rem", background: "var(--warm-bg)", borderRadius: "8px" }}>
-              <p style={{ fontSize: "0.75rem", color: "var(--muted)", lineHeight: 1.5 }}>
-                Public information website. Party affiliation presented for informational purposes only. Not affiliated with official Government of Telangana or INC national websites.
+              <p style={{ fontSize: "0.75rem", color: "var(--muted)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                {lang === "te" ? "ప్రజా సమాచార జాలగూడు. సమాచార ప్రయోజనాల కోసం మాత్రమే." : "Public information website. Party affiliation presented for informational purposes only."}
               </p>
             </div>
           </div>

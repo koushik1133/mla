@@ -5,8 +5,14 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { politician } from "@/content/politician";
+import { useLang } from "@/lib/lang-context";
+import { translations } from "@/content/translations";
+import { HandSymbolIcon } from "@/components/icons/SocialIcons";
 
 export default function Hero() {
+  const { lang } = useLang();
+  const t = translations[lang].hero;
+
   return (
     <section className="hero-section" aria-label="Introduction">
       {/* Background Image */}
@@ -19,15 +25,14 @@ export default function Hero() {
           style={{ objectFit: "cover", objectPosition: "center 40%" }}
           sizes="100vw"
         />
-        {/* Gradient overlay — left side darker for text readability */}
+        {/* Gradient overlay */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: "linear-gradient(105deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.75) 45%, rgba(10,10,10,0.3) 75%, rgba(10,10,10,0.15) 100%)",
+            background: "linear-gradient(105deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.78) 45%, rgba(10,10,10,0.35) 75%, rgba(10,10,10,0.15) 100%)",
           }}
         />
-        {/* Bottom fade */}
         <div
           style={{
             position: "absolute",
@@ -63,11 +68,9 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.1 }}
               style={{ marginBottom: "1.25rem" }}
             >
-              <span className="congress-badge" style={{ borderColor: "rgba(22,106,47,0.5)", color: "#4CAF6E" }}>
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M12 2C10.9 2 10 2.9 10 4V11C10 11.6 9.6 12 9 12C8.4 12 8 11.6 8 11V7C8 5.9 7.1 5 6 5C4.9 5 4 5.9 4 7V14C4 17.3 6.7 20 10 20H14C17.3 20 20 17.3 20 14V8C20 6.9 19.1 6 18 6C16.9 6 16 6.9 16 8V11C16 11.6 15.6 12 15 12C14.4 12 14 11.6 14 11V4C14 2.9 13.1 2 12 2Z" fill="#4CAF6E"/>
-                </svg>
-                Indian National Congress
+              <span className="congress-badge" style={{ borderColor: "rgba(22,106,47,0.5)", color: "#4CAF6E", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                <HandSymbolIcon size={12} style={{ fill: "#4CAF6E" }} />
+                {t.partyBadge}
               </span>
             </motion.div>
 
@@ -77,32 +80,32 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
               style={{
-                fontFamily: "var(--font-display)",
+                fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)",
                 fontSize: "clamp(2.75rem, 5.5vw, 4.5rem)",
                 fontWeight: 800,
                 color: "white",
-                letterSpacing: "-0.03em",
-                lineHeight: 1.05,
+                letterSpacing: lang === "te" ? "0" : "-0.03em",
+                lineHeight: 1.1,
                 marginBottom: "0.5rem",
               }}
             >
-              Beerla Ilaiah
+              {lang === "te" ? politician.nameTelugu : politician.name}
             </motion.h1>
 
-            {/* Telugu Name */}
+            {/* Subtitle / Alt language name */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.35 }}
               style={{
-                fontFamily: "var(--font-telugu)",
+                fontFamily: lang === "te" ? "var(--font-display)" : "var(--font-telugu)",
                 fontSize: "1.3rem",
                 color: "rgba(255,255,255,0.5)",
                 marginBottom: "1.25rem",
                 letterSpacing: "0.02em",
               }}
             >
-              {politician.nameTelugu}
+              {lang === "te" ? politician.name : politician.nameTelugu}
             </motion.p>
 
             {/* Saffron divider */}
@@ -118,13 +121,13 @@ export default function Hero() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.45 }}
-              style={{ marginBottom: "0.5rem" }}
+              style={{ marginBottom: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}
             >
               <p style={{ fontSize: "clamp(1rem, 1.8vw, 1.25rem)", color: "rgba(255,255,255,0.85)", fontWeight: 500, lineHeight: 1.4 }}>
-                Member of the Telangana Legislative Assembly
+                {t.role}
               </p>
               <p style={{ fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)", color: "rgba(255,255,255,0.55)", fontWeight: 400 }}>
-                Alair Constituency No. 97 · Yadadri Bhuvanagiri
+                {t.constituency}
               </p>
             </motion.div>
 
@@ -139,18 +142,18 @@ export default function Hero() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.4rem",
-                padding: "0.3rem 0.875rem",
+                padding: "0.35rem 0.875rem",
                 background: "rgba(238,90,28,0.15)",
                 border: "1px solid rgba(238,90,28,0.3)",
                 borderRadius: "100px",
-                fontSize: "0.75rem",
+                fontSize: "0.78rem",
                 fontWeight: 700,
                 color: "var(--saffron-light)",
                 letterSpacing: "0.04em",
-                textTransform: "uppercase",
+                fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
               }}>
                 <span style={{ width: "6px", height: "6px", background: "var(--saffron)", borderRadius: "50%", display: "inline-block" }} />
-                Government Whip · Telangana
+                {t.whipBadge}
               </span>
             </motion.div>
 
@@ -161,11 +164,11 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.65 }}
               style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap" }}
             >
-              <Link href="/public-service" className="btn-primary">
-                Explore Public Work <ArrowRight size={16} />
+              <Link href="/public-service" className="btn-primary" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                {t.ctaPrimary} <ArrowRight size={16} />
               </Link>
-              <Link href="/gallery" className="btn-outline-white">
-                View Gallery
+              <Link href="/gallery" className="btn-outline-white" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                {t.ctaSecondary}
               </Link>
             </motion.div>
           </motion.div>
@@ -196,7 +199,6 @@ export default function Hero() {
                 style={{ objectFit: "cover", objectPosition: "center top" }}
                 sizes="(max-width: 768px) 0px, 420px"
               />
-              {/* Bottom info overlay */}
               <div
                 style={{
                   position: "absolute",
@@ -208,10 +210,10 @@ export default function Hero() {
                 }}
               >
                 <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "rgba(255,255,255,0.5)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.2rem" }}>
-                  Portrait — Placeholder
+                  {t.portraitTag}
                 </p>
-                <p style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.35)" }}>
-                  Replace with authenticated photograph
+                <p style={{ fontSize: "0.85rem", color: "white", fontWeight: 600, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                  {lang === "te" ? "బీర్ల ఇలయ్య - ఆలేరు ఎమ్మెల్యే" : "Beerla Ilaiah — MLA, Alair"}
                 </p>
               </div>
             </div>
@@ -236,13 +238,15 @@ export default function Hero() {
           gap: "0.35rem",
         }}
       >
-        <span style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.35)", letterSpacing: "0.1em", textTransform: "uppercase" }}>Scroll</span>
+        <span style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.35)", letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+          {t.scroll}
+        </span>
         <ChevronDown size={16} color="rgba(255,255,255,0.3)" />
       </motion.div>
 
       <style jsx>{`
         @media (max-width: 768px) {
-          div[style*="gridTemplateColumns"] {
+          div[style*="gridTemplateColumns: 1fr 1fr"] {
             grid-template-columns: 1fr !important;
             gap: 2rem !important;
           }

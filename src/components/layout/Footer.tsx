@@ -3,10 +3,30 @@
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { TwitterXIcon, InstagramIcon, YoutubeIcon } from "@/components/icons/SocialIcons";
-import { footerLinks } from "@/content/navigation";
+import { useLang } from "@/lib/lang-context";
+import { translations } from "@/content/translations";
+import { politician } from "@/content/politician";
 
 export default function Footer() {
+  const { lang } = useLang();
+  const t = translations[lang].footer;
   const year = new Date().getFullYear();
+
+  const footerLinks = {
+    quick: [
+      { label: lang === "te" ? "గురించి" : "About", href: "/about" },
+      { label: lang === "te" ? "రాజకీయ ప్రస్థానం" : "Journey", href: "/journey" },
+      { label: lang === "te" ? "ఆలేరు నియోజకవర్గం" : "Alair Constituency", href: "/alair" },
+      { label: lang === "te" ? "ప్రజా సేవ" : "Public Service", href: "/public-service" },
+      { label: lang === "te" ? "ఎన్నికలు 2023" : "Election 2023", href: "/election-2023" },
+    ],
+    media: [
+      { label: lang === "te" ? "మీడియా వివరాలు" : "Media Archive", href: "/media" },
+      { label: lang === "te" ? "ఫోటో గ్యాలరీ" : "Photo Gallery", href: "/gallery" },
+      { label: lang === "te" ? "వార్తలు" : "News", href: "/news" },
+      { label: lang === "te" ? "సంప్రదించండి" : "Contact", href: "/contact" },
+    ],
+  };
 
   return (
     <footer className="footer-main" role="contentinfo">
@@ -24,17 +44,17 @@ export default function Footer() {
           {/* Identity */}
           <div>
             <div style={{ marginBottom: "1rem" }}>
-              <p style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.25rem", color: "white", letterSpacing: "-0.02em", marginBottom: "0.25rem" }}>
-                Beerla Ilaiah
+              <p style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontWeight: 800, fontSize: "1.25rem", color: "white", letterSpacing: "-0.02em", marginBottom: "0.25rem" }}>
+                {lang === "te" ? politician.nameTelugu : politician.name}
               </p>
-              <p style={{ fontFamily: "var(--font-telugu)", fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", marginBottom: "0.75rem" }}>
-                బీర్ల ఇలయ్య
+              <p style={{ fontFamily: lang === "te" ? "var(--font-display)" : "var(--font-telugu)", fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", marginBottom: "0.75rem" }}>
+                {lang === "te" ? politician.name : politician.nameTelugu}
               </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
-                <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>Member of the Telangana Legislative Assembly</span>
-                <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>Alair Constituency No. 97</span>
-                <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>Yadadri Bhuvanagiri District</span>
-                <span style={{ fontSize: "0.82rem", color: "var(--saffron-light)", fontWeight: 600, marginTop: "0.25rem" }}>Indian National Congress</span>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>{t.role}</span>
+                <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>{t.constituency}</span>
+                <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.6)" }}>{t.district}</span>
+                <span style={{ fontSize: "0.82rem", color: "var(--saffron-light)", fontWeight: 600, marginTop: "0.25rem" }}>{t.party}</span>
               </div>
             </div>
 
@@ -105,15 +125,15 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <p style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "1rem" }}>
-              About
+            <p style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "1rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.aboutHeader}
             </p>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               {footerLinks.quick.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.65)", textDecoration: "none", transition: "color 0.2s" }}
+                    style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.65)", textDecoration: "none", transition: "color 0.2s", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}
                   >
                     {link.label}
                   </Link>
@@ -124,15 +144,15 @@ export default function Footer() {
 
           {/* Media Links */}
           <div>
-            <p style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "1rem" }}>
-              Media
+            <p style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "1rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.mediaHeader}
             </p>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               {footerLinks.media.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.65)", textDecoration: "none", transition: "color 0.2s" }}
+                    style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.65)", textDecoration: "none", transition: "color 0.2s", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}
                   >
                     {link.label}
                   </Link>
@@ -143,8 +163,8 @@ export default function Footer() {
 
           {/* Sources & External */}
           <div>
-            <p style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "1rem" }}>
-              Official Sources
+            <p style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", marginBottom: "1rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.sourcesHeader}
             </p>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.6rem" }}>
               {[
@@ -180,13 +200,11 @@ export default function Footer() {
             gap: "1rem",
           }}
         >
-          <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.5 }}>
-            © {year} Beerla Ilaiah MLA, Alair. Public information website.
-            Party affiliation and public-office information are presented for informational purposes.
-            Not an official Government of Telangana or INC national website.
+          <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            © {year} Beerla Ilaiah MLA, Alair. {t.copyright}
           </p>
-          <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.2)" }}>
-            Election data: Election Commission of India / ADR India
+          <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.2)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            {t.disclaimer}
           </p>
         </div>
       </div>

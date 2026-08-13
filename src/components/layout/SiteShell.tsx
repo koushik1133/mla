@@ -6,10 +6,9 @@ import { useLang } from "@/lib/lang-context";
 import { ReactNode } from "react";
 
 export default function SiteShell({ children }: { children: ReactNode }) {
-  const { lang, toggle } = useLang();
   return (
     <>
-      <Navbar lang={lang} onLangToggle={toggle} />
+      <Navbar />
       <main>{children}</main>
       <Footer />
     </>

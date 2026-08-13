@@ -4,8 +4,13 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { TwitterXIcon, InstagramIcon } from "@/components/icons/SocialIcons";
 import { motion } from "framer-motion";
+import { useLang } from "@/lib/lang-context";
+import { translations } from "@/content/translations";
 
 export default function ContactCTA() {
+  const { lang } = useLang();
+  const t = translations[lang].contact;
+
   return (
     <section
       className="section-padding"
@@ -26,7 +31,6 @@ export default function ContactCTA() {
             overflow: "hidden",
           }}
         >
-          {/* Background accent */}
           <div
             style={{
               position: "absolute",
@@ -47,30 +51,30 @@ export default function ContactCTA() {
             viewport={{ once: true }}
             style={{ position: "relative", zIndex: 1 }}
           >
-            <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "var(--saffron)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.75rem" }}>
-              Connect
+            <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "var(--saffron)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.75rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.label}
             </p>
             <h2
               id="contact-heading"
               style={{
-                fontFamily: "var(--font-display)",
+                fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)",
                 fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
                 fontWeight: 800,
                 color: "white",
-                letterSpacing: "-0.025em",
-                lineHeight: 1.15,
+                letterSpacing: lang === "te" ? "0" : "-0.025em",
+                lineHeight: 1.2,
                 marginBottom: "1rem",
               }}
             >
-              Reach the Public Office of<br />Beerla Ilaiah MLA
+              {t.title}
             </h2>
-            <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.6, maxWidth: "480px", marginBottom: "2rem" }}>
-              For constituency matters, public enquiries, or to connect with MLA Beerla Ilaiah&apos;s office, reach out through the contact page or social media.
+            <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.6, maxWidth: "480px", marginBottom: "2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.subtitle}
             </p>
 
             <div style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap" }}>
-              <Link href="/contact" className="btn-primary">
-                Contact the Office <ArrowRight size={16} />
+              <Link href="/contact" className="btn-primary" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                {t.btnContact} <ArrowRight size={16} />
               </Link>
               <div style={{ display: "flex", gap: "0.5rem" }}>
                 <a

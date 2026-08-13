@@ -4,10 +4,15 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { timelineEntries } from "@/content/timeline";
+import { useLang } from "@/lib/lang-context";
+import { translations } from "@/content/translations";
 
 const milestones = timelineEntries.filter((e) => e.isMilestone).slice(0, 4);
 
 export default function JourneyPreview() {
+  const { lang } = useLang();
+  const t = translations[lang].journey;
+
   return (
     <section
       className="section-padding section-dark"
@@ -17,24 +22,18 @@ export default function JourneyPreview() {
       <div className="container-site">
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "3.5rem", flexWrap: "wrap", gap: "1rem" }}>
           <div>
-            <p className="section-label" style={{ color: "var(--saffron-light)" }}>Political Journey</p>
+            <p className="section-label" style={{ color: "var(--saffron-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{t.label}</p>
             <span style={{ display: "block", width: "3rem", height: "3px", background: "var(--saffron)", borderRadius: "2px", marginBottom: "1rem" }} />
-            <h2 className="section-title" id="journey-heading" style={{ color: "white" }}>
-              Milestones in Public Life
+            <h2 className="section-title" id="journey-heading" style={{ color: "white", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+              {t.title}
             </h2>
           </div>
-          <Link href="/journey" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none", display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.875rem", fontWeight: 600 }}>
-            Full Timeline <ArrowRight size={15} />
+          <Link href="/journey" style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none", display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.875rem", fontWeight: 600, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            {t.viewFull} <ArrowRight size={15} />
           </Link>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "1.5rem",
-          }}
-        >
+        <div className="grid-4-col">
           {milestones.map((entry, i) => (
             <motion.div
               key={entry.id}
@@ -52,7 +51,6 @@ export default function JourneyPreview() {
                 transition: "background 0.2s",
               }}
             >
-              {/* Top accent line */}
               <div
                 style={{
                   position: "absolute",
@@ -66,11 +64,11 @@ export default function JourneyPreview() {
               <p style={{ fontFamily: "var(--font-display)", fontSize: "2rem", fontWeight: 800, color: "var(--saffron)", letterSpacing: "-0.04em", lineHeight: 1, marginBottom: "0.75rem" }}>
                 {entry.year}
               </p>
-              <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "white", lineHeight: 1.3, marginBottom: "0.5rem" }}>
-                {entry.title}
+              <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "white", lineHeight: 1.3, marginBottom: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                {lang === "te" ? entry.titleTelugu : entry.title}
               </p>
-              <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.5 }}>
-                {entry.description.slice(0, 100)}…
+              <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.45)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                {lang === "te" ? entry.descriptionTelugu.slice(0, 90) + "…" : entry.description.slice(0, 100) + "…"}
               </p>
             </motion.div>
           ))}
@@ -83,24 +81,11 @@ export default function JourneyPreview() {
           transition={{ delay: 0.5 }}
           style={{ textAlign: "center", marginTop: "3rem" }}
         >
-          <Link href="/journey" className="btn-outline-white">
-            View Complete Political Journey <ArrowRight size={16} />
+          <Link href="/journey" className="btn-outline-white" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+            {t.viewComplete} <ArrowRight size={16} />
           </Link>
         </motion.div>
       </div>
-
-      <style jsx>{`
-        @media (max-width: 900px) {
-          div[style*="gridTemplateColumns: repeat(4, 1fr)"] {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
-        }
-        @media (max-width: 480px) {
-          div[style*="gridTemplateColumns: repeat(4, 1fr)"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

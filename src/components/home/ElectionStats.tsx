@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ArrowRight, Info } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { electionResults2023 } from "@/content/election";
+import { useLang } from "@/lib/lang-context";
+import { translations } from "@/content/translations";
 
 function AnimatedNumber({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [display, setDisplay] = useState(0);
@@ -34,6 +36,8 @@ function AnimatedNumber({ target, suffix = "" }: { target: number; suffix?: stri
 
 export default function ElectionStats() {
   const result = electionResults2023;
+  const { lang } = useLang();
+  const t = translations[lang].election;
 
   return (
     <section
@@ -43,14 +47,14 @@ export default function ElectionStats() {
     >
       <div className="container-site">
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
-          <p className="section-label">Election 2023</p>
+          <p className="section-label" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{t.label}</p>
           <span style={{ display: "block", width: "3rem", height: "3px", background: "var(--saffron)", borderRadius: "2px", margin: "0 auto 1rem" }} />
-          <h2 className="section-title" id="election-heading" style={{ maxWidth: "600px", margin: "0 auto 1rem" }}>
-            2023 Telangana Legislative Assembly Election Results
+          <h2 className="section-title" id="election-heading" style={{ maxWidth: "650px", margin: "0 auto 1rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+            {t.title}
           </h2>
-          <p style={{ fontSize: "0.85rem", color: "var(--muted-light)", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.35rem" }}>
+          <p style={{ fontSize: "0.85rem", color: "var(--muted-light)", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.35rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
             <Info size={13} />
-            Source: Election Commission of India / ADR India. Results from November 30, 2023.
+            {t.sourceNote}
           </p>
         </div>
 
@@ -58,10 +62,10 @@ export default function ElectionStats() {
           {/* Stats */}
           <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
             {[
-              { label: "Votes Received", value: 122140, suffix: "", highlight: true },
-              { label: "Vote Share", value: 57.41, suffix: "%", highlight: false },
-              { label: "Victory Margin", value: 49636, suffix: "", highlight: false },
-              { label: "Total Registered Voters", value: 227738, suffix: "", highlight: false },
+              { label: t.votesReceived, value: 122140, suffix: "", highlight: true },
+              { label: t.voteShare, value: 57.41, suffix: "%", highlight: false },
+              { label: t.victoryMargin, value: 49636, suffix: "", highlight: false },
+              { label: t.totalVoters, value: 227738, suffix: "", highlight: false },
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -70,12 +74,12 @@ export default function ElectionStats() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
               >
-                <p style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--muted-light)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.3rem" }}>
+                <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "var(--muted-light)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.3rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                   {stat.label}
                 </p>
                 <p
                   className="number-display"
-                  style={{ color: stat.highlight ? "var(--saffron)" : "var(--charcoal)" }}
+                  style={{ color: stat.highlight ? "var(--saffron)" : "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}
                 >
                   <AnimatedNumber target={stat.value} suffix={stat.suffix} />
                 </p>
@@ -96,8 +100,8 @@ export default function ElectionStats() {
               padding: "2rem",
             }}
           >
-            <p style={{ fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "1.5rem" }}>
-              Candidate Comparison — Alair Constituency 2023
+            <p style={{ fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "1.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.candidateComparison}
             </p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
@@ -105,26 +109,27 @@ export default function ElectionStats() {
                 <div key={candidate.name}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.5rem" }}>
                     <div>
-                      <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)" }}>
-                        {candidate.name}
+                      <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                        {lang === "te" && candidate.name === "Beerla Ilaiah" ? "బీర్ల ఇలయ్య" : candidate.name}
                         {candidate.isWinner && (
-                          <span style={{ marginLeft: "0.5rem", fontSize: "0.65rem", background: "rgba(22,106,47,0.12)", color: "var(--congress-green)", padding: "0.15rem 0.5rem", borderRadius: "100px", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase" }}>
-                            Winner
+                          <span style={{ marginLeft: "0.5rem", fontSize: "0.65rem", background: "rgba(22,106,47,0.12)", color: "var(--congress-green)", padding: "0.15rem 0.5rem", borderRadius: "100px", fontWeight: 700, letterSpacing: "0.04em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                            {t.winner}
                           </span>
                         )}
                       </p>
-                      <p style={{ fontSize: "0.78rem", color: "var(--muted)" }}>{candidate.party}</p>
+                      <p style={{ fontSize: "0.78rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                        {lang === "te" && candidate.party === "Indian National Congress" ? "భారత జాతీయ కాంగ్రెస్" : candidate.party}
+                      </p>
                     </div>
                     <div style={{ textAlign: "right" }}>
                       <p style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.3rem", color: "var(--charcoal)", letterSpacing: "-0.02em" }}>
                         {candidate.votePercentage}%
                       </p>
-                      <p style={{ fontSize: "0.78rem", color: "var(--muted)" }}>
-                        {candidate.votes.toLocaleString("en-IN")} votes
+                      <p style={{ fontSize: "0.78rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                        {candidate.votes.toLocaleString("en-IN")} {lang === "te" ? "ఓట్లు" : "votes"}
                       </p>
                     </div>
                   </div>
-                  {/* Bar */}
                   <div className="stat-bar">
                     <motion.div
                       className="stat-bar-fill"
@@ -142,15 +147,15 @@ export default function ElectionStats() {
               ))}
             </div>
 
-            <p style={{ fontSize: "0.7rem", color: "var(--muted-light)", marginTop: "1.5rem", lineHeight: 1.5 }}>
-              {result.notes}
+            <p style={{ fontSize: "0.7rem", color: "var(--muted-light)", marginTop: "1.5rem", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {lang === "te" ? "ఫలితాలు 2023 ఎన్నికల ఆధారంగా రూపొందించబడ్డాయి." : result.notes}
             </p>
           </motion.div>
         </div>
 
         <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
-          <Link href="/election-2023" className="btn-secondary">
-            Full Election Report <ArrowRight size={16} />
+          <Link href="/election-2023" className="btn-secondary" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+            {t.fullReport} <ArrowRight size={16} />
           </Link>
         </div>
       </div>
