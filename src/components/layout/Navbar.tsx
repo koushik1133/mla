@@ -111,7 +111,7 @@ export default function Navbar() {
             {/* Right side */}
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               {/* Theme Switcher Button (Saffron vs Green #009A44) */}
-              {showThemeSwitcher && (
+              {showThemeSwitcher && !pathname?.startsWith("/green") && (
                 <button
                   onClick={toggleTheme}
                   aria-label="Toggle Theme Version"
@@ -288,7 +288,7 @@ export default function Navbar() {
                 </button>
 
                 {/* Theme Toggle Button inside Mobile Drawer */}
-                {showThemeSwitcher && (
+                {showThemeSwitcher && !pathname?.startsWith("/green") && (
                   <button
                     onClick={() => { toggleTheme(); setMobileOpen(false); }}
                     style={{

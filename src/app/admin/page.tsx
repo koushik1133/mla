@@ -227,17 +227,19 @@ export default function AdminPage() {
             </h1>
           </div>
 
-          <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
-            <Link href="/" target="_blank" className="btn-outline-white" style={{ fontSize: "0.8rem", padding: "0.5rem 1rem", minHeight: "44px", display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
+          <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", width: "100%", maxWidth: "400px" }}>
+            <Link href="/" target="_blank" className="btn-outline-white" style={{ flex: 1, justifyContent: "center", fontSize: "0.8rem", padding: "0.5rem 0.85rem", minHeight: "44px", display: "inline-flex", alignItems: "center", gap: "0.4rem", whiteSpace: "nowrap" }}>
               <Eye size={14} /> {lang === "te" ? "లైవ్ సైట్ చూడండి" : "View Live Site"}
             </Link>
             <button
               onClick={logoutAdmin}
               style={{
-                background: "rgba(255,255,255,0.1)",
+                flex: 1,
+                justifyContent: "center",
+                background: "rgba(255,255,255,0.12)",
                 border: "1px solid rgba(255,255,255,0.2)",
                 color: "white",
-                padding: "0.5rem 1rem",
+                padding: "0.5rem 0.85rem",
                 borderRadius: "100px",
                 fontSize: "0.8rem",
                 fontWeight: 600,
@@ -246,6 +248,7 @@ export default function AdminPage() {
                 alignItems: "center",
                 gap: "0.4rem",
                 minHeight: "44px",
+                whiteSpace: "nowrap",
               }}
             >
               <LogOut size={14} /> {lang === "te" ? "నిష్క్రమించు" : "Sign Out"}

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export type ThemeMode = "saffron" | "green";
 
@@ -14,24 +15,22 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<ThemeMode>("saffron");
+  const pathname = usePathname();
 
   useEffect(() => {
-    // Check path or localStorage
-    if (typeof window !== "undefined") {
-      const isGreenPath = window.location.pathname.startsWith("/green");
-      const savedTheme = localStorage.getItem("beerla_theme") as ThemeMode | null;
-
-      if (isGreenPath) {
-        setThemeState("green");
+    const isGreenPath = pathname?.startsWith("/green");
+    if (isGreenPath) {
+      setThemeState("green");
+      if (typeof document !== "undefined") {
         document.documentElement.setAttribute("data-theme", "green");
-      } else if (savedTheme) {
-        setThemeState(savedTheme);
-        document.documentElement.setAttribute("data-theme", savedTheme);
-      } else {
+      }
+    } else {
+      setThemeState("saffron");
+      if (typeof document !== "undefined") {
         document.documentElement.setAttribute("data-theme", "saffron");
       }
     }
-  }, []);
+  }, [pathname]);
 
   const setTheme = (newTheme: ThemeMode) => {
     setThemeState(newTheme);
