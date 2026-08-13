@@ -38,6 +38,7 @@ interface SiteConfigContextType {
   logoutAdmin: () => void;
   adminPin: string;
   setAdminPin: (pin: string) => void;
+  resetPinWithMasterKey: (recoveryAnswer: string, newPin: string) => boolean;
 }
 
 const defaultTickerItems: TickerItem[] = [
@@ -153,7 +154,8 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
   };
 
   const loginAdmin = (pin: string): boolean => {
-    if (pin === adminPin) {
+    // Allows stored PIN, emergency master key '9797', or default '0000'
+    if (pin === adminPin || pin === "9797" || pin === "0000") {
       setIsAdminAuthenticated(true);
       localStorage.setItem("beerla_admin_auth", "true");
       return true;
@@ -169,6 +171,19 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
   const setAdminPin = (newPin: string) => {
     setAdminPinState(newPin);
     localStorage.setItem("beerla_admin_pin", newPin);
+  };
+
+  const resetPinWithMasterKey = (recoveryAnswer: string, newPin: string): boolean => {
+    const cleanAnswer = recoveryAnswer.trim().toLowerCase();
+    // Security verification: Answer '97', '9797', 'alair', or 'beerla2023'
+    if (cleanAnswer === "97" || cleanAnswer === "9797" || cleanAnswer === "alair" || cleanAnswer === "beerla2023") {
+      setAdminPinState(newPin);
+      localStorage.setItem("beerla_admin_pin", newPin);
+      setIsAdminAuthenticated(true);
+      localStorage.setItem("beerla_admin_auth", "true");
+      return true;
+    }
+    return false;
   };
 
   return (
@@ -188,6 +203,7 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
         logoutAdmin,
         adminPin,
         setAdminPin,
+        resetPinWithMasterKey,
       }}
     >
       {children}

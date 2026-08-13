@@ -41,6 +41,7 @@ export default function AdminPage() {
     logoutAdmin,
     adminPin,
     setAdminPin,
+    resetPinWithMasterKey,
   } = useSiteConfig();
 
   const { lang } = useLang();
@@ -164,6 +165,31 @@ export default function AdminPage() {
     setPinSuccessMsg(lang === "te" ? "పాస్‌కోడ్ విజయవంతంగా నవీకరించబడింది!" : "Admin passcode updated successfully!");
   };
 
+  // Forgot Passcode Recovery State
+  const [isForgotMode, setIsForgotMode] = useState(false);
+  const [recoveryAnswer, setRecoveryAnswer] = useState("");
+  const [recoveryNewPin, setRecoveryNewPin] = useState("");
+  const [recoveryError, setRecoveryError] = useState("");
+
+  const handleRecoverySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (recoveryNewPin.length < 4) {
+      setRecoveryError(lang === "te" ? "కొత్త పాస్‌కోడ్ కనీసం 4 అంకెలు ఉండాలి." : "New PIN must be at least 4 digits.");
+      return;
+    }
+    const success = resetPinWithMasterKey(recoveryAnswer, recoveryNewPin);
+    if (!success) {
+      setRecoveryError(
+        lang === "te"
+          ? "తప్పు భద్రతా సమాధానం! ఆలేరు నియోజకవర్గ సంఖ్య (97) లేదా '9797' ఉపయోగించండి."
+          : "Invalid Security Key! Use Alair Constituency No. (97) or Emergency Master Key '9797'."
+      );
+    } else {
+      setRecoveryError("");
+      setIsForgotMode(false);
+    }
+  };
+
   // ----------------------------------------------------
   // LOCK SCREEN IF NOT AUTHENTICATED
   // ----------------------------------------------------
@@ -197,48 +223,129 @@ export default function AdminPage() {
           </div>
 
           <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
-            {lang === "te" ? "ఎడ్మిన్ పోర్టల్ లాగిన్" : "Secure Admin Portal"}
+            {isForgotMode
+              ? lang === "te"
+                ? "పాస్‌కోడ్ పునరుద్ధరణ"
+                : "Self-Service Passcode Recovery"
+              : lang === "te"
+              ? "ఎడ్మిన్ పోర్టల్ లాగిన్"
+              : "Secure Admin Portal"}
           </h1>
           <p style={{ fontSize: "0.85rem", color: "var(--muted)", marginBottom: "1.75rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-            {lang === "te" ? "సైట్ నిర్వహణ కోసం దయచేసి ఎడ్మిన్ పాస్‌కోడ్ నమోదు చేయండి." : "Enter your secure admin passcode to access live website controls."}
+            {isForgotMode
+              ? lang === "te"
+                ? "మీ పాస్‌కోడ్‌ను నవీకరించడానికి భద్రతా ప్రశ్నకు సమాధానమివ్వండి."
+                : "Answer security recovery question to instantly reset your passcode."
+              : lang === "te"
+              ? "సైట్ నిర్వహణ కోసం దయచేసి ఎడ్మిన్ పాస్‌కోడ్ నమోదు చేయండి."
+              : "Enter your secure admin passcode to access live website controls."}
           </p>
 
-          <form onSubmit={handleLoginSubmit}>
-            <div style={{ marginBottom: "1.25rem" }}>
-              <input
-                type="password"
-                value={enteredPin}
-                onChange={(e) => setEnteredPin(e.target.value)}
-                placeholder={lang === "te" ? "పాస్‌కోడ్ నమోదు చేయండి (Default: 0000)" : "Enter PIN (Default: 0000)"}
-                style={{
-                  width: "100%",
-                  padding: "0.875rem 1rem",
-                  borderRadius: "10px",
-                  border: "1.5px solid var(--border)",
-                  fontSize: "1rem",
-                  textAlign: "center",
-                  letterSpacing: "0.2em",
-                  outline: "none",
-                  fontWeight: 700,
-                }}
-                autoFocus
-              />
-            </div>
+          {!isForgotMode ? (
+            <form onSubmit={handleLoginSubmit}>
+              <div style={{ marginBottom: "1.25rem" }}>
+                <input
+                  type="password"
+                  value={enteredPin}
+                  onChange={(e) => setEnteredPin(e.target.value)}
+                  placeholder={lang === "te" ? "పాస్‌కోడ్ (Default: 0000 లేదా Master: 9797)" : "Enter PIN (Default: 0000 or Master: 9797)"}
+                  disabled={lockoutTimer > 0}
+                  style={{
+                    width: "100%",
+                    padding: "0.875rem 1rem",
+                    borderRadius: "10px",
+                    border: "1.5px solid var(--border)",
+                    fontSize: "1rem",
+                    textAlign: "center",
+                    letterSpacing: "0.2em",
+                    outline: "none",
+                    fontWeight: 700,
+                    opacity: lockoutTimer > 0 ? 0.5 : 1,
+                  }}
+                  autoFocus
+                />
+              </div>
 
-            {pinError && (
-              <p style={{ color: "#E53E3E", fontSize: "0.8rem", marginBottom: "1rem", fontWeight: 600 }}>
-                {pinError}
-              </p>
-            )}
+              {pinError && (
+                <p style={{ color: "#E53E3E", fontSize: "0.8rem", marginBottom: "1rem", fontWeight: 600 }}>
+                  {pinError} {lockoutTimer > 0 && `(${lockoutTimer}s)`}
+                </p>
+              )}
 
-            <button
-              type="submit"
-              className="btn-primary"
-              style={{ width: "100%", justifyContent: "center", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}
-            >
-              <Unlock size={16} /> {lang === "te" ? "లాగిన్ చేయండి" : "Authenticate & Access"}
-            </button>
-          </form>
+              <button
+                type="submit"
+                className="btn-primary"
+                disabled={lockoutTimer > 0}
+                style={{ width: "100%", justifyContent: "center", opacity: lockoutTimer > 0 ? 0.6 : 1, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}
+              >
+                <Unlock size={16} /> {lang === "te" ? "లాగిన్ చేయండి" : "Authenticate & Access"}
+              </button>
+
+              <div style={{ marginTop: "1rem" }}>
+                <button
+                  type="button"
+                  onClick={() => setIsForgotMode(true)}
+                  style={{ background: "transparent", border: "none", color: "var(--saffron)", fontSize: "0.8rem", fontWeight: 700, cursor: "pointer", textDecoration: "underline" }}
+                >
+                  {lang === "te" ? "పాస్‌కోడ్ మరిచిపోయారా? (Forgot Passcode?)" : "Forgot Passcode? Reset Here"}
+                </button>
+              </div>
+            </form>
+          ) : (
+            <form onSubmit={handleRecoverySubmit}>
+              <div style={{ marginBottom: "1rem", textAlign: "left" }}>
+                <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", marginBottom: "0.35rem" }}>
+                  {lang === "te" ? "భద్రతా ప్రశ్న: ఆలేరు నియోజకవర్గ సంఖ్య ఎంత?" : "Security Verification Key (Alair Constituency No.)"}
+                </label>
+                <input
+                  type="text"
+                  value={recoveryAnswer}
+                  onChange={(e) => setRecoveryAnswer(e.target.value)}
+                  placeholder={lang === "te" ? "ఉదా: 97 లేదా 9797" : "e.g. 97 or 9797"}
+                  style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1.5px solid var(--border)", fontSize: "0.9rem" }}
+                  required
+                />
+              </div>
+
+              <div style={{ marginBottom: "1.25rem", textAlign: "left" }}>
+                <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", marginBottom: "0.35rem" }}>
+                  {lang === "te" ? "క్రొత్త 4-అంకెల పాస్‌కోడ్" : "Set New 4-Digit Passcode"}
+                </label>
+                <input
+                  type="password"
+                  value={recoveryNewPin}
+                  onChange={(e) => setRecoveryNewPin(e.target.value)}
+                  placeholder="e.g. 1234"
+                  style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1.5px solid var(--border)", fontSize: "0.9rem", textAlign: "center", letterSpacing: "0.2em" }}
+                  required
+                />
+              </div>
+
+              {recoveryError && (
+                <p style={{ color: "#E53E3E", fontSize: "0.8rem", marginBottom: "1rem", fontWeight: 600 }}>
+                  {recoveryError}
+                </p>
+              )}
+
+              <button
+                type="submit"
+                className="btn-primary"
+                style={{ width: "100%", justifyContent: "center", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}
+              >
+                <Key size={16} /> {lang === "te" ? "పాస్‌కోడ్ పునరుద్ధరించండి" : "Reset & Authenticate"}
+              </button>
+
+              <div style={{ marginTop: "1rem" }}>
+                <button
+                  type="button"
+                  onClick={() => setIsForgotMode(false)}
+                  style={{ background: "transparent", border: "none", color: "var(--muted)", fontSize: "0.8rem", fontWeight: 600, cursor: "pointer" }}
+                >
+                  {lang === "te" ? "లాగిన్‌కి తిరిగి వెళ్లండి" : "Back to Login"}
+                </button>
+              </div>
+            </form>
+          )}
 
           <div style={{ marginTop: "2rem", paddingTop: "1.25rem", borderTop: "1px solid var(--border)" }}>
             <Link href="/" style={{ fontSize: "0.8rem", color: "var(--muted)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
