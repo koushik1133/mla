@@ -18,6 +18,7 @@ import {
   ArrowLeft,
   Sparkles,
   RefreshCw,
+  Palette,
 } from "lucide-react";
 import { useSiteConfig, TickerItem } from "@/context/SiteConfigContext";
 import { useLang } from "@/lib/lang-context";
@@ -26,6 +27,8 @@ export default function AdminPage() {
   const {
     tickerItems,
     heroConfig,
+    showThemeSwitcher,
+    setShowThemeSwitcher,
     addTickerItem,
     toggleTickerItem,
     deleteTickerItem,
@@ -509,36 +512,77 @@ export default function AdminPage() {
 
         {/* TAB 3: SECURITY SETTINGS */}
         {activeTab === "security" && (
-          <div style={{ maxWidth: "500px", margin: "0 auto", background: "var(--white)", padding: "2rem", borderRadius: "16px", border: "1px solid var(--border)" }}>
-            <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
-              <Key size={20} color="var(--saffron)" />
-              {lang === "te" ? "ఎడ్మిన్ పాస్‌కోడ్ మార్చండి" : "Update Admin Passcode"}
-            </h2>
+          <div style={{ maxWidth: "550px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            {/* Theme Switcher Display Settings */}
+            <div style={{ background: "var(--white)", padding: "2rem", borderRadius: "16px", border: "1px solid var(--border)" }}>
+              <h2 style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                <Palette size={20} color="var(--saffron)" />
+                {lang === "te" ? "థీమ్ స్విచ్చర్ బాటన్ (ఆరెంజ్ / గ్రీన్)" : "Theme Version Switcher Button"}
+              </h2>
+              <p style={{ fontSize: "0.82rem", color: "var(--muted)", marginBottom: "1.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                {lang === "te" ? "హెడర్‌లో ఆరెంజ్ / కాంగ్రెస్ గ్రీన్ థీమ్ మార్చే బటన్‌ను చూపించండి లేదా దాచండి." : "Show or hide the theme toggle button (Orange vs Congress Green #138808) in the header."}
+              </p>
 
-            <form onSubmit={handlePinChange}>
-              <div style={{ marginBottom: "1.25rem" }}>
-                <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", marginBottom: "0.35rem" }}>
-                  New Security PIN / Passcode
-                </label>
-                <input
-                  type="password"
-                  value={newPinInput}
-                  onChange={(e) => setNewPinInput(e.target.value)}
-                  placeholder="Enter new 4+ digit PIN"
-                  style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "1rem", letterSpacing: "0.2em", textAlign: "center" }}
-                />
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", borderRadius: "10px", background: "var(--warm-bg)", border: "1px solid var(--border)" }}>
+                <div>
+                  <p style={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                    {lang === "te" ? "థీమ్ స్విచ్చర్ ప్రదర్శన" : "Header Theme Switcher"}
+                  </p>
+                  <p style={{ fontSize: "0.78rem", color: "var(--muted-light)" }}>
+                    {showThemeSwitcher ? (lang === "te" ? "ప్రస్తుతం కనిపిస్తోంది" : "Currently Visible in Header") : (lang === "te" ? "ప్రస్తుతం దాచబడింది" : "Currently Hidden")}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setShowThemeSwitcher(!showThemeSwitcher)}
+                  style={{
+                    padding: "0.5rem 1rem",
+                    borderRadius: "100px",
+                    border: "none",
+                    background: showThemeSwitcher ? "var(--congress-green)" : "var(--charcoal-60)",
+                    color: "white",
+                    fontWeight: 700,
+                    fontSize: "0.82rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  {showThemeSwitcher ? (lang === "te" ? "దాచండి (Hide)" : "Enabled (Hide)") : (lang === "te" ? "చూపించండి (Show)" : "Disabled (Show)")}
+                </button>
               </div>
+            </div>
 
-              {pinSuccessMsg && (
-                <p style={{ color: pinSuccessMsg.includes("సఫలం") || pinSuccessMsg.includes("successfully") ? "var(--congress-green)" : "#E53E3E", fontSize: "0.82rem", marginBottom: "1rem", fontWeight: 600 }}>
-                  {pinSuccessMsg}
-                </p>
-              )}
+            {/* Passcode Security */}
+            <div style={{ background: "var(--white)", padding: "2rem", borderRadius: "16px", border: "1px solid var(--border)" }}>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                <Key size={20} color="var(--saffron)" />
+                {lang === "te" ? "ఎడ్మిన్ పాస్‌కోడ్ మార్చండి" : "Update Admin Passcode"}
+              </h2>
 
-              <button type="submit" className="btn-primary" style={{ width: "100%", justifyContent: "center", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
-                {lang === "te" ? "పాస్‌కోడ్ మార్చండి" : "Update Access Passcode"}
-              </button>
-            </form>
+              <form onSubmit={handlePinChange}>
+                <div style={{ marginBottom: "1.25rem" }}>
+                  <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", marginBottom: "0.35rem" }}>
+                    New Security PIN / Passcode
+                  </label>
+                  <input
+                    type="password"
+                    value={newPinInput}
+                    onChange={(e) => setNewPinInput(e.target.value)}
+                    placeholder="Enter new 4+ digit PIN"
+                    style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "1rem", letterSpacing: "0.2em", textAlign: "center" }}
+                  />
+                </div>
+
+                {pinSuccessMsg && (
+                  <p style={{ color: pinSuccessMsg.includes("సఫలం") || pinSuccessMsg.includes("successfully") ? "var(--congress-green)" : "#E53E3E", fontSize: "0.82rem", marginBottom: "1rem", fontWeight: 600 }}>
+                    {pinSuccessMsg}
+                  </p>
+                )}
+
+                <button type="submit" className="btn-primary" style={{ width: "100%", justifyContent: "center", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                  {lang === "te" ? "పాస్‌కోడ్ మార్చండి" : "Update Access Passcode"}
+                </button>
+              </form>
+            </div>
           </div>
         )}
       </div>

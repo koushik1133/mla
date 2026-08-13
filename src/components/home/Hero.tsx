@@ -140,8 +140,8 @@ export default function Hero() {
                 alignItems: "center",
                 gap: "0.4rem",
                 padding: "0.35rem 0.875rem",
-                background: "rgba(238,90,28,0.15)",
-                border: "1px solid rgba(238,90,28,0.3)",
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid var(--saffron)",
                 borderRadius: "100px",
                 fontSize: "0.78rem",
                 fontWeight: 700,
@@ -160,12 +160,13 @@ export default function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.65 }}
-              style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap" }}
+              className="hero-btn-group"
+              style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap", width: "100%" }}
             >
-              <Link href="/public-service" className="btn-primary" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+              <Link href="/public-service" className="btn-primary hero-btn" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
                 {t.ctaPrimary} <ArrowRight size={16} />
               </Link>
-              <Link href="/gallery" className="btn-outline-white" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+              <Link href="/gallery" className="btn-outline-white hero-btn" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
                 {t.ctaSecondary}
               </Link>
             </motion.div>

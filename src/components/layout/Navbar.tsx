@@ -12,9 +12,12 @@ import { politician } from "@/content/politician";
 
 import { useTheme } from "@/context/ThemeContext";
 
+import { useSiteConfig } from "@/context/SiteConfigContext";
+
 export default function Navbar() {
   const { lang, toggle } = useLang();
   const { theme, toggleTheme } = useTheme();
+  const { showThemeSwitcher } = useSiteConfig();
   const t = translations[lang].nav;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -107,29 +110,31 @@ export default function Navbar() {
             {/* Right side */}
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               {/* Theme Switcher Button (Saffron vs Green #138808) */}
-              <button
-                onClick={toggleTheme}
-                aria-label="Toggle Theme Version"
-                title={theme === "green" ? "Current: Congress Green (#138808). Click to switch to Saffron." : "Current: Saffron Orange. Click to switch to Congress Green (#138808)."}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "0.35rem 0.65rem",
-                  minHeight: "36px",
-                  border: "1.5px solid",
-                  borderColor: theme === "green" ? "#138808" : "var(--saffron)",
-                  borderRadius: "100px",
-                  background: theme === "green" ? "rgba(19,136,8,0.1)" : "rgba(238,90,28,0.06)",
-                  cursor: "pointer",
-                  fontSize: "0.78rem",
-                  fontWeight: 700,
-                  color: theme === "green" ? "#138808" : "var(--saffron-dark)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {theme === "green" ? "🟢 Green (#138808)" : "🟠 Orange"}
-              </button>
+              {showThemeSwitcher && (
+                <button
+                  onClick={toggleTheme}
+                  aria-label="Toggle Theme Version"
+                  title={theme === "green" ? "Current: Congress Green (#138808). Click to switch to Saffron." : "Current: Saffron Orange. Click to switch to Congress Green (#138808)."}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "0.35rem 0.65rem",
+                    minHeight: "36px",
+                    border: "1.5px solid",
+                    borderColor: theme === "green" ? "#138808" : "var(--saffron)",
+                    borderRadius: "100px",
+                    background: theme === "green" ? "rgba(19,136,8,0.1)" : "rgba(238,90,28,0.06)",
+                    cursor: "pointer",
+                    fontSize: "0.78rem",
+                    fontWeight: 700,
+                    color: theme === "green" ? "#138808" : "var(--saffron-dark)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {theme === "green" ? "🟢 Green (#138808)" : "🟠 Orange"}
+                </button>
+              )}
 
               {/* Language Switcher */}
               <button

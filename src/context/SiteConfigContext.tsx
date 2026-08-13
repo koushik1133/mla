@@ -25,6 +25,8 @@ export interface HeroConfig {
 interface SiteConfigContextType {
   tickerItems: TickerItem[];
   heroConfig: HeroConfig;
+  showThemeSwitcher: boolean;
+  setShowThemeSwitcher: (show: boolean) => void;
   addTickerItem: (item: Omit<TickerItem, "id">) => void;
   toggleTickerItem: (id: string) => void;
   deleteTickerItem: (id: string) => void;
@@ -78,6 +80,7 @@ const SiteConfigContext = createContext<SiteConfigContextType | undefined>(undef
 export function SiteConfigProvider({ children }: { children: React.ReactNode }) {
   const [tickerItems, setTickerItems] = useState<TickerItem[]>(defaultTickerItems);
   const [heroConfig, setHeroConfig] = useState<HeroConfig>(defaultHeroConfig);
+  const [showThemeSwitcher, setShowThemeSwitcherState] = useState<boolean>(true);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(false);
   const [adminPin, setAdminPinState] = useState<string>("122140");
 
@@ -89,6 +92,9 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
       const savedHero = localStorage.getItem("beerla_hero_config");
       if (savedHero) setHeroConfig(JSON.parse(savedHero));
 
+      const savedSwitcher = localStorage.getItem("beerla_show_switcher");
+      if (savedSwitcher !== null) setShowThemeSwitcherState(savedSwitcher === "true");
+
       const savedPin = localStorage.getItem("beerla_admin_pin");
       if (savedPin) setAdminPinState(savedPin);
 
@@ -98,6 +104,11 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
       // Fallback to default
     }
   }, []);
+
+  const setShowThemeSwitcher = (show: boolean) => {
+    setShowThemeSwitcherState(show);
+    localStorage.setItem("beerla_show_switcher", show ? "true" : "false");
+  };
 
   const saveTicker = (items: TickerItem[]) => {
     setTickerItems(items);
@@ -158,6 +169,8 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
       value={{
         tickerItems,
         heroConfig,
+        showThemeSwitcher,
+        setShowThemeSwitcher,
         addTickerItem,
         toggleTickerItem,
         deleteTickerItem,

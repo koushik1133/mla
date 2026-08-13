@@ -19,7 +19,7 @@ export default function NewsTicker() {
       style={{
         background: "linear-gradient(90deg, #111111 0%, #1a1a1a 50%, #111111 100%)",
         color: "#FFFFFF",
-        borderBottom: "1px solid rgba(238,90,28,0.25)",
+        borderBottom: "1px solid var(--saffron)",
         fontSize: "0.78rem",
         fontWeight: 600,
         overflow: "hidden",
