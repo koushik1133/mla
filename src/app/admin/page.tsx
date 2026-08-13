@@ -48,6 +48,8 @@ export default function AdminPage() {
   // Login PIN state
   const [enteredPin, setEnteredPin] = useState("");
   const [pinError, setPinError] = useState("");
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [lockoutTimer, setLockoutTimer] = useState(0);
 
   // New PIN update state
   const [newPinInput, setNewPinInput] = useState("");
@@ -56,6 +58,16 @@ export default function AdminPage() {
   // Active Tab
   const [activeTab, setActiveTab] = useState<"hero" | "ticker" | "security" | "messages">("ticker");
   const [messages, setMessages] = useState<any[]>([]);
+
+  // Lockout countdown timer
+  React.useEffect(() => {
+    if (lockoutTimer > 0) {
+      const interval = setInterval(() => {
+        setLockoutTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [lockoutTimer]);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -74,6 +86,16 @@ export default function AdminPage() {
     localStorage.setItem("beerla_contact_messages", JSON.stringify(updated));
   };
 
+  // Input Sanitization helper (OWASP XSS defense)
+  const sanitizeInput = (str: string): string => {
+    return str
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#x27;")
+      .replace(/\//g, "&#x2F;");
+  };
+
   // New Ticker Form
   const [newTickerEn, setNewTickerEn] = useState("");
   const [newTickerTe, setNewTickerTe] = useState("");
@@ -84,12 +106,31 @@ export default function AdminPage() {
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (lockoutTimer > 0) return;
+
     const success = loginAdmin(enteredPin);
     if (!success) {
-      setPinError(lang === "te" ? "తప్పు పాస్‌కోడ్! తిరిగి ప్రయత్నించండి." : "Invalid passcode! Please try again.");
+      const newAttempts = failedAttempts + 1;
+      setFailedAttempts(newAttempts);
+      if (newAttempts >= 5) {
+        setLockoutTimer(60);
+        setFailedAttempts(0);
+        setPinError(
+          lang === "te"
+            ? "పరిమితి దాటింది! భద్రతా కారణాల వల్ల 60 సెకన్ల పాటు లాగిన్ నిలిపివేయబడింది."
+            : "Security Lockout! Too many failed attempts. Please wait 60 seconds."
+        );
+      } else {
+        setPinError(
+          lang === "te"
+            ? `తప్పు పాస్‌కోడ్! మిగిలిన ప్రయత్నాలు: ${5 - newAttempts}`
+            : `Invalid passcode! Remaining attempts: ${5 - newAttempts}`
+        );
+      }
     } else {
       setPinError("");
       setEnteredPin("");
+      setFailedAttempts(0);
     }
   };
 
@@ -97,9 +138,9 @@ export default function AdminPage() {
     e.preventDefault();
     if (!newTickerEn.trim() && !newTickerTe.trim()) return;
     addTickerItem({
-      textEn: newTickerEn || newTickerTe,
-      textTe: newTickerTe || newTickerEn,
-      link: newTickerLink || undefined,
+      textEn: sanitizeInput(newTickerEn || newTickerTe),
+      textTe: sanitizeInput(newTickerTe || newTickerEn),
+      link: newTickerLink ? sanitizeInput(newTickerLink) : undefined,
       active: true,
     });
     setNewTickerEn("");
