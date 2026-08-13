@@ -53,7 +53,7 @@ export default function AboutPageContent() {
             <div style={{ display: "flex", justifyContent: "center" }}>
               <div style={{ width: "350px", maxWidth: "100%", aspectRatio: "3/4", borderRadius: "16px", overflow: "hidden", position: "relative", boxShadow: "0 24px 60px rgba(0,0,0,0.4)" }}>
                 <Image
-                  src="/images/beerla-portrait.jpg"
+                  src="/images/images (1).jpeg"
                   alt="Beerla Ilaiah — MLA, Alair Constituency"
                   fill
                   style={{ objectFit: "cover", objectPosition: "center top" }}
