@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { politician } from "@/content/politician";
 import { useLang } from "@/lib/lang-context";
@@ -51,117 +51,115 @@ export default function Hero() {
     setCurrentSlideIndex((prev) => (prev + 1) % slides.length);
   };
 
+  const currentSlide = slides[currentSlideIndex];
+  const isGraphicSlide = currentSlide?.includes("hero2");
+
   return (
-    <section className="hero-section" aria-label="Introduction" style={{ position: "relative", overflow: "hidden", minHeight: "85vh", display: "flex", alignItems: "center" }}>
+    <section className="hero-section" aria-label="Introduction" style={{ position: "relative", overflow: "hidden", minHeight: "80vh", display: "flex", alignItems: "center", background: "#0a0a0a" }}>
       {/* Background Slideshow with AnimatePresence */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden" }}>
         <AnimatePresence mode="wait">
           <motion.div
-            key={slides[currentSlideIndex]}
+            key={currentSlide}
             initial={{ opacity: 0, scale: 1.04 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
+            transition={{ duration: 1, ease: "easeOut" }}
             style={{ position: "absolute", inset: 0 }}
           >
             <Image
-              src={slides[currentSlideIndex]}
+              src={currentSlide}
               alt="Alair Constituency & Beerla Ilaiah MLA"
               fill
               priority={currentSlideIndex === 0}
-              style={{ objectFit: "cover", objectPosition: "center 40%" }}
+              style={{
+                objectFit: isGraphicSlide ? "contain" : "cover",
+                objectPosition: "center center",
+              }}
               sizes="100vw"
             />
           </motion.div>
         </AnimatePresence>
 
-        {/* Multi-layer gradient overlays to guarantee perfect text contrast */}
+        {/* Dynamic gradient overlays */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: "linear-gradient(105deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.8) 50%, rgba(10,10,10,0.55) 80%, rgba(10,10,10,0.3) 100%)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: "220px",
-            background: "linear-gradient(to bottom, transparent, rgba(10,10,10,0.85))",
+            background: isGraphicSlide
+              ? "linear-gradient(180deg, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.75) 50%, rgba(10,10,10,0.92) 100%)"
+              : "linear-gradient(105deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.82) 50%, rgba(10,10,10,0.55) 80%, rgba(10,10,10,0.35) 100%)",
           }}
         />
 
-        {/* Carousel Prev/Next Chevron Controls */}
+        {/* Controls: Next/Prev arrows */}
         {slides.length > 1 && (
           <>
             <button
               onClick={handlePrevSlide}
               aria-label="Previous Hero Background"
+              className="hero-arrow-btn hero-arrow-left"
               style={{
                 position: "absolute",
-                left: "1rem",
+                left: "0.75rem",
                 top: "50%",
                 transform: "translateY(-50%)",
                 zIndex: 10,
-                width: "40px",
-                height: "40px",
+                width: "36px",
+                height: "36px",
                 borderRadius: "50%",
-                background: "rgba(0,0,0,0.4)",
-                border: "1px solid rgba(255,255,255,0.2)",
+                background: "rgba(0,0,0,0.5)",
+                border: "1px solid rgba(255,255,255,0.25)",
                 color: "white",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
                 backdropFilter: "blur(4px)",
-                transition: "all 0.2s ease",
               }}
             >
-              <ChevronLeft size={22} />
+              <ChevronLeft size={20} />
             </button>
             <button
               onClick={handleNextSlide}
               aria-label="Next Hero Background"
+              className="hero-arrow-btn hero-arrow-right"
               style={{
                 position: "absolute",
-                right: "1rem",
+                right: "0.75rem",
                 top: "50%",
                 transform: "translateY(-50%)",
                 zIndex: 10,
-                width: "40px",
-                height: "40px",
+                width: "36px",
+                height: "36px",
                 borderRadius: "50%",
-                background: "rgba(0,0,0,0.4)",
-                border: "1px solid rgba(255,255,255,0.2)",
+                background: "rgba(0,0,0,0.5)",
+                border: "1px solid rgba(255,255,255,0.25)",
                 color: "white",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 cursor: "pointer",
                 backdropFilter: "blur(4px)",
-                transition: "all 0.2s ease",
               }}
             >
-              <ChevronRight size={22} />
+              <ChevronRight size={20} />
             </button>
 
-            {/* Slide Dots / Progress Indicator */}
+            {/* Slide Indicators */}
             <div
               style={{
                 position: "absolute",
-                bottom: "1.5rem",
+                bottom: "1rem",
                 left: "50%",
                 transform: "translateX(-50%)",
                 zIndex: 10,
                 display: "flex",
                 alignItems: "center",
-                gap: "0.5rem",
-                padding: "0.4rem 0.8rem",
+                gap: "0.4rem",
+                padding: "0.35rem 0.75rem",
                 borderRadius: "100px",
-                background: "rgba(0,0,0,0.45)",
+                background: "rgba(0,0,0,0.55)",
                 backdropFilter: "blur(8px)",
                 border: "1px solid rgba(255,255,255,0.15)",
               }}
@@ -172,8 +170,8 @@ export default function Hero() {
                   onClick={() => setCurrentSlideIndex(idx)}
                   aria-label={`Go to slide ${idx + 1}`}
                   style={{
-                    width: idx === currentSlideIndex ? "20px" : "8px",
-                    height: "8px",
+                    width: idx === currentSlideIndex ? "18px" : "6px",
+                    height: "6px",
                     borderRadius: "100px",
                     background: idx === currentSlideIndex ? "var(--saffron)" : "rgba(255,255,255,0.4)",
                     border: "none",
@@ -187,20 +185,20 @@ export default function Hero() {
         )}
       </div>
 
-      <div className="container-site" style={{ position: "relative", zIndex: 1, paddingTop: "clamp(3rem, 6vw, 5rem)", paddingBottom: "clamp(3rem, 6vw, 5rem)", width: "100%" }}>
-        <div className="grid-2-col" style={{ minHeight: "auto", gap: "clamp(2rem, 5vw, 4rem)", alignItems: "center" }}>
+      <div className="container-site" style={{ position: "relative", zIndex: 1, paddingTop: "clamp(2rem, 4vw, 4rem)", paddingBottom: "clamp(3rem, 5vw, 5rem)", width: "100%" }}>
+        <div className="grid-2-col hero-mobile-grid" style={{ minHeight: "auto", gap: "clamp(1.5rem, 4vw, 3.5rem)", alignItems: "center" }}>
           {/* Content */}
           <motion.div
-            initial={{ opacity: 0, y: 32 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* Congress Affiliation */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              style={{ marginBottom: "1rem" }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              style={{ marginBottom: "0.75rem" }}
             >
               <span className="congress-badge" style={{ borderColor: "rgba(22,106,47,0.5)", color: "#4CAF6E", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                 <HandSymbolIcon size={12} style={{ fill: "#4CAF6E" }} />
@@ -210,17 +208,17 @@ export default function Hero() {
 
             {/* Name Heading */}
             <motion.h1
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
               style={{
                 fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)",
-                fontSize: "clamp(2.25rem, 6vw, 4.25rem)",
+                fontSize: "clamp(2rem, 5.5vw, 4rem)",
                 fontWeight: 800,
                 color: "white",
                 letterSpacing: lang === "te" ? "0" : "-0.03em",
                 lineHeight: 1.1,
-                marginBottom: "0.5rem",
+                marginBottom: "0.35rem",
               }}
             >
               {lang === "te" ? politician.nameTelugu : politician.name}
@@ -230,12 +228,12 @@ export default function Hero() {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.35 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
               style={{
                 fontFamily: lang === "te" ? "var(--font-display)" : "var(--font-telugu)",
-                fontSize: "clamp(1.1rem, 2.5vw, 1.3rem)",
-                color: "rgba(255,255,255,0.7)",
-                marginBottom: "1rem",
+                fontSize: "clamp(1rem, 2.2vw, 1.25rem)",
+                color: "rgba(255,255,255,0.75)",
+                marginBottom: "0.875rem",
                 letterSpacing: "0.02em",
               }}
             >
@@ -246,27 +244,27 @@ export default function Hero() {
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: "3rem" }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              style={{ height: "3px", background: "var(--saffron)", borderRadius: "2px", marginBottom: "1.25rem" }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              style={{ height: "3px", background: "var(--saffron)", borderRadius: "2px", marginBottom: "1rem" }}
             />
 
             {/* Role */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.45 }}
+              transition={{ duration: 0.5, delay: 0.35 }}
               style={{ marginBottom: "0.5rem" }}
             >
               <p style={{
                 fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)",
-                fontSize: "clamp(1rem, 2vw, 1.25rem)",
+                fontSize: "clamp(0.95rem, 1.8vw, 1.2rem)",
                 color: "rgba(255,255,255,0.92)",
                 fontWeight: 700,
-                marginBottom: "0.25rem",
+                marginBottom: "0.2rem",
               }}>
                 {t.role}
               </p>
-              <p style={{ fontSize: "clamp(0.875rem, 1.4vw, 1.05rem)", color: "rgba(255,255,255,0.65)", fontWeight: 400 }}>
+              <p style={{ fontSize: "clamp(0.825rem, 1.3vw, 1rem)", color: "rgba(255,255,255,0.65)", fontWeight: 400 }}>
                 {t.constituency}
               </p>
             </motion.div>
@@ -275,14 +273,14 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.55 }}
-              style={{ marginBottom: "1.75rem", marginTop: "0.75rem" }}
+              transition={{ duration: 0.5, delay: 0.45 }}
+              style={{ marginBottom: "1.5rem", marginTop: "0.5rem" }}
             >
               <span style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.4rem",
-                padding: "0.35rem 0.875rem",
+                padding: "0.35rem 0.85rem",
                 background: "rgba(255,255,255,0.08)",
                 border: "1px solid var(--saffron)",
                 borderRadius: "100px",
@@ -300,11 +298,11 @@ export default function Hero() {
 
             {/* CTAs */}
             <motion.div
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.65 }}
+              transition={{ duration: 0.5, delay: 0.55 }}
               className="hero-btn-group"
-              style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap", width: "100%" }}
+              style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap", width: "100%" }}
             >
               <Link href="/public-service" className="btn-primary hero-btn" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
                 {t.ctaPrimary} <ArrowRight size={16} />
@@ -315,14 +313,16 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Right — Portrait Card */}
+          {/* Right — Portrait Card (Optimized for Mobile) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="hero-portrait-container"
             style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
           >
             <div
+              className="hero-portrait-card"
               style={{
                 position: "relative",
                 width: "min(380px, 100%)",
@@ -330,7 +330,7 @@ export default function Hero() {
                 borderRadius: "16px",
                 overflow: "hidden",
                 boxShadow: "0 24px 60px rgba(0,0,0,0.5)",
-                border: "1px solid rgba(255,255,255,0.1)",
+                border: "1px solid rgba(255,255,255,0.15)",
               }}
             >
               <Image
@@ -348,11 +348,11 @@ export default function Hero() {
                   background: "linear-gradient(to top, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.2) 40%, transparent 60%)",
                 }}
               />
-              <div style={{ position: "absolute", bottom: "1.25rem", left: "1.25rem", right: "1.25rem" }}>
-                <p style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.55)", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.2rem" }}>
+              <div style={{ position: "absolute", bottom: "1rem", left: "1rem", right: "1rem" }}>
+                <p style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.55)", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.15rem" }}>
                   PORTRAIT
                 </p>
-                <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "white", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                <p style={{ fontSize: "0.9rem", fontWeight: 700, color: "white", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
                   {lang === "te" ? "బీర్ల ఇలయ్య — ఎమ్మెల్యే, ఆలేరు" : "Beerla Ilaiah — MLA, Alair"}
                 </p>
               </div>
