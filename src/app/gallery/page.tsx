@@ -2,81 +2,81 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { X, ZoomIn } from "lucide-react";
+import { X, Info } from "lucide-react";
+import { useLang } from "@/lib/lang-context";
+import { translations } from "@/content/translations";
 
-// Gallery items — using generated landscape/constituency images
-// Note: In production, replace with authenticated photographs from official sources
-const galleryItems = [
+const galleryImages = [
   {
     id: "g1",
-    src: "/images/yadadri-temple.jpg",
-    alt: "Yadadri Sri Lakshmi Narasimha Swamy Temple — Yadagirigutta mandal, Alair constituency",
-    caption: "Yadadri Temple, Yadagirigutta",
-    category: "Constituency",
-    credit: "Illustrative image",
-    aspectClass: "tall",
+    src: "/images/hero-bg.jpg",
+    title: "Alair Countryside & Farmlands",
+    titleTelugu: "ఆలేరు గ్రామీణ ప్రాంతం & వ్యవసాయ భూములు",
+    category: "Landscape",
+    categoryTelugu: "ప్రకృతి దృశ్యం",
+    caption: "Golden hour over the agricultural farmlands of Alair assembly constituency, Yadadri Bhuvanagiri district.",
+    captionTelugu: "యాదాద్రి భువనగిరి జిల్లా ఆలేరు నియోజకవర్గ వ్యవసాయ భూముల దృశ్యం.",
   },
   {
     id: "g2",
-    src: "/images/alair-agriculture.jpg",
-    alt: "Agricultural farmlands of Alair constituency, Yadadri Bhuvanagiri district",
-    caption: "Alair Agriculture — Paddy & Sugarcane Fields",
-    category: "Constituency",
-    credit: "Illustrative image",
-    aspectClass: "wide",
+    src: "/images/yadadri-temple.jpg",
+    title: "Yadadri Sri Lakshmi Narasimha Swamy Temple",
+    titleTelugu: "యాదాద్రి శ్రీ లక్ష్మీ నరసింహ స్వామి దేవాలయం",
+    category: "Heritage",
+    categoryTelugu: "పుణ్యక్షేత్రం",
+    caption: "The magnificent stone-carved Yadadri temple complex in Yadagirigutta mandal.",
+    captionTelugu: "యాదగిరిగుట్ట మండలంలో కొలువైన ఆధ్యాత్మిక క్షేత్రం యాదాద్రి ఆలయం.",
   },
   {
     id: "g3",
-    src: "/images/hero-bg.jpg",
-    alt: "Telangana countryside at golden hour — Alair region",
-    caption: "Alair Region — Golden Hour",
-    category: "Constituency",
-    credit: "Illustrative image",
-    aspectClass: "wide",
+    src: "/images/beerla-portrait.jpg",
+    title: "Beerla Ilaiah — MLA, Alair",
+    titleTelugu: "బీర్ల ఇలయ్య — ఆలేరు శాసనసభ్యులు",
+    category: "Leadership",
+    categoryTelugu: "నాయకత్వం",
+    caption: "Beerla Ilaiah, Member of Telangana Legislative Assembly representing Alair Constituency No. 97.",
+    captionTelugu: "ఆలేరు నియోజకవర్గం 97 శాసనసభ్యులు బీర్ల ఇలయ్య గారు.",
   },
   {
     id: "g4",
-    src: "/images/beerla-portrait.jpg",
-    alt: "Beerla Ilaiah — MLA, Alair Constituency, Telangana",
-    caption: "Beerla Ilaiah — MLA, Alair",
-    category: "Portrait",
-    credit: "Placeholder — replace with authenticated photograph",
-    aspectClass: "tall",
+    src: "/images/alair-agriculture.jpg",
+    title: "Agricultural Farmlands of Alair",
+    titleTelugu: "ఆలేరు నియోజకవర్గ వ్యవసాయ క్షేత్రాలు",
+    category: "Agriculture",
+    categoryTelugu: "వ్యవసాయం",
+    caption: "Lush green agricultural fields representing the rural farming economy of Alair.",
+    captionTelugu: "ఆలేరు నియోజకవర్గ పచ్చని వ్యవసాయ పొలాలు.",
   },
   {
     id: "g5",
     src: "/images/constituency-map.jpg",
-    alt: "Alair constituency map — eight mandals",
-    caption: "Alair Constituency Map — Eight Mandals",
-    category: "Constituency",
-    credit: "Illustrative map",
-    aspectClass: "square",
+    title: "Alair Constituency Mandal Map",
+    titleTelugu: "ఆలేరు నియోజకవర్గ మండలాల పటం",
+    category: "Geography",
+    categoryTelugu: "భౌగోళికం",
+    caption: "Illustrative map showing the eight mandals of Alair Assembly Constituency.",
+    captionTelugu: "ఆలేరు నియోజకవర్గ ఎనిమిది మండలాల ప్రాంత పటం.",
   },
 ];
 
 export default function GalleryPage() {
-  const [lightbox, setLightbox] = useState<typeof galleryItems[0] | null>(null);
+  const { lang } = useLang();
+  const t = translations[lang].gallery;
+  const [selected, setSelected] = useState<typeof galleryImages[0] | null>(null);
 
   return (
     <div style={{ background: "var(--warm-bg)" }}>
       {/* Header */}
       <section style={{ background: "var(--charcoal)", padding: "5rem 0 4rem" }}>
         <div className="container-site">
-          <p className="section-label" style={{ color: "var(--saffron-light)" }}>Gallery</p>
+          <p className="section-label" style={{ color: "var(--saffron-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{t.label}</p>
           <span style={{ display: "block", width: "3rem", height: "3px", background: "var(--saffron)", borderRadius: "2px", marginBottom: "1rem" }} />
-          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, color: "white", letterSpacing: "-0.03em", marginBottom: "1rem" }}>
-            Photo Gallery
+          <h1 style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, color: "white", letterSpacing: "-0.03em", marginBottom: "1rem" }}>
+            {t.title}
           </h1>
-          <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.45)", maxWidth: "520px", lineHeight: 1.65 }}>
-            Photographs of Alair constituency, public events, and constituency visits.
+          <p style={{ fontSize: "1.05rem", color: "rgba(255,255,255,0.55)", maxWidth: "520px", lineHeight: 1.65, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            {t.subtitle}
           </p>
-          <div style={{ marginTop: "1rem", padding: "0.875rem 1rem", background: "rgba(238,90,28,0.1)", border: "1px solid rgba(238,90,28,0.2)", borderRadius: "8px", maxWidth: "540px" }}>
-            <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>
-              Note: The current gallery contains illustrative images of Alair constituency, Yadadri temple, and the region.
-              In the production version, replace with authenticated photographs from official sources, public social media,
-              or licensed press photography. All photographs should carry proper source attribution.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -84,101 +84,123 @@ export default function GalleryPage() {
       <section className="section-padding">
         <div className="container-site">
           <div className="gallery-masonry">
-            {galleryItems.map((item) => (
+            {galleryImages.map((img) => (
               <div
-                key={item.id}
+                key={img.id}
                 className="gallery-item"
-                onClick={() => setLightbox(item)}
-                role="button"
+                onClick={() => setSelected(img)}
                 tabIndex={0}
-                aria-label={`View: ${item.caption}`}
-                onKeyDown={(e) => e.key === "Enter" && setLightbox(item)}
+                role="button"
+                aria-label={`View image: ${img.title}`}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelected(img); }}
               >
-                <div style={{ position: "relative", borderRadius: "10px", overflow: "hidden" }}>
+                <div style={{ position: "relative", width: "100%", aspectRatio: "4/3", borderRadius: "12px", overflow: "hidden" }}>
                   <Image
-                    src={item.src}
-                    alt={item.alt}
-                    width={600}
-                    height={item.aspectClass === "tall" ? 800 : item.aspectClass === "wide" ? 450 : 600}
-                    style={{ width: "100%", height: "auto", display: "block" }}
+                    src={img.src}
+                    alt={img.title}
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   <div className="gallery-overlay">
-                    <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", width: "100%", opacity: 0, transition: "opacity 0.25s" }} className="overlay-content">
-                      <div>
-                        <p style={{ fontSize: "0.78rem", fontWeight: 700, color: "white" }}>{item.caption}</p>
-                        <span className="tag tag-saffron" style={{ fontSize: "0.6rem" }}>{item.category}</span>
-                      </div>
-                      <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <ZoomIn size={14} color="white" />
-                      </div>
-                    </div>
+                    <span className="tag tag-saffron" style={{ marginBottom: "0.4rem", alignSelf: "flex-start", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                      {lang === "te" ? img.categoryTelugu : img.category}
+                    </span>
+                    <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "white", lineHeight: 1.25, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                      {lang === "te" ? img.titleTelugu : img.title}
+                    </p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
+          <div style={{ marginTop: "3rem", padding: "1rem 1.25rem", background: "var(--white)", border: "1px solid var(--border)", borderRadius: "10px", display: "flex", gap: "0.5rem", alignItems: "center" }}>
+            <Info size={14} color="var(--muted-light)" />
+            <p style={{ fontSize: "0.78rem", color: "var(--muted)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {t.attributionNote}
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Lightbox */}
-      {lightbox && (
+      {/* Lightbox Modal */}
+      {selected && (
         <div
-          className="lightbox-backdrop"
-          onClick={() => setLightbox(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 300,
+            background: "rgba(0,0,0,0.9)",
+            backdropFilter: "blur(12px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "2rem",
+          }}
+          onClick={() => setSelected(null)}
           role="dialog"
           aria-modal="true"
-          aria-label={lightbox.caption}
+          aria-label={selected.title}
         >
-          <button
-            onClick={() => setLightbox(null)}
-            aria-label="Close"
-            style={{
-              position: "absolute",
-              top: "1.5rem",
-              right: "1.5rem",
-              background: "rgba(255,255,255,0.1)",
-              border: "none",
-              borderRadius: "50%",
-              width: "44px",
-              height: "44px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              zIndex: 1001,
-            }}
-          >
-            <X size={20} color="white" />
-          </button>
-
           <div
+            style={{
+              position: "relative",
+              maxWidth: "900px",
+              width: "100%",
+              background: "var(--charcoal)",
+              borderRadius: "16px",
+              overflow: "hidden",
+            }}
             onClick={(e) => e.stopPropagation()}
-            style={{ maxWidth: "900px", width: "100%", position: "relative" }}
           >
-            <Image
-              src={lightbox.src}
-              alt={lightbox.alt}
-              width={900}
-              height={600}
-              style={{ width: "100%", height: "auto", borderRadius: "12px" }}
-            />
-            <div style={{ marginTop: "1rem", textAlign: "center" }}>
-              <p style={{ fontSize: "0.9rem", fontWeight: 600, color: "white", marginBottom: "0.25rem" }}>
-                {lightbox.caption}
+            <button
+              onClick={() => setSelected(null)}
+              style={{
+                position: "absolute",
+                top: "1rem",
+                right: "1rem",
+                zIndex: 10,
+                background: "rgba(0,0,0,0.6)",
+                border: "none",
+                borderRadius: "50%",
+                width: "36px",
+                height: "36px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                color: "white",
+              }}
+              aria-label="Close lightbox"
+            >
+              <X size={18} />
+            </button>
+
+            <div style={{ position: "relative", width: "100%", aspectRatio: "16/10" }}>
+              <Image
+                src={selected.src}
+                alt={selected.title}
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="900px"
+              />
+            </div>
+
+            <div style={{ padding: "1.5rem", color: "white" }}>
+              <span className="tag tag-saffron" style={{ marginBottom: "0.5rem", display: "inline-block", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                {lang === "te" ? selected.categoryTelugu : selected.category}
+              </span>
+              <p style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "0.35rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                {lang === "te" ? selected.titleTelugu : selected.title}
               </p>
-              <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)" }}>
-                {lightbox.credit}
+              <p style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                {lang === "te" ? selected.captionTelugu : selected.caption}
               </p>
             </div>
           </div>
         </div>
       )}
-
-      <style jsx>{`
-        .gallery-item:hover .overlay-content {
-          opacity: 1 !important;
-        }
-      `}</style>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-// Centralized Telugu & English Translations for UI elements across the website
+// Centralized Telugu & English Translations for ALL pages across the entire website
 
 export const translations = {
   en: {
@@ -42,7 +42,7 @@ export const translations = {
       termNo: "2023",
       termLabel: "MLA Since",
     },
-    // About Section / Page
+    // About Section & Full About Page
     about: {
       label: "Who is Beerla Ilaiah?",
       title: "From Saidapur to the Telangana Assembly",
@@ -63,15 +63,18 @@ export const translations = {
       heroSubtitle: "Member of the Telangana Legislative Assembly representing Alair Constituency No. 97. Government Whip. President, Yadadri Bhuvanagiri DCC.",
       earlyLifeTitle: "Early Life & Education",
       earlyLifeP1: "Beerla Ilaiah was born on June 6, 1975, in Saidapur village, Yadadri Bhuvanagiri district, Telangana, to Beerla Somajaru and Beerla Buchamma. He belongs to the Golla-Kuruma community. He is married to Beerla Anitha, and they have three children.",
-      earlyLifeP2: "He completed his secondary schooling at Zilla Parishad High School in 1991, and earned his Bachelor of Arts degree from Sri Laxmi Narasimha Degree College, Bhongir, in 2000.",
+      earlyLifeP2: "He completed his secondary schooling at Zilla Parishad High School in 1991, and earned his Bachelor of Arts degree from Sri Laxmi Narasimha Degree College, Bhongir, in 2000 — a college that would also be the beginning of his political engagement.",
       journeyTitle: "Political Journey",
-      journeyP1: "His political journey began as a student activist with the National Students' Union of India (NSUI) at SLNS Degree College, Bhongir, where he was elected College Secretary.",
-      journeyP2: "In 2006, he was elected Sarpanch of Saidapur village. By 2008, he became Mandal President of Yadadri Bhuvanagiri for the Indian National Congress.",
-      journeyP3: "He subsequently served as Congress in-charge for Alair Assembly constituency, building party organization across all eight mandals.",
+      journeyP1: "Beerla Ilaiah's political journey began as a student activist at Sri Laxmi Narasimha Degree College, Bhongir, where he joined the National Students' Union of India (NSUI), the student wing of the Indian National Congress. His commitment led to his election as College Secretary.",
+      journeyP2: "In 2006, he was elected Sarpanch of his home village, Saidapur, focusing on infrastructure development, clean water access, and healthcare. By 2008, he advanced to serve as Mandal President of Yadadri Bhuvanagiri for the Indian National Congress.",
+      journeyP3: "He subsequently served as Congress in-charge for Alair Assembly constituency, building the party's organizational presence across all eight mandals — Alair, Rajapet, Yadagirigutta, Turkapally, Gundala, Atmakur, Bommala Ramaram, and Motakondur.",
       electionTitle: "2023 Election & Current Role",
-      electionP1: "In the 2023 Assembly election, he secured 122,140 votes (57.41% vote share), defeating the BRS candidate by 49,636 votes.",
-      electionP2: "He took oath on December 3, 2023, and was appointed Government Whip and DCC President for Yadadri Bhuvanagiri.",
+      electionP1: "In the 2023 Telangana Legislative Assembly election, Beerla Ilaiah contested and won Alair Constituency No. 97 on an Indian National Congress ticket, securing 122,140 votes (57.41% vote share) and defeating the BRS candidate by 49,636 votes.",
+      electionP2: "He was sworn in as a Member of the Telangana Legislative Assembly on December 3, 2023. He was subsequently appointed as a Government Whip in the Assembly and President of the Yadadri Bhuvanagiri District Congress Committee (DCC).",
       sourcesLabel: "Source References",
+      sourcesNote: "Biographical details are based on publicly reported information (PRS India, ECI, Wikipedia, Hans India).",
+      btnTimeline: "Full Political Timeline",
+      btnElectionResults: "2023 Election Results",
     },
     // Journey Section / Page
     journey: {
@@ -93,11 +96,20 @@ export const translations = {
       yadadriBadge: "Yadadri Temple · Yadagirigutta mandal",
       agriBadge: "Agricultural Landscape · Alair region",
       geographyTitle: "Eight Mandals of Alair Constituency",
-      geographyDesc: "Alair Assembly Constituency spans eight mandals — a predominantly rural region with agriculture, pilgrimage tourism, and industrial activity.",
-      mapCaption: "Illustrative map showing Alair constituency region. Source: ECI.",
+      geographyDesc: "Alair Assembly Constituency spans eight mandals in Yadadri Bhuvanagiri district — a predominantly rural region with agriculture, pilgrimage tourism, and emerging industrial activity.",
+      mapCaption: "Illustrative map showing Alair constituency region. For official boundaries, refer to the Election Commission of India.",
       landmarksTitle: "Key Landmarks in Alair Constituency",
       demographicsTitle: "Electoral Profile",
       economyTitle: "Agriculture & Rural Economy",
+      economyDesc: "A predominantly rural constituency with paddy, cotton, and sugarcane cultivation. Yadagirigutta is a major religious tourism destination attracting millions of pilgrims annually across Telangana and South India.",
+    },
+    // Gallery Page
+    gallery: {
+      label: "Gallery",
+      title: "Photo Gallery",
+      subtitle: "Photographs of Alair constituency, public events, farmlands, and sacred heritage sites.",
+      attributionNote: "Illustrative photographs of Alair constituency, Yadadri Temple, and the region. Authentic public source attribution maintained.",
+      close: "Close",
     },
     // Election Stats
     election: {
@@ -121,7 +133,7 @@ export const translations = {
       allMedia: "All Media",
       viewAll: "View All Media",
       searchYoutube: "Search on YouTube",
-      disclaimer: "Video references link to YouTube search results. Visit official channels for full interviews.",
+      disclaimer: "Video references link to YouTube search results for official publisher channels.",
       categories: {
         all: "All",
         interview: "Interviews",
@@ -133,11 +145,11 @@ export const translations = {
     },
     // News
     news: {
-      label: "Latest",
+      label: "Public Record",
       title: "News & Public Record",
       subtitle: "A curated archive of publicly reported news and media coverage relating to Beerla Ilaiah, MLA Alair.",
       allNews: "All News",
-      disclaimer: "News summaries are based on verified public reporting with full source attribution.",
+      disclaimer: "News summaries are based on verified public reporting. All statements are attributed to their source publication.",
     },
     // Contact
     contact: {
@@ -148,7 +160,7 @@ export const translations = {
       infoTitle: "Public Contact Information",
       note: "Verified office contact details are available for public enquiries.",
       formTitle: "Send a Message",
-      formSubtitle: "For public enquiries and constituency matters only.",
+      formSubtitle: "For public enquiries and constituency matters only. Please do not submit sensitive personal information.",
       fullName: "Full Name *",
       email: "Email Address *",
       phone: "Phone Number (Optional)",
@@ -213,7 +225,7 @@ export const translations = {
       termNo: "2023",
       termLabel: "ఎమ్మెల్యేగా",
     },
-    // About Section / Page
+    // About Section & Full About Page
     about: {
       label: "బీర్ల ఇలయ్య ఎవరు?",
       title: "సైదాపూర్ నుండి తెలంగాణ శాసనసభ వరకు",
@@ -228,21 +240,24 @@ export const translations = {
       partyLabel: "పార్టీ",
       lifeLabel: "ప్రజా జీవితంలో",
       btnBio: "పూర్తి జీవిత చరిత్ర",
-      btnJourney: "రాజకీయ యాత్ర",
+      btnJourney: "రాజకీయ ప్రస్థానం",
       bornIn: "జన్మస్థలం",
       saidapurLocation: "సైదాపూర్, యాదాద్రి భువనగిరి",
       heroSubtitle: "ఆలేరు నియోజకవర్గం 97 శాసనసభ్యులు. ప్రభుత్వ విప్. యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ అధ్యక్షుడు.",
       earlyLifeTitle: "తొలి జీవితం & విద్య",
       earlyLifeP1: "బీర్ల ఇలయ్య గారు 1975 జూన్ 6న యాదాద్రి భువనగిరి జిల్లా సైదాపూర్ గ్రామంలో బీర్ల సోమజారు, బీర్ల బుచ్చమ్మ దంపతులకు జన్మించారు. వీరు గొల్ల-కురుమ సామాజిక వర్గానికి చెందినవారు. వీరి భార్య బీర్ల అనిత గారు, వీరికి ముగ్గురు పిల్లలు ఉన్నారు.",
-      earlyLifeP2: "1991లో సైదాపూర్ జిల్లా పరిషత్ ఉన్నత పాఠశాలలో పాఠశాల విద్యను పూర్తి చేసి, 2000లో భువనగిరి శ్రీ లక్ష్మీ నరసింహ డిగ్రీ కళాశాల నుండి బి.ఏ పట్టా పొందారు.",
+      earlyLifeP2: "1991లో సైదాపూర్ జిల్లా పరిషత్ ఉన్నత పాఠశాలలో పాఠశాల విద్యను పూర్తి చేసి, 2000లో భువనగిరి శ్రీ లక్ష్మీ నరసింహ డిగ్రీ కళాశాల నుండి బి.ఏ పట్టా పొందారు. ఇదే కళాశాల వారి రాజకీయ జీవితానికి తొలి అడుగు అయింది.",
       journeyTitle: "రాజకీయ ప్రస్థానం",
       journeyP1: "భువనగిరి ఎస్‌ఎల్ఎన్ఎస్ డిగ్రీ కళాశాలలో ఎన్.ఎస్.యు.ఐ విద్యార్థి నాయకుడిగా తమ రాజకీయ ప్రస్థానాన్ని ప్రారంభించి, కళాశాల కార్యదర్శిగా ఎన్నికయ్యారు.",
       journeyP2: "2006లో సైదాపూర్ గ్రామ సర్పంచ్‌గా ఎన్నికై మౌలిక సదుపాయాలు, మంచినీరు, వైద్య సేవల అభివృద్ధికి కృషి చేశారు. 2008లో యాదాద్రి భువనగిరి మండల కాంగ్రెస్ అధ్యక్షుడిగా ఎన్నికయ్యారు.",
-      journeyP3: "ఆ తర్వాత ఆలేరు నియోజకవర్గ కాంగ్రెస్ ఇన్‌చార్జ్‌గా బాధ్యతలు చేపట్టి ఎనిమిది మండలాల్లో పార్టీ బలోపేతానికి కృషి చేశారు.",
+      journeyP3: "ఆ తర్వాత ఆలేరు నియోజకవర్గ కాంగ్రెస్ ఇన్‌చార్జ్‌గా బాధ్యతలు చేపట్టి ఆలేరు, రాజాపేట, యాదగిరిగుట్ట, తుర్కపల్లి, గుండాల, ఆత్మకూరు (మ), బొమ్మల రామారం, మోటకొండూరు ఎనిమిది మండలాల్లో పార్టీ బలోపేతానికి కృషి చేశారు.",
       electionTitle: "2023 ఎన్నికలు & ప్రస్తుత బాధ్యతలు",
-      electionP1: "2023 తెలంగాణ శాసనసభ ఎన్నికలలో 1,22,140 ఓట్లు (57.41% ఓట్ల శాతం) సాధించి 49,636 ఓట్ల మెజార్టీతో విజయం సాధించారు.",
+      electionP1: "2023 తెలంగాణ శాసనసభ ఎన్నికలలో ఆలేరు నియోజకవర్గం నుండి పోటీ చేసి 1,22,140 ఓట్లు (57.41% ఓట్ల శాతం) సాధించి 49,636 ఓట్ల భారీ మెజార్టీతో విజయం సాధించారు.",
       electionP2: "2023 డిసెంబర్ 3న శాసనసభ్యుడిగా ప్రమాణస్వీకారం చేశారు. అనంతరం తెలంగాణ ప్రభుత్వ విప్‌గా, యాదాద్రి భువనగిరి డిసిసి అధ్యక్షుడిగా నియమితులయ్యారు.",
       sourcesLabel: "ఆధారాలు & మూలాలు",
+      sourcesNote: "జీవిత చరిత్ర వివరాలు అధికారిక మరియు ప్రామాణిక మూలాల ఆధారంగా పొందుపరచబడ్డాయి (PRS India, ECI, Wikipedia, Hans India).",
+      btnTimeline: "పూర్తి రాజకీయ టైమ్‌లైన్",
+      btnElectionResults: "2023 ఎన్నికల ఫలితాలు",
     },
     // Journey Section / Page
     journey: {
@@ -265,10 +280,19 @@ export const translations = {
       agriBadge: "వ్యవసాయ రంగాలు · ఆలేరు ప్రాంతం",
       geographyTitle: "ఆలేరు నియోజకవర్గ ఎనిమిది మండలాలు",
       geographyDesc: "ఆలేరు శాసనసభ నియోజకవర్గం ఎనిమిది మండలాల వ్యాప్తంగా ఉంది — వ్యవసాయం, ఆధ్యాత్మిక పర్యాటకం ప్రధానమైన ప్రాంతం.",
-      mapCaption: "ఆలేరు నియోజకవర్గ ప్రాంత పటం. మూలం: ఈసిఐ.",
+      mapCaption: "ఆలేరు నియోజకవర్గ ప్రాంత పటం. మూలం: భారత ఎన్నికల సంఘం (ECI).",
       landmarksTitle: "ఆలేరు నియోజకవర్గ ముఖ్య ప్రాంతాలు",
       demographicsTitle: "ఓటర్ల ప్రొఫైల్",
       economyTitle: "వ్యవసాయం & గ్రామీణ ఆర్థిక వ్యవస్థ",
+      economyDesc: "వరి, పత్తి, చెరకు పంటలు ప్రధానమైన వ్యవసాయ ప్రాంతం. యాదగిరిగుట్ట పుణ్యక్షేత్రం తెలంగాణ వ్యాప్తంగా లక్షలాది భక్తులను ఆకర్షించే ప్రముఖ ఆధ్యాత్మిక కేంద్రం.",
+    },
+    // Gallery Page
+    gallery: {
+      label: "గ్యాలరీ",
+      title: "ఫోటో గ్యాలరీ",
+      subtitle: "ఆలేరు నియోజకవర్గ దృశ్యాలు, ఆధ్యాత్మిక క్షేత్రాలు మరియు ప్రజా కార్యక్రమాల చిత్రాలు.",
+      attributionNote: "ఆలేరు ప్రాంతం, యాదాద్రి దేవాలయం మరియు నియోజకవర్గ దృశ్యాలు. ప్రచురణ మూలాల ఆధారాలు పొందుపరచబడ్డాయి.",
+      close: "మూసివేయి",
     },
     // Election Stats
     election: {
