@@ -1,48 +1,52 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Calendar, Newspaper, Info, ArrowRight } from "lucide-react";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
+import { fetchNewsArticles, NewsRecord } from "@/lib/supabase";
 
-const newsItems = [
+const defaultNewsItems = [
   {
     id: "news-dcc-2025",
     headline: "Beerla Ilaiah Appointed President of Yadadri Bhuvanagiri District Congress Committee",
-    headlineTelugu: "యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డిసిసి) అధ్యక్షుడిగా ఎమ్మెల్యే బీర్ల ఇలయ్య నియామకం",
+    headlineTelugu: "యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డిసిసి) అధ్యక్షుడిగా ఎమ్మెల్యే బీర్ల ఐలయ్య నియామకం",
     summary:
       "MLA Beerla Ilaiah was appointed as President of the Yadadri Bhuvanagiri District Congress Committee (DCC) in November 2025, according to Poliple and BCSamachar reports.",
     summaryTelugu:
-      "ఆలేరు శాసనసభ్యులు బీర్ల ఇలయ్య గారు 2025 నవంబర్‌లో యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డిసిసి) అధ్యక్షుడిగా నియమితులయ్యారు.",
+      "ఆలేరు శాసనసభ్యులు బీర్ల ఐలయ్య గారు 2025 నవంబర్‌లో యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డిసిసి) అధ్యక్షుడిగా నియమితులయ్యారు.",
     publication: "Poliple / BCSamachar",
     publicationTelugu: "పాలిపుల్ / బిసిసమాచార్",
     date: "November 2025",
     dateTelugu: "నవంబర్ 2025",
     category: "Congress",
     categoryTelugu: "కాంగ్రెస్",
+    url: null as string | null,
     note: null,
     noteTelugu: null,
   },
   {
     id: "news-suman-2026",
     headline: "\"I Am Not an MLA, I Am a Servant\" — Beerla Ilaiah in Exclusive Interview",
-    headlineTelugu: "\"నేను ఎమ్మెల్యేని కాదు, ప్రజల సేవకుడిని\" — ప్రత్యేక ఇంటర్వ్యూలో ఎమ్మెల్యే బీర్ల ఇలయ్య",
+    headlineTelugu: "\"నేను ఎమ్మెల్యేని కాదు, ప్రజల సేవకుడిని\" — ప్రత్యేక ఇంటర్వ్యూలో ఎమ్మెల్యే బీర్ల ఐలయ్య",
     summary:
       "In an exclusive interview with Suman TV Yadadri (July 29, 2026), MLA Beerla Ilaiah described his public role and approach to constituency service.",
     summaryTelugu:
-      "సుమన్ టీవీ యాదాద్రికి ఇచ్చిన ప్రత్యేక ఇంటర్వ్యూలో (జూలై 29, 2026) ఎమ్మెల్యే బీర్ల ఇలయ్య గారు తమ ప్రజా సేవా దృక్పథాన్ని వివరించారు.",
+      "సుమన్ టీవీ యాదాద్రికి ఇచ్చిన ప్రత్యేక ఇంటర్వ్యూలో (జూలై 29, 2026) ఎమ్మెల్యే బీర్ల ఐలయ్య గారు తమ ప్రజా సేవా దృక్పథాన్ని వివరించారు.",
     publication: "Suman TV Yadadri",
     publicationTelugu: "సుమన్ టీవీ యాదాద్రి",
     date: "July 29, 2026",
     dateTelugu: "జూలై 29, 2026",
     category: "Interview",
     categoryTelugu: "ఇంటర్వ్యూ",
+    url: null as string | null,
     note: null,
     noteTelugu: null,
   },
   {
     id: "news-velugu-2026",
     headline: "MLA Beerla Ilaiah Discusses Alair Developments with Telangana Velugu",
-    headlineTelugu: "ఆలేరు నియోజకవర్గ అభివృద్ధిపై 'తెలంగాణ వెలుగు' ఇంటర్వ్యూలో ఎమ్మెల్యే బీర్ల ఇలయ్య",
+    headlineTelugu: "ఆలేరు నియోజకవర్గ అభివృద్ధిపై 'తెలంగాణ వెలుగు' ఇంటర్వ్యూలో ఎమ్మెల్యే బీర్ల ఐలయ్య",
     summary:
       "An exclusive interview with Telangana Velugu (July 31, 2026) covering constituency development, the Revanth Reddy government, and public welfare matters.",
     summaryTelugu:
@@ -53,30 +57,32 @@ const newsItems = [
     dateTelugu: "జూలై 31, 2026",
     category: "Development",
     categoryTelugu: "అభివృద్ధి",
+    url: null as string | null,
     note: null,
     noteTelugu: null,
   },
   {
     id: "news-bc-2024",
     headline: "Congress MLA Beerla Ilaiah Comments on 42% BC Reservation",
-    headlineTelugu: "42% బిసి రిజర్వేషన్లపై కాంగ్రెస్ ఎమ్మెల్యే బీర్ల ఇలయ్య కీలక వ్యాఖ్యలు",
+    headlineTelugu: "42% బిసి రిజర్వేషన్లపై కాంగ్రెస్ ఎమ్మెల్యే బీర్ల ఐలయ్య కీలక వ్యాఖ్యలు",
     summary:
       "According to TV5 News, MLA Beerla Ilaiah publicly commented on the 42% BC reservation and local body elections in Telangana.",
     summaryTelugu:
-      "తెలంగాణలో 42% బిసి రిజర్వేషన్లు మరియు స్థానిక సంస్థల ఎన్నికలపై ఎమ్మెల్యే బీర్ల ఇలయ్య గారు బహిరంగ ప్రకటన చేశారు.",
+      "తెలంగాణలో 42% బిసి రిజర్వేషన్లు మరియు స్థానిక సంస్థల ఎన్నికలపై ఎమ్మెల్యే బీర్ల ఐలయ్య గారు బహిరంగ ప్రకటన చేశారు.",
     publication: "TV5 News",
     publicationTelugu: "టీవీ5 న్యూస్",
     date: "2024",
     dateTelugu: "2024",
     category: "Government",
     categoryTelugu: "ప్రభుత్వం",
+    url: null as string | null,
     note: "Reported by TV5 News; refer to original publication for full context.",
     noteTelugu: "టీవీ5 న్యూస్ వార్త ఆధారంగా ప్రచురించబడింది.",
   },
   {
     id: "news-idream-2024",
     headline: "Beerla Ilaiah in Sensational Interview — Congress Perspective on Telangana Politics",
-    headlineTelugu: "తెలంగాణ రాజకీయాలు - ఐడ్రీమ్ ప్రత్యేక ఇంటర్వ్యూలో ఎమ్మెల్యే బీర్ల ఇలయ్య",
+    headlineTelugu: "తెలంగాణ రాజకీయాలు - ఐడ్రీమ్ ప్రత్యేక ఇంటర్వ్యూలో ఎమ్మెల్యే బీర్ల ఐలయ్య",
     summary:
       "iDream News conducted a wide-ranging interview with MLA Beerla Ilaiah in November 2024, covering Telangana political developments and the Congress government's position.",
     summaryTelugu:
@@ -87,23 +93,7 @@ const newsItems = [
     dateTelugu: "నవంబర్ 11, 2024",
     category: "Interview",
     categoryTelugu: "ఇంటర్వ్యూ",
-    note: null,
-    noteTelugu: null,
-  },
-  {
-    id: "news-whip-2023",
-    headline: "Beerla Ilaiah Among Government Whips Appointed by Telangana Congress",
-    headlineTelugu: "తెలంగాణ శాసనసభ ప్రభుత్వ విప్‌గా ఎమ్మెల్యే బీర్ల ఇలయ్య నియామకం",
-    summary:
-      "Following the INC victory in the 2023 Telangana Assembly elections, Beerla Ilaiah was among the MLAs appointed as Government Whips in the Telangana Legislative Assembly in December 2023.",
-    summaryTelugu:
-      "2023 తెలంగాణ శాసనసభ ఎన్నికల విజయం అనంతరం డిసెంబర్ 2023లో శాసనసభ ప్రభుత్వ విప్‌గా నియమితులయ్యారు.",
-    publication: "Multiple Telugu news publications",
-    publicationTelugu: "ప్రముఖ తెలుగు పత్రికలు",
-    date: "December 2023",
-    dateTelugu: "డిసెంబర్ 2023",
-    category: "Government",
-    categoryTelugu: "ప్రభుత్వం",
+    url: null as string | null,
     note: null,
     noteTelugu: null,
   },
@@ -119,6 +109,37 @@ const categoryColors: Record<string, string> = {
 export default function NewsPage() {
   const { lang } = useLang();
   const t = translations[lang].news;
+  const [items, setItems] = useState(defaultNewsItems);
+
+  useEffect(() => {
+    async function loadNews() {
+      try {
+        const dynamic = await fetchNewsArticles();
+        if (dynamic && dynamic.length > 0) {
+          const mapped = dynamic.map((n) => ({
+            id: n.id || `news_${Math.random()}`,
+            headline: n.title,
+            headlineTelugu: n.title_telugu || n.title,
+            summary: n.summary,
+            summaryTelugu: n.summary_telugu || n.summary,
+            publication: n.source || "MLA Public Office",
+            publicationTelugu: n.source || "ఎమ్మెల్యే ప్రజా కార్యాలయం",
+            date: n.date,
+            dateTelugu: n.date,
+            category: n.category || "Press Release",
+            categoryTelugu: n.category_telugu || "పత్రికా ప్రకటన",
+            url: n.url || null,
+            note: null,
+            noteTelugu: null,
+          }));
+          setItems(mapped);
+        }
+      } catch (e) {
+        console.error("Using default news list:", e);
+      }
+    }
+    loadNews();
+  }, []);
 
   return (
     <div style={{ background: "var(--warm-bg)" }}>
@@ -142,10 +163,10 @@ export default function NewsPage() {
       <section className="section-padding">
         <div className="container-site" style={{ maxWidth: "900px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "1px", border: "1px solid var(--border)", borderRadius: "14px", overflow: "hidden", background: "var(--border)" }}>
-            {newsItems.map((item) => (
+            {items.map((item) => (
               <a
                 key={item.id}
-                href={`https://www.google.com/search?q=${encodeURIComponent("Beerla Ilaiah MLA " + item.headline)}`}
+                href={item.url || `https://www.google.com/search?q=${encodeURIComponent("Beerla Ilaiah MLA " + item.headline)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{

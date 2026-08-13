@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Play, ExternalLink, Filter } from "lucide-react";
-import { videos } from "@/content/videos";
+import { videos as defaultVideos, VideoItem } from "@/content/videos";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
+import { fetchMediaVideos, getYouTubeThumbnail, extractYouTubeId } from "@/lib/supabase";
 
 type Category = "all" | "interview" | "public-event" | "government" | "congress" | "development";
 
@@ -12,10 +14,37 @@ export default function MediaPage() {
   const { lang } = useLang();
   const t = translations[lang].media;
   const [activeFilter, setActiveFilter] = useState<Category>("all");
+  const [videoList, setVideoList] = useState<VideoItem[]>(defaultVideos);
+
+  useEffect(() => {
+    async function loadVideos() {
+      try {
+        const dynamicVideos = await fetchMediaVideos();
+        if (dynamicVideos && dynamicVideos.length > 0) {
+          const mapped: VideoItem[] = dynamicVideos.map((v) => ({
+            id: v.id || `vid_${Math.random()}`,
+            title: v.title,
+            titleTelugu: v.title_telugu || v.title,
+            publisher: v.channel || "Telugu News",
+            date: v.date,
+            dateTelugu: v.date,
+            category: (v.category?.toLowerCase().includes("interview") ? "interview" : "public-event") as any,
+            youtubeId: extractYouTubeId(v.youtube_id),
+            thumbnailUrl: v.thumbnail_url,
+            youtubeSearchQuery: `Beerla Ilaiah ${v.title}`,
+          }));
+          setVideoList(mapped);
+        }
+      } catch (e) {
+        console.error("Using default video list:", e);
+      }
+    }
+    loadVideos();
+  }, []);
 
   const filtered = activeFilter === "all"
-    ? videos
-    : videos.filter((v) => v.category === activeFilter);
+    ? videoList
+    : videoList.filter((v) => v.category === activeFilter);
 
   return (
     <div style={{ background: "var(--warm-bg)" }}>
@@ -63,69 +92,73 @@ export default function MediaPage() {
         </div>
       </section>
 
-      {/* Videos */}
+      {/* Videos Grid */}
       <section className="section-padding">
         <div className="container-site">
           <div className="grid-3-col">
-            {filtered.map((video) => (
-              <a
-                key={video.id}
-                href={`https://www.youtube.com/results?search_query=${encodeURIComponent(video.youtubeSearchQuery)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="video-card"
-                style={{ display: "block", textDecoration: "none" }}
-                aria-label={`Search for: ${video.title} on YouTube`}
-              >
-                <div className="video-thumbnail">
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      background: "linear-gradient(135deg, hsl(220, 20%, 16%) 0%, hsl(220, 15%, 10%) 100%)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      padding: "1.5rem",
-                    }}
-                  >
-                    <div style={{ textAlign: "center" }}>
-                      <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "rgba(255,255,255,0.3)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.5rem" }}>
-                        {video.publisher}
-                      </p>
-                      <p style={{ fontSize: "0.88rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.3, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {lang === "te" && video.titleTelugu ? (video.titleTelugu.slice(0, 70) + (video.titleTelugu.length > 70 ? "…" : "")) : (video.title.slice(0, 70) + (video.title.length > 70 ? "…" : ""))}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="play-button">
-                    <div style={{ width: "44px", height: "44px", borderRadius: "50%", background: "var(--saffron)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(0,0,0,0.3)" }}>
-                      <Play size={18} color="white" fill="white" style={{ marginLeft: "2px" }} />
-                    </div>
-                  </div>
-                </div>
+            {filtered.map((video) => {
+              const thumb = getYouTubeThumbnail(video.youtubeId, video.thumbnailUrl);
+              const cleanId = extractYouTubeId(video.youtubeId);
+              const videoUrl = cleanId && cleanId.length === 11
+                ? `https://www.youtube.com/watch?v=${cleanId}`
+                : `https://www.youtube.com/results?search_query=${encodeURIComponent(video.youtubeSearchQuery)}`;
 
-                <div style={{ padding: "1.25rem" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem", flexWrap: "wrap" }}>
-                    <span className="tag tag-saffron" style={{ fontSize: "0.65rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                      {t.categories[video.category] || video.category}
-                    </span>
-                    <span style={{ fontSize: "0.72rem", color: "var(--muted-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                      {lang === "te" && video.dateTelugu ? video.dateTelugu : video.date}
-                    </span>
+              return (
+                <a
+                  key={video.id}
+                  href={videoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="video-card"
+                  style={{ display: "block", textDecoration: "none", borderRadius: "14px", overflow: "hidden", background: "white", border: "1px solid var(--border)" }}
+                  aria-label={`Watch ${video.title}`}
+                >
+                  <div className="video-thumbnail" style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden", background: "var(--charcoal)" }}>
+                    <Image
+                      src={thumb}
+                      alt={video.title}
+                      fill
+                      style={{ objectFit: "cover" }}
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      unoptimized
+                    />
+                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)" }} />
+
+                    {/* Channel Overlay Badge */}
+                    <div style={{ position: "absolute", top: "0.75rem", left: "0.75rem", background: "rgba(0,0,0,0.65)", backdropFilter: "blur(4px)", padding: "0.25rem 0.6rem", borderRadius: "6px", fontSize: "0.7rem", color: "white", fontWeight: 700 }}>
+                      {video.publisher}
+                    </div>
+
+                    {/* Centered Play Button */}
+                    <div className="play-button" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "var(--saffron)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 6px 20px rgba(0,0,0,0.4)" }}>
+                        <Play size={20} color="white" fill="white" style={{ marginLeft: "3px" }} />
+                      </div>
+                    </div>
                   </div>
-                  <p style={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--charcoal)", lineHeight: 1.3, marginBottom: "0.4rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                    {lang === "te" && video.titleTelugu ? video.titleTelugu : video.title}
-                  </p>
-                  <p style={{ fontSize: "0.8rem", color: "var(--muted)", marginBottom: "0.75rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                    {video.publisher}
-                  </p>
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.75rem", color: "var(--saffron)", fontWeight: 600, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                    <ExternalLink size={12} /> {t.searchYoutube}
+
+                  <div style={{ padding: "1.25rem" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem", flexWrap: "wrap" }}>
+                      <span className="tag tag-saffron" style={{ fontSize: "0.65rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                        {t.categories[video.category] || video.category}
+                      </span>
+                      <span style={{ fontSize: "0.72rem", color: "var(--muted-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                        {lang === "te" && video.dateTelugu ? video.dateTelugu : video.date}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: "0.92rem", fontWeight: 700, color: "var(--charcoal)", lineHeight: 1.35, marginBottom: "0.4rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                      {lang === "te" && video.titleTelugu ? video.titleTelugu : video.title}
+                    </p>
+                    <p style={{ fontSize: "0.8rem", color: "var(--muted)", marginBottom: "0.75rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                      {video.publisher}
+                    </p>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.75rem", color: "var(--saffron)", fontWeight: 600, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                      <ExternalLink size={12} /> {t.searchYoutube}
+                    </div>
                   </div>
-                </div>
-              </a>
-            ))}
+                </a>
+              );
+            })}
           </div>
 
           {filtered.length === 0 && (
@@ -135,10 +168,9 @@ export default function MediaPage() {
               </p>
             </div>
           )}
-
-
         </div>
       </section>
     </div>
   );
 }
+

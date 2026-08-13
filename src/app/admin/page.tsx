@@ -761,7 +761,92 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* TAB 6: SECURITY */}
+        {/* TAB 6: HERO BANNER */}
+        {activeTab === "hero" && (
+          <div style={{ background: "white", padding: "1.5rem", borderRadius: "16px", border: "1px solid var(--border)" }}>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: 800, marginBottom: "1.5rem" }}>
+              {lang === "te" ? "హీరో బ్యానర్ ముఖ్యాంశాలు నిర్వహణ" : "Home Hero Banner Placeholder Editor"}
+            </h3>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                const hEn = (form.elements.namedItem("hEn") as HTMLInputElement).value;
+                const hTe = (form.elements.namedItem("hTe") as HTMLInputElement).value;
+                const subEn = (form.elements.namedItem("subEn") as HTMLInputElement).value;
+                const subTe = (form.elements.namedItem("subTe") as HTMLInputElement).value;
+                const partyEn = (form.elements.namedItem("partyEn") as HTMLInputElement).value;
+                const partyTe = (form.elements.namedItem("partyTe") as HTMLInputElement).value;
+                const bgImg = (form.elements.namedItem("bgImg") as HTMLInputElement).value;
+                const sideImg = (form.elements.namedItem("sideImg") as HTMLInputElement).value;
+
+                updateHeroConfig({
+                  headlineEn: sanitizeInput(hEn),
+                  headlineTe: sanitizeInput(hTe),
+                  subtitleEn: sanitizeInput(subEn),
+                  subtitleTe: sanitizeInput(subTe),
+                  partyBadgeEn: sanitizeInput(partyEn),
+                  partyBadgeTe: sanitizeInput(partyTe),
+                  bgImage: sanitizeInput(bgImg),
+                  sideImage: sanitizeInput(sideImg),
+                });
+                showTempNotice(lang === "te" ? "హీరో బ్యానర్ వివరాలు నవీకరించబడ్డాయి." : "Hero Banner settings saved successfully.");
+              }}
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            >
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                <div>
+                  <label style={{ fontSize: "0.85rem", fontWeight: 700, display: "block", marginBottom: "0.4rem" }}>Headline (English)</label>
+                  <input name="hEn" type="text" defaultValue={heroConfig.headlineEn} required style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid var(--border)" }} />
+                </div>
+                <div>
+                  <label style={{ fontSize: "0.85rem", fontWeight: 700, display: "block", marginBottom: "0.4rem" }}>Headline (Telugu)</label>
+                  <input name="hTe" type="text" defaultValue={heroConfig.headlineTe} required style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid var(--border)" }} />
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                <div>
+                  <label style={{ fontSize: "0.85rem", fontWeight: 700, display: "block", marginBottom: "0.4rem" }}>Subtitle / Position (English)</label>
+                  <input name="subEn" type="text" defaultValue={heroConfig.subtitleEn} required style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid var(--border)" }} />
+                </div>
+                <div>
+                  <label style={{ fontSize: "0.85rem", fontWeight: 700, display: "block", marginBottom: "0.4rem" }}>Subtitle / Position (Telugu)</label>
+                  <input name="subTe" type="text" defaultValue={heroConfig.subtitleTe} required style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid var(--border)" }} />
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                <div>
+                  <label style={{ fontSize: "0.85rem", fontWeight: 700, display: "block", marginBottom: "0.4rem" }}>Party / Badge Name (English)</label>
+                  <input name="partyEn" type="text" defaultValue={heroConfig.partyBadgeEn} required style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid var(--border)" }} />
+                </div>
+                <div>
+                  <label style={{ fontSize: "0.85rem", fontWeight: 700, display: "block", marginBottom: "0.4rem" }}>Party / Badge Name (Telugu)</label>
+                  <input name="partyTe" type="text" defaultValue={heroConfig.partyBadgeTe} required style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid var(--border)" }} />
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                <div>
+                  <label style={{ fontSize: "0.85rem", fontWeight: 700, display: "block", marginBottom: "0.4rem" }}>Main Background Image URL</label>
+                  <input name="bgImg" type="text" defaultValue={heroConfig.bgImage} required style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid var(--border)" }} />
+                </div>
+                <div>
+                  <label style={{ fontSize: "0.85rem", fontWeight: 700, display: "block", marginBottom: "0.4rem" }}>Hero Portrait Photo URL</label>
+                  <input name="sideImg" type="text" defaultValue={heroConfig.sideImage} required style={{ width: "100%", padding: "0.65rem", borderRadius: "8px", border: "1px solid var(--border)" }} />
+                </div>
+              </div>
+
+              <button type="submit" className="btn btn-primary" style={{ alignSelf: "flex-start", marginTop: "0.5rem" }}>
+                <Check size={16} /> Save Hero Banner Changes
+              </button>
+            </form>
+          </div>
+        )}
+
+        {/* TAB 7: SECURITY */}
         {activeTab === "security" && (
           <div style={{ background: "white", padding: "1.5rem", borderRadius: "16px", border: "1px solid var(--border)", maxWidth: "500px" }}>
             <h3 style={{ fontSize: "1.2rem", fontWeight: 800, marginBottom: "1rem" }}>

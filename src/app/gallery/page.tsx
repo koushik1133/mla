@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { X, Info } from "lucide-react";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
+import { fetchGalleryImages, GalleryRecord } from "@/lib/supabase";
 
 interface GalleryItem {
   id: string;
@@ -20,7 +21,7 @@ interface GalleryItem {
   bgColor?: string;
 }
 
-const galleryImages: GalleryItem[] = [
+const defaultGalleryImages: GalleryItem[] = [
   {
     id: "g1",
     src: "/images/hero-bg.jpg",
@@ -112,6 +113,33 @@ export default function GalleryPage() {
   const { lang } = useLang();
   const t = translations[lang].gallery;
   const [selected, setSelected] = useState<GalleryItem | null>(null);
+  const [photos, setPhotos] = useState<GalleryItem[]>(defaultGalleryImages);
+
+  useEffect(() => {
+    async function loadGallery() {
+      try {
+        const dynamic = await fetchGalleryImages();
+        if (dynamic && dynamic.length > 0) {
+          const mapped: GalleryItem[] = dynamic.map((g) => ({
+            id: g.id || `g_${Math.random()}`,
+            src: g.src,
+            title: g.title,
+            titleTelugu: g.title_telugu || g.title,
+            category: g.category || "Photo",
+            categoryTelugu: g.category_telugu || "ఫోటో",
+            caption: g.caption || g.title,
+            captionTelugu: g.caption_telugu || g.title_telugu || g.title,
+            objectFit: g.object_fit || "cover",
+            objectPosition: g.object_position || "center center",
+          }));
+          setPhotos(mapped);
+        }
+      } catch (e) {
+        console.error("Using default gallery photos:", e);
+      }
+    }
+    loadGallery();
+  }, []);
 
   return (
     <div style={{ background: "var(--warm-bg)" }}>
@@ -133,7 +161,7 @@ export default function GalleryPage() {
       <section className="section-padding">
         <div className="container-site">
           <div className="gallery-masonry">
-            {galleryImages.map((img) => (
+            {photos.map((img) => (
               <div
                 key={img.id}
                 className="gallery-item"

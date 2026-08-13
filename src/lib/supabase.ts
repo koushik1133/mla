@@ -51,8 +51,34 @@ export interface MediaRecord {
   category: string;
   category_telugu: string;
   date: string;
+  channel?: string;
+  channel_telugu?: string;
+  thumbnail_url?: string;
   is_featured?: boolean;
   created_at?: string;
+}
+
+// Utility: Extract pure YouTube Video ID from any URL or ID string
+export function extractYouTubeId(urlOrId: string): string {
+  if (!urlOrId) return "";
+  const trimmed = urlOrId.trim();
+  // Match youtube.com/watch?v=ID or youtu.be/ID
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = trimmed.match(regExp);
+  if (match && match[2].length === 11) {
+    return match[2];
+  }
+  return trimmed;
+}
+
+// Utility: Generate YouTube Thumbnail URL automatically
+export function getYouTubeThumbnail(youtubeId: string, customThumbnail?: string): string {
+  if (customThumbnail && customThumbnail.trim()) {
+    return customThumbnail.trim();
+  }
+  const cleanId = extractYouTubeId(youtubeId);
+  if (!cleanId) return "/images/hero-bg.jpg";
+  return `https://img.youtube.com/vi/${cleanId}/hqdefault.jpg`;
 }
 
 export interface GalleryRecord {
