@@ -30,7 +30,7 @@ export default function Hero() {
           style={{
             position: "absolute",
             inset: 0,
-            background: "linear-gradient(105deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.78) 45%, rgba(10,10,10,0.35) 75%, rgba(10,10,10,0.15) 100%)",
+            background: "linear-gradient(105deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.8) 50%, rgba(10,10,10,0.45) 80%, rgba(10,10,10,0.2) 100%)",
           }}
         />
         <div
@@ -40,22 +40,14 @@ export default function Hero() {
             left: 0,
             right: 0,
             height: "200px",
-            background: "linear-gradient(to bottom, transparent, rgba(10,10,10,0.6))",
+            background: "linear-gradient(to bottom, transparent, rgba(10,10,10,0.7))",
           }}
         />
       </div>
 
-      <div className="container-site" style={{ position: "relative", zIndex: 1, paddingTop: "5rem", paddingBottom: "5rem" }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "4rem",
-            alignItems: "center",
-            minHeight: "80vh",
-          }}
-        >
-          {/* Left — Content */}
+      <div className="container-site" style={{ position: "relative", zIndex: 1, paddingTop: " clamp(3rem, 6vw, 5rem)", paddingBottom: "clamp(3rem, 6vw, 5rem)" }}>
+        <div className="grid-2-col" style={{ minHeight: "auto", gap: "clamp(2rem, 5vw, 4rem)" }}>
+          {/* Content */}
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
@@ -66,7 +58,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              style={{ marginBottom: "1.25rem" }}
+              style={{ marginBottom: "1rem" }}
             >
               <span className="congress-badge" style={{ borderColor: "rgba(22,106,47,0.5)", color: "#4CAF6E", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                 <HandSymbolIcon size={12} style={{ fill: "#4CAF6E" }} />
@@ -81,7 +73,7 @@ export default function Hero() {
               transition={{ duration: 0.7, delay: 0.2 }}
               style={{
                 fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)",
-                fontSize: "clamp(2.75rem, 5.5vw, 4.5rem)",
+                fontSize: "clamp(2.25rem, 6vw, 4.25rem)",
                 fontWeight: 800,
                 color: "white",
                 letterSpacing: lang === "te" ? "0" : "-0.03em",
@@ -99,9 +91,9 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.35 }}
               style={{
                 fontFamily: lang === "te" ? "var(--font-display)" : "var(--font-telugu)",
-                fontSize: "1.3rem",
+                fontSize: "clamp(1.1rem, 2.5vw, 1.3rem)",
                 color: "rgba(255,255,255,0.5)",
-                marginBottom: "1.25rem",
+                marginBottom: "1rem",
                 letterSpacing: "0.02em",
               }}
             >
@@ -113,7 +105,7 @@ export default function Hero() {
               initial={{ width: 0 }}
               animate={{ width: "3rem" }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              style={{ height: "3px", background: "var(--saffron)", borderRadius: "2px", marginBottom: "1.5rem" }}
+              style={{ height: "3px", background: "var(--saffron)", borderRadius: "2px", marginBottom: "1.25rem" }}
             />
 
             {/* Role */}
@@ -126,7 +118,7 @@ export default function Hero() {
               <p style={{ fontSize: "clamp(1rem, 1.8vw, 1.25rem)", color: "rgba(255,255,255,0.85)", fontWeight: 500, lineHeight: 1.4 }}>
                 {t.role}
               </p>
-              <p style={{ fontSize: "clamp(0.9rem, 1.4vw, 1.05rem)", color: "rgba(255,255,255,0.55)", fontWeight: 400 }}>
+              <p style={{ fontSize: "clamp(0.875rem, 1.4vw, 1.05rem)", color: "rgba(255,255,255,0.55)", fontWeight: 400 }}>
                 {t.constituency}
               </p>
             </motion.div>
@@ -136,7 +128,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.55 }}
-              style={{ marginBottom: "2rem", marginTop: "0.75rem" }}
+              style={{ marginBottom: "1.75rem", marginTop: "0.75rem" }}
             >
               <span style={{
                 display: "inline-flex",
@@ -151,8 +143,9 @@ export default function Hero() {
                 color: "var(--saffron-light)",
                 letterSpacing: "0.04em",
                 fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
+                maxWidth: "100%",
               }}>
-                <span style={{ width: "6px", height: "6px", background: "var(--saffron)", borderRadius: "50%", display: "inline-block" }} />
+                <span style={{ width: "6px", height: "6px", background: "var(--saffron)", borderRadius: "50%", display: "inline-block", flexShrink: 0 }} />
                 {t.whipBadge}
               </span>
             </motion.div>
@@ -173,21 +166,21 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Right — Portrait */}
+          {/* Right — Portrait Card */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            style={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end" }}
+            style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
           >
             <div
               style={{
                 position: "relative",
-                width: "min(420px, 90%)",
+                width: "min(380px, 100%)",
                 aspectRatio: "3/4",
                 borderRadius: "16px",
                 overflow: "hidden",
-                boxShadow: "0 32px 80px rgba(0,0,0,0.5)",
+                boxShadow: "0 24px 60px rgba(0,0,0,0.5)",
                 border: "1px solid rgba(255,255,255,0.1)",
               }}
             >
@@ -197,7 +190,7 @@ export default function Hero() {
                 fill
                 priority
                 style={{ objectFit: "cover", objectPosition: "center top" }}
-                sizes="(max-width: 768px) 0px, 420px"
+                sizes="(max-width: 768px) 100vw, 380px"
               />
               <div
                 style={{
@@ -205,11 +198,11 @@ export default function Hero() {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  padding: "1.5rem",
-                  background: "linear-gradient(to top, rgba(10,10,10,0.85) 0%, transparent 100%)",
+                  padding: "1.25rem",
+                  background: "linear-gradient(to top, rgba(10,10,10,0.88) 0%, transparent 100%)",
                 }}
               >
-                <p style={{ fontSize: "0.72rem", fontWeight: 700, color: "rgba(255,255,255,0.5)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.2rem" }}>
+                <p style={{ fontSize: "0.7rem", fontWeight: 700, color: "rgba(255,255,255,0.5)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.2rem" }}>
                   {t.portraitTag}
                 </p>
                 <p style={{ fontSize: "0.85rem", color: "white", fontWeight: 600, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
@@ -228,33 +221,21 @@ export default function Hero() {
         transition={{ delay: 1.2, duration: 0.8 }}
         style={{
           position: "absolute",
-          bottom: "2rem",
+          bottom: "1.5rem",
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 1,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "0.35rem",
+          gap: "0.25rem",
         }}
       >
-        <span style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.35)", letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+        <span style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.35)", letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
           {t.scroll}
         </span>
-        <ChevronDown size={16} color="rgba(255,255,255,0.3)" />
+        <ChevronDown size={14} color="rgba(255,255,255,0.3)" />
       </motion.div>
-
-      <style jsx>{`
-        @media (max-width: 768px) {
-          div[style*="gridTemplateColumns: 1fr 1fr"] {
-            grid-template-columns: 1fr !important;
-            gap: 2rem !important;
-          }
-          div[style*="justifyContent: flex-end"] {
-            justify-content: center !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

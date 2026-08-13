@@ -40,7 +40,7 @@ export default function Navbar() {
       {/* Announcement Bar */}
       <div className="announcement-bar">
         <div className="container-site">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1.5rem", flexWrap: "wrap", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1.25rem", flexWrap: "wrap", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
             <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.7rem" }}>◆</span>
             <span>{t.whipBanner}</span>
             <span style={{ color: "rgba(255,255,255,0.3)" }}>|</span>
@@ -58,7 +58,7 @@ export default function Navbar() {
           position: "sticky",
           top: 0,
           zIndex: 100,
-          background: scrolled ? "rgba(255,255,255,0.97)" : "#ffffff",
+          background: scrolled ? "rgba(255,255,255,0.98)" : "#ffffff",
           borderBottom: "1px solid var(--border)",
           backdropFilter: "blur(12px)",
           transition: "box-shadow 0.2s ease",
@@ -75,12 +75,12 @@ export default function Navbar() {
             }}
           >
             {/* Logo */}
-            <Link href="/" style={{ textDecoration: "none", display: "flex", flexDirection: "column", lineHeight: 1.2 }}>
-              <span style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontWeight: 800, fontSize: "1.05rem", color: "var(--charcoal)", letterSpacing: "-0.02em" }}>
+            <Link href="/" style={{ textDecoration: "none", display: "flex", flexDirection: "column", lineHeight: 1.25, maxWidth: "60%" }}>
+              <span style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontWeight: 800, fontSize: "clamp(1rem, 2.5vw, 1.15rem)", color: "var(--charcoal)", letterSpacing: "-0.02em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {lang === "te" ? politician.nameTelugu : politician.name}
               </span>
-              <span style={{ fontSize: "0.68rem", color: "var(--muted)", fontWeight: 500, letterSpacing: "0.04em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                {lang === "te" ? "ఆలేరు ఎమ్మెల్యే · కాంగ్రెస్" : "MLA · Alair · Indian National Congress"}
+              <span className="logo-subtext" style={{ fontSize: "0.68rem", color: "var(--muted)", fontWeight: 500, letterSpacing: "0.03em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {lang === "te" ? "ఆలేరు ఎమ్మెల్యే · కాంగ్రెస్" : "MLA · Alair · INC"}
               </span>
             </Link>
 
@@ -102,7 +102,7 @@ export default function Navbar() {
             </div>
 
             {/* Right side */}
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               {/* Language Switcher */}
               <button
                 onClick={toggle}
@@ -110,8 +110,10 @@ export default function Navbar() {
                 style={{
                   display: "flex",
                   alignItems: "center",
+                  justifyContent: "center",
                   gap: "0.35rem",
-                  padding: "0.35rem 0.85rem",
+                  padding: "0.35rem 0.75rem",
+                  minHeight: "36px",
                   border: "1.5px solid var(--saffron)",
                   borderRadius: "100px",
                   background: "rgba(238,90,28,0.06)",
@@ -121,6 +123,7 @@ export default function Navbar() {
                   color: "var(--saffron-dark)",
                   transition: "all 0.2s ease",
                   fontFamily: lang === "en" ? "var(--font-telugu)" : "var(--font-body)",
+                  whiteSpace: "nowrap",
                 }}
               >
                 {t.switchLang}
@@ -128,6 +131,7 @@ export default function Navbar() {
 
               {/* Congress Badge */}
               <div
+                className="header-inc-badge"
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -142,22 +146,33 @@ export default function Navbar() {
                 <span style={{ fontSize: "0.65rem", fontWeight: 700, color: "var(--congress-green)", letterSpacing: "0.04em", textTransform: "uppercase", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{lang === "te" ? "ఐఎన్‌సి" : "INC"}</span>
               </div>
 
-              {/* Hamburger */}
+              {/* Hamburger Menu Button */}
               <button
                 className="mobile-menu-btn"
                 onClick={() => setMobileOpen(true)}
                 aria-label="Open menu"
                 aria-expanded={mobileOpen}
-                style={{ background: "none", border: "none", cursor: "pointer", display: "none", padding: "0.25rem" }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  display: "none",
+                  padding: "0.5rem",
+                  minWidth: "44px",
+                  minHeight: "44px",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "8px",
+                }}
               >
-                <Menu size={22} color="var(--charcoal)" />
+                <Menu size={24} color="var(--charcoal)" />
               </button>
             </div>
           </nav>
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Drawer */}
       {mobileOpen && (
         <div
           style={{
@@ -166,24 +181,26 @@ export default function Navbar() {
             zIndex: 200,
             background: "var(--white)",
             overflowY: "auto",
+            display: "flex",
+            flexDirection: "column",
           }}
           role="dialog"
           aria-modal="true"
           aria-label="Navigation menu"
         >
           <div style={{ padding: "1.25rem var(--container-padding)" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "2rem" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
               <Link href="/" onClick={() => setMobileOpen(false)} style={{ textDecoration: "none" }}>
-                <span style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontWeight: 800, fontSize: "1.1rem", color: "var(--charcoal)" }}>
+                <span style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontWeight: 800, fontSize: "1.15rem", color: "var(--charcoal)" }}>
                   {lang === "te" ? politician.nameTelugu : politician.name}
                 </span>
               </Link>
               <button
                 onClick={() => setMobileOpen(false)}
                 aria-label="Close menu"
-                style={{ background: "none", border: "none", cursor: "pointer" }}
+                style={{ background: "none", border: "none", cursor: "pointer", padding: "0.5rem", minWidth: "44px", minHeight: "44px", display: "flex", alignItems: "center", justifyContent: "center" }}
               >
-                <X size={24} color="var(--charcoal)" />
+                <X size={26} color="var(--charcoal)" />
               </button>
             </div>
 
@@ -192,12 +209,13 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  onClick={() => setMobileOpen(false)}
                   style={{
                     display: "block",
-                    padding: "1rem 0",
+                    padding: "0.875rem 0",
                     borderBottom: "1px solid var(--border-light)",
                     fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)",
-                    fontSize: "1.2rem",
+                    fontSize: "1.15rem",
                     fontWeight: 700,
                     color: isActive(link.href) ? "var(--saffron)" : "var(--charcoal)",
                     textDecoration: "none",
@@ -208,15 +226,16 @@ export default function Navbar() {
               ))}
             </nav>
 
-            <div style={{ marginTop: "2rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+            <div style={{ marginTop: "1.75rem", display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
               <button
                 onClick={() => { toggle(); setMobileOpen(false); }}
                 style={{
-                  padding: "0.6rem 1.25rem",
+                  padding: "0.75rem 1.5rem",
+                  minHeight: "44px",
                   border: "1.5px solid var(--saffron)",
                   borderRadius: "100px",
                   background: "rgba(238,90,28,0.08)",
-                  fontSize: "0.9rem",
+                  fontSize: "0.95rem",
                   fontWeight: 700,
                   color: "var(--saffron-dark)",
                   cursor: "pointer",
@@ -225,9 +244,23 @@ export default function Navbar() {
               >
                 {t.switchLang}
               </button>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.4rem",
+                  padding: "0.5rem 1rem",
+                  background: "rgba(22,106,47,0.08)",
+                  border: "1px solid rgba(22,106,47,0.2)",
+                  borderRadius: "100px",
+                }}
+              >
+                <HandSymbolIcon size={14} style={{ fill: "#166A2F" }} />
+                <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--congress-green)", letterSpacing: "0.04em", textTransform: "uppercase" }}>{lang === "te" ? "ఐఎన్‌సి" : "INC"}</span>
+              </div>
             </div>
 
-            <div style={{ marginTop: "2.5rem", padding: "1rem", background: "var(--warm-bg)", borderRadius: "8px" }}>
+            <div style={{ marginTop: "2rem", padding: "1rem", background: "var(--warm-bg)", borderRadius: "10px" }}>
               <p style={{ fontSize: "0.75rem", color: "var(--muted)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                 {lang === "te" ? "ప్రజా సమాచార జాలగూడు. సమాచార ప్రయోజనాల కోసం మాత్రమే." : "Public information website. Party affiliation presented for informational purposes only."}
               </p>

@@ -20,16 +20,16 @@ export default function FactStrip() {
     <section
       className="fact-strip"
       aria-label="Constituency overview"
-      style={{ background: "var(--white)", borderBottom: "1px solid var(--border)" }}
+      style={{ background: "var(--white)", borderBottom: "1px solid var(--border)", padding: "1.25rem 0" }}
     >
       <div className="container-site">
         <div
           style={{
-            display: "flex",
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
+            gap: "1rem",
             alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "1.5rem",
+            justifyContent: "center",
           }}
         >
           {facts.map((fact, i) => (
@@ -39,7 +39,7 @@ export default function FactStrip() {
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              transition={{ duration: 0.4, delay: i * 0.06 }}
             >
               <span className="fact-value" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
                 {fact.value}

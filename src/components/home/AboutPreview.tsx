@@ -18,14 +18,7 @@ export default function AboutPreview() {
       aria-labelledby="about-heading"
     >
       <div className="container-site">
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "5rem",
-            alignItems: "center",
-          }}
-        >
+        <div className="grid-2-col" style={{ gap: "clamp(2rem, 5vw, 4rem)" }}>
           {/* Left — Image */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -33,7 +26,7 @@ export default function AboutPreview() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div style={{ position: "relative" }}>
+            <div style={{ position: "relative", maxWidth: "440px", margin: "0 auto" }}>
               <div
                 style={{
                   borderRadius: "16px",
@@ -54,36 +47,25 @@ export default function AboutPreview() {
               <div
                 style={{
                   position: "absolute",
-                  bottom: "1.5rem",
-                  right: "-1.5rem",
+                  bottom: "1rem",
+                  right: "1rem",
                   background: "var(--charcoal)",
                   borderRadius: "12px",
-                  padding: "1.25rem 1.5rem",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
-                  maxWidth: "220px",
+                  padding: "1rem 1.25rem",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
+                  maxWidth: "200px",
                 }}
               >
-                <p style={{ fontSize: "0.68rem", fontWeight: 700, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.4rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                <p style={{ fontSize: "0.65rem", fontWeight: 700, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                   {t.bornIn}
                 </p>
-                <p style={{ fontSize: "1rem", fontWeight: 800, color: "white", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", letterSpacing: "-0.01em", lineHeight: 1.2 }}>
+                <p style={{ fontSize: "0.95rem", fontWeight: 800, color: "white", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", letterSpacing: "-0.01em", lineHeight: 1.2 }}>
                   {lang === "te" ? "సైదాపూర్" : "Saidapur"}
                 </p>
-                <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.5)", marginTop: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.5)", marginTop: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                   {t.saidapurLocation}
                 </p>
               </div>
-              <div
-                style={{
-                  position: "absolute",
-                  top: "2rem",
-                  left: "-1rem",
-                  width: "5px",
-                  height: "80px",
-                  background: "var(--saffron)",
-                  borderRadius: "3px",
-                }}
-              />
             </div>
           </motion.div>
 
@@ -101,13 +83,13 @@ export default function AboutPreview() {
             <h2 className="section-title" id="about-heading" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
               {t.title}
             </h2>
-            <p className="section-subtitle" style={{ marginBottom: "1.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            <p className="section-subtitle" style={{ marginBottom: "1.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
               {t.subtitle}
             </p>
-            <p style={{ fontSize: "1rem", color: "var(--muted)", lineHeight: 1.7, marginBottom: "1.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            <p style={{ fontSize: "0.95rem", color: "var(--muted)", lineHeight: 1.65, marginBottom: "1.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
               {t.para2}
             </p>
-            <p style={{ fontSize: "1rem", color: "var(--muted)", lineHeight: 1.7, marginBottom: "2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            <p style={{ fontSize: "0.95rem", color: "var(--muted)", lineHeight: 1.65, marginBottom: "1.75rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
               {t.para3}
             </p>
 
@@ -115,10 +97,10 @@ export default function AboutPreview() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
                 gap: "1rem",
-                marginBottom: "2rem",
-                padding: "1.5rem",
+                marginBottom: "1.75rem",
+                padding: "1.25rem",
                 background: "var(--white)",
                 borderRadius: "12px",
                 border: "1px solid var(--border)",
@@ -134,7 +116,7 @@ export default function AboutPreview() {
                   <p style={{ fontSize: "0.68rem", fontWeight: 700, color: "var(--muted-light)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                     {item.label}
                   </p>
-                  <p style={{ fontSize: "0.88rem", fontWeight: 600, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                  <p style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                     {item.value}
                   </p>
                 </div>
@@ -152,18 +134,6 @@ export default function AboutPreview() {
           </motion.div>
         </div>
       </div>
-
-      <style jsx>{`
-        @media (max-width: 768px) {
-          div[style*="gridTemplateColumns: 1fr 1fr"] {
-            grid-template-columns: 1fr !important;
-            gap: 3rem !important;
-          }
-          div[style*="right: -1.5rem"] {
-            right: 0.5rem !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }
