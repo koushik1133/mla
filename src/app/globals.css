@@ -685,30 +685,19 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Mobile Hero Senior UI Engineering Layout Rules */
-@media (max-width: 860px) {
+/* Mobile Hero & AI Assistant Enhancements */
+@media (max-width: 768px) {
   .hero-section {
     min-height: auto !important;
     padding-top: 1rem !important;
-    padding-bottom: 2.5rem !important;
+    padding-bottom: 2rem !important;
   }
   .hero-mobile-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 1.25rem !important;
-  }
-  .hero-portrait-container {
-    order: -1 !important;
-    width: 100% !important;
-    margin-bottom: 0.25rem !important;
+    gap: 1.5rem !important;
   }
   .hero-portrait-card {
-    width: min(260px, 75%) !important;
-    aspect-ratio: 4 / 3 !important;
-    max-height: 195px !important;
-    margin: 0 auto !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
-    border-radius: 16px !important;
+    max-height: 260px !important;
+    aspect-ratio: 16 / 9 !important;
   }
   .hero-arrow-btn {
     opacity: 0.6 !important;
@@ -730,12 +719,6 @@ h1, h2, h3, h4, h5, h6 {
   }
   .hero-arrow-btn {
     display: none !important;
-  }
-  .ai-assistant-btn {
-    bottom: 1rem !important;
-    right: 0.875rem !important;
-    padding: 0.6rem 0.95rem !important;
-    font-size: 0.8rem !important;
   }
 }
 

@@ -95,7 +95,6 @@ export default function BeerlaAIAssistant() {
         animate={{ scale: 1, opacity: 1 }}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
-        className="ai-assistant-btn"
         style={{
           position: "fixed",
           bottom: "1.75rem",
