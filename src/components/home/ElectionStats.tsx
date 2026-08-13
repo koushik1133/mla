@@ -46,7 +46,7 @@ export default function ElectionStats() {
       aria-labelledby="election-heading"
     >
       <div className="container-site">
-        <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <p className="section-label" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{t.label}</p>
           <span style={{ display: "block", width: "3rem", height: "3px", background: "var(--saffron)", borderRadius: "2px", margin: "0 auto 1rem" }} />
           <h2 className="section-title" id="election-heading" style={{ maxWidth: "650px", margin: "0 auto 1rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
@@ -58,9 +58,9 @@ export default function ElectionStats() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: "3rem", alignItems: "center" }}>
+        <div className="election-grid">
           {/* Stats */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "1.5rem" }}>
             {[
               { label: t.votesReceived, value: 122140, suffix: "", highlight: true },
               { label: t.voteShare, value: 57.41, suffix: "%", highlight: false },
@@ -97,17 +97,17 @@ export default function ElectionStats() {
               background: "var(--white)",
               border: "1px solid var(--border)",
               borderRadius: "16px",
-              padding: "2rem",
+              padding: "1.5rem",
             }}
           >
-            <p style={{ fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "1.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            <p style={{ fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "1.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
               {t.candidateComparison}
             </p>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
               {result.candidates.map((candidate, i) => (
                 <div key={candidate.name}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.5rem" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.5rem", flexWrap: "wrap" }}>
                     <div>
                       <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                         {lang === "te" && candidate.name === "Beerla Ilaiah" ? "బీర్ల ఇలయ్య" : candidate.name}
@@ -147,7 +147,7 @@ export default function ElectionStats() {
               ))}
             </div>
 
-            <p style={{ fontSize: "0.7rem", color: "var(--muted-light)", marginTop: "1.5rem", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            <p style={{ fontSize: "0.7rem", color: "var(--muted-light)", marginTop: "1.25rem", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
               {lang === "te" ? "ఫలితాలు 2023 ఎన్నికల ఆధారంగా రూపొందించబడ్డాయి." : result.notes}
             </p>
           </motion.div>
@@ -159,14 +159,6 @@ export default function ElectionStats() {
           </Link>
         </div>
       </div>
-
-      <style jsx>{`
-        @media (max-width: 768px) {
-          div[style*="gridTemplateColumns: 1fr 1.5fr"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

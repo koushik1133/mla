@@ -75,14 +75,11 @@ export default function Election2023Page() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            className="contact-cta-grid"
             style={{
               background: "var(--charcoal)",
               borderRadius: "20px",
-              padding: "2.5rem 3rem",
-              display: "grid",
-              gridTemplateColumns: "1fr auto",
-              gap: "3rem",
-              alignItems: "center",
+              padding: "clamp(1.5rem, 4vw, 2.5rem)",
               marginBottom: "2rem",
               position: "relative",
               overflow: "hidden",

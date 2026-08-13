@@ -74,7 +74,7 @@ export default function ContactPage() {
       {/* Content */}
       <section className="section-padding">
         <div className="container-site">
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: "5rem", alignItems: "start" }}>
+          <div className="grid-2-col" style={{ alignItems: "start", gap: "clamp(2rem, 5vw, 4rem)" }}>
             {/* Left — info */}
             <div>
               <h2 style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontSize: "1.25rem", fontWeight: 800, color: "var(--charcoal)", letterSpacing: "-0.02em", marginBottom: "1.5rem" }}>

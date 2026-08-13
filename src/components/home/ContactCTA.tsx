@@ -19,14 +19,11 @@ export default function ContactCTA() {
     >
       <div className="container-site">
         <div
+          className="contact-cta-grid"
           style={{
             background: "var(--charcoal)",
             borderRadius: "20px",
-            padding: "clamp(2.5rem, 5vw, 4rem)",
-            display: "grid",
-            gridTemplateColumns: "1fr auto",
-            gap: "3rem",
-            alignItems: "center",
+            padding: "clamp(2rem, 5vw, 3.5rem)",
             position: "relative",
             overflow: "hidden",
           }}
@@ -68,11 +65,11 @@ export default function ContactCTA() {
             >
               {t.title}
             </h2>
-            <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.6, maxWidth: "480px", marginBottom: "2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            <p style={{ fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.6, maxWidth: "480px", marginBottom: "2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
               {t.subtitle}
             </p>
 
-            <div style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap", alignItems: "center" }}>
               <Link href="/contact" className="btn-primary" style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
                 {t.btnContact} <ArrowRight size={16} />
               </Link>
@@ -90,8 +87,8 @@ export default function ContactCTA() {
                     height: "44px",
                     borderRadius: "50%",
                     background: "rgba(255,255,255,0.08)",
-                    border: "1.5px solid rgba(255,255,255,0.12)",
-                    color: "rgba(255,255,255,0.7)",
+                    border: "1.5px solid rgba(255,255,255,0.15)",
+                    color: "white",
                     textDecoration: "none",
                     transition: "background 0.2s",
                   }}
@@ -111,8 +108,8 @@ export default function ContactCTA() {
                     height: "44px",
                     borderRadius: "50%",
                     background: "rgba(255,255,255,0.08)",
-                    border: "1.5px solid rgba(255,255,255,0.12)",
-                    color: "rgba(255,255,255,0.7)",
+                    border: "1.5px solid rgba(255,255,255,0.15)",
+                    color: "white",
                     textDecoration: "none",
                     transition: "background 0.2s",
                   }}
@@ -123,7 +120,7 @@ export default function ContactCTA() {
             </div>
           </motion.div>
 
-          {/* Right — handles display */}
+          {/* Right — social handles */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -135,7 +132,8 @@ export default function ContactCTA() {
               display: "flex",
               flexDirection: "column",
               gap: "0.875rem",
-              minWidth: "200px",
+              minWidth: "220px",
+              width: "100%",
             }}
           >
             {[
@@ -152,16 +150,16 @@ export default function ContactCTA() {
                   alignItems: "center",
                   gap: "0.875rem",
                   padding: "0.875rem 1.125rem",
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.12)",
                   borderRadius: "10px",
                   textDecoration: "none",
                   transition: "background 0.2s",
                 }}
               >
-                <Icon size={18} color="rgba(255,255,255,0.6)" />
+                <Icon size={18} color="rgba(255,255,255,0.8)" />
                 <div>
-                  <p style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.35)", marginBottom: "0.1rem" }}>{label}</p>
+                  <p style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.5)", marginBottom: "0.1rem" }}>{label}</p>
                   <p style={{ fontSize: "0.875rem", fontWeight: 600, color: "white" }}>{handle}</p>
                 </div>
               </a>
@@ -169,14 +167,6 @@ export default function ContactCTA() {
           </motion.div>
         </div>
       </div>
-
-      <style jsx>{`
-        @media (max-width: 700px) {
-          div[style*="gridTemplateColumns: 1fr auto"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

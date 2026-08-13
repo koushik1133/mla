@@ -3,7 +3,7 @@
 
 /* ============================================
    DESIGN SYSTEM — BEERLA ILAIAH MLA WEBSITE
-   Fully Responsive (320px - 1440px+)
+   100% Fully Responsive Layout Engine (320px - 1440px+)
    ============================================ */
 
 :root {
@@ -52,6 +52,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -128,19 +129,7 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 100%;
 }
 
-/* Source Badge */
-.source-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.7rem;
-  color: var(--muted-light);
-  border-bottom: 1px dashed var(--border);
-  padding-bottom: 1px;
-  font-family: var(--font-body);
-}
-
-/* Saffron CTA Buttons — Fully Fluid on Mobile */
+/* Saffron CTA Buttons — Fully Fluid & Non-Wrapping on Mobile */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -159,6 +148,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
   text-decoration: none;
   letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .btn-primary:hover {
@@ -184,6 +174,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .btn-secondary:hover {
@@ -208,6 +199,7 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .btn-outline-white:hover {
@@ -215,7 +207,6 @@ h1, h2, h3, h4, h5, h6 {
   border-color: white;
 }
 
-/* Button Container Mobile Stacking */
 @media (max-width: 480px) {
   .btn-primary, .btn-secondary, .btn-outline-white {
     width: 100% !important;
@@ -294,7 +285,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-link.active { color: var(--saffron); }
 .nav-link.active::after { width: 100%; }
 
-/* Announcement Bar — Clean Responsive behavior */
+/* Announcement Bar */
 .announcement-bar {
   background: var(--charcoal);
   color: rgba(255,255,255,0.85);
@@ -312,7 +303,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Header logo subtext & INC badge responsive rules */
 @media (max-width: 540px) {
   .logo-subtext {
     display: none !important;
@@ -326,7 +316,7 @@ h1, h2, h3, h4, h5, h6 {
 .fact-strip {
   background: var(--white);
   border-bottom: 1px solid var(--border);
-  padding: 1.5rem 0;
+  padding: 1.25rem 0;
 }
 
 .fact-item {
@@ -426,6 +416,20 @@ h1, h2, h3, h4, h5, h6 {
   transform-origin: left;
 }
 
+.election-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (max-width: 860px) {
+  .election-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
 /* Gallery Masonry */
 .gallery-masonry {
   columns: 3;
@@ -479,6 +483,51 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
+/* Contact CTA Grid */
+.contact-cta-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3rem;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .contact-cta-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+/* Footer Main & Grid */
+.footer-main {
+  background: var(--charcoal);
+  color: rgba(255,255,255,0.75);
+  padding: 4rem 0 2rem;
+  width: 100%;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
+@media (max-width: 540px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+}
+
 /* Inputs — iOS zoom prevention */
 .form-input {
   width: 100%;
@@ -486,7 +535,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 1.5px solid var(--border);
   border-radius: 8px;
   font-family: var(--font-body);
-  font-size: 16px !important; /* Prevents auto-zoom on mobile Safari */
+  font-size: 16px !important;
   color: var(--charcoal);
   background: var(--white);
   outline: none;
@@ -532,7 +581,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--charcoal-60);
 }
 
-/* Responsive Grid Classes — Pixel Perfect */
+/* Responsive Grid Classes */
 .grid-2-col {
   display: grid;
   grid-template-columns: 1fr 1fr;
