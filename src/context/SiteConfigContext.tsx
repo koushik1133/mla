@@ -82,7 +82,7 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
   const [heroConfig, setHeroConfig] = useState<HeroConfig>(defaultHeroConfig);
   const [showThemeSwitcher, setShowThemeSwitcherState] = useState<boolean>(true);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(false);
-  const [adminPin, setAdminPinState] = useState<string>("122140");
+  const [adminPin, setAdminPinState] = useState<string>("0000");
 
   useEffect(() => {
     try {

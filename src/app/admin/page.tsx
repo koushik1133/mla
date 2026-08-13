@@ -148,7 +148,7 @@ export default function AdminPage() {
                 type="password"
                 value={enteredPin}
                 onChange={(e) => setEnteredPin(e.target.value)}
-                placeholder={lang === "te" ? "పాస్‌కోడ్ నమోదు చేయండి (Default: 122140)" : "Enter PIN (Default: 122140)"}
+                placeholder={lang === "te" ? "పాస్‌కోడ్ నమోదు చేయండి (Default: 0000)" : "Enter PIN (Default: 0000)"}
                 style={{
                   width: "100%",
                   padding: "0.875rem 1rem",
