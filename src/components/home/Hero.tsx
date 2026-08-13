@@ -9,17 +9,22 @@ import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
 import { HandSymbolIcon } from "@/components/icons/SocialIcons";
 
+import { useSiteConfig } from "@/context/SiteConfigContext";
+
 export default function Hero() {
   const { lang } = useLang();
+  const { heroConfig } = useSiteConfig();
   const t = translations[lang].hero;
+
+  const textAlign = heroConfig.alignment || "left";
 
   return (
     <section className="hero-section" aria-label="Introduction">
       {/* Background Image */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
         <Image
-          src="/images/hero-bg.jpg"
-          alt="Alair constituency, Telangana — agricultural landscape at golden hour"
+          src={heroConfig.bgImage || "/images/hero-bg.jpg"}
+          alt="Alair constituency, Telangana"
           fill
           priority
           style={{ objectFit: "cover", objectPosition: "center 40%" }}
@@ -185,7 +190,7 @@ export default function Hero() {
               }}
             >
               <Image
-                src="/images/beerla-standing.jpg"
+                src={heroConfig.sideImage || "/images/beerla-standing.jpg"}
                 alt="Beerla Ilaiah — Member of Telangana Legislative Assembly, Alair"
                 fill
                 priority

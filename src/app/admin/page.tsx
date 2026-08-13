@@ -1,0 +1,547 @@
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Lock,
+  Unlock,
+  Sliders,
+  Megaphone,
+  Layout,
+  Key,
+  Plus,
+  Trash2,
+  CheckCircle,
+  Eye,
+  LogOut,
+  ArrowLeft,
+  Sparkles,
+  RefreshCw,
+} from "lucide-react";
+import { useSiteConfig, TickerItem } from "@/context/SiteConfigContext";
+import { useLang } from "@/lib/lang-context";
+
+export default function AdminPage() {
+  const {
+    tickerItems,
+    heroConfig,
+    addTickerItem,
+    toggleTickerItem,
+    deleteTickerItem,
+    updateHeroConfig,
+    resetToDefaults,
+    isAdminAuthenticated,
+    loginAdmin,
+    logoutAdmin,
+    adminPin,
+    setAdminPin,
+  } = useSiteConfig();
+
+  const { lang } = useLang();
+
+  // Login PIN state
+  const [enteredPin, setEnteredPin] = useState("");
+  const [pinError, setPinError] = useState("");
+
+  // New PIN update state
+  const [newPinInput, setNewPinInput] = useState("");
+  const [pinSuccessMsg, setPinSuccessMsg] = useState("");
+
+  // Active Tab
+  const [activeTab, setActiveTab] = useState<"hero" | "ticker" | "security">("ticker");
+
+  // New Ticker Form
+  const [newTickerEn, setNewTickerEn] = useState("");
+  const [newTickerTe, setNewTickerTe] = useState("");
+  const [newTickerLink, setNewTickerLink] = useState("");
+
+  // Hero Edit Form State
+  const [heroForm, setHeroForm] = useState(heroConfig);
+
+  const handleLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const success = loginAdmin(enteredPin);
+    if (!success) {
+      setPinError(lang === "te" ? "తప్పు పాస్‌కోడ్! తిరిగి ప్రయత్నించండి." : "Invalid passcode! Please try again.");
+    } else {
+      setPinError("");
+      setEnteredPin("");
+    }
+  };
+
+  const handleAddTicker = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTickerEn.trim() && !newTickerTe.trim()) return;
+    addTickerItem({
+      textEn: newTickerEn || newTickerTe,
+      textTe: newTickerTe || newTickerEn,
+      link: newTickerLink || undefined,
+      active: true,
+    });
+    setNewTickerEn("");
+    setNewTickerTe("");
+    setNewTickerLink("");
+  };
+
+  const handleHeroSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateHeroConfig(heroForm);
+  };
+
+  const handlePinChange = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPinInput.length < 4) {
+      setPinSuccessMsg(lang === "te" ? "పాస్‌కోడ్ కనీసం 4 అంకెలు ఉండాలి." : "Passcode must be at least 4 digits.");
+      return;
+    }
+    setAdminPin(newPinInput);
+    setNewPinInput("");
+    setPinSuccessMsg(lang === "te" ? "పాస్‌కోడ్ విజయవంతంగా నవీకరించబడింది!" : "Admin passcode updated successfully!");
+  };
+
+  // ----------------------------------------------------
+  // LOCK SCREEN IF NOT AUTHENTICATED
+  // ----------------------------------------------------
+  if (!isAdminAuthenticated) {
+    return (
+      <div style={{ minHeight: "85vh", background: "var(--warm-bg)", display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem 1rem" }}>
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "420px",
+            background: "var(--white)",
+            borderRadius: "20px",
+            padding: "2.5rem 2rem",
+            boxShadow: "0 20px 50px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)",
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              width: "60px",
+              height: "60px",
+              borderRadius: "50%",
+              background: "rgba(238,90,28,0.1)",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: "1.25rem",
+            }}
+          >
+            <Lock size={28} color="var(--saffron)" />
+          </div>
+
+          <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+            {lang === "te" ? "ఎడ్మిన్ పోర్టల్ లాగిన్" : "Secure Admin Portal"}
+          </h1>
+          <p style={{ fontSize: "0.85rem", color: "var(--muted)", marginBottom: "1.75rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            {lang === "te" ? "సైట్ నిర్వహణ కోసం దయచేసి ఎడ్మిన్ పాస్‌కోడ్ నమోదు చేయండి." : "Enter your secure admin passcode to access live website controls."}
+          </p>
+
+          <form onSubmit={handleLoginSubmit}>
+            <div style={{ marginBottom: "1.25rem" }}>
+              <input
+                type="password"
+                value={enteredPin}
+                onChange={(e) => setEnteredPin(e.target.value)}
+                placeholder={lang === "te" ? "పాస్‌కోడ్ నమోదు చేయండి (Default: 122140)" : "Enter PIN (Default: 122140)"}
+                style={{
+                  width: "100%",
+                  padding: "0.875rem 1rem",
+                  borderRadius: "10px",
+                  border: "1.5px solid var(--border)",
+                  fontSize: "1rem",
+                  textAlign: "center",
+                  letterSpacing: "0.2em",
+                  outline: "none",
+                  fontWeight: 700,
+                }}
+                autoFocus
+              />
+            </div>
+
+            {pinError && (
+              <p style={{ color: "#E53E3E", fontSize: "0.8rem", marginBottom: "1rem", fontWeight: 600 }}>
+                {pinError}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="btn-primary"
+              style={{ width: "100%", justifyContent: "center", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}
+            >
+              <Unlock size={16} /> {lang === "te" ? "లాగిన్ చేయండి" : "Authenticate & Access"}
+            </button>
+          </form>
+
+          <div style={{ marginTop: "2rem", paddingTop: "1.25rem", borderTop: "1px solid var(--border)" }}>
+            <Link href="/" style={{ fontSize: "0.8rem", color: "var(--muted)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.4rem" }}>
+              <ArrowLeft size={14} /> {lang === "te" ? "వెబ్‌సైట్‌కి తిరిగి వెళ్లండి" : "Back to Website"}
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ----------------------------------------------------
+  // AUTHENTICATED ADMIN DASHBOARD
+  // ----------------------------------------------------
+  return (
+    <div style={{ background: "var(--warm-bg)", minHeight: "100vh", paddingBottom: "4rem" }}>
+      {/* Header Bar */}
+      <div style={{ background: "var(--charcoal)", color: "white", padding: "1.25rem 0", borderBottom: "3px solid var(--saffron)" }}>
+        <div className="container-site" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <span className="tag tag-saffron">{lang === "te" ? "అధికారిక ఎడ్మిన్" : "Official Admin"}</span>
+              <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)" }}>| Beerla Ilaiah MLA Portal</span>
+            </div>
+            <h1 style={{ fontSize: "1.5rem", fontWeight: 800, marginTop: "0.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+              {lang === "te" ? "వెబ్‌సైట్ నిర్వహణ పోర్టల్" : "Live Website Control Center"}
+            </h1>
+          </div>
+
+          <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+            <Link href="/" target="_blank" className="btn-outline-white" style={{ fontSize: "0.8rem", padding: "0.5rem 1rem" }}>
+              <Eye size={14} /> {lang === "te" ? "లైవ్ సైట్ చూడండి" : "View Live Site"}
+            </Link>
+            <button
+              onClick={logoutAdmin}
+              style={{
+                background: "rgba(255,255,255,0.1)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                color: "white",
+                padding: "0.5rem 1rem",
+                borderRadius: "100px",
+                fontSize: "0.8rem",
+                fontWeight: 600,
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.4rem",
+              }}
+            >
+              <LogOut size={14} /> {lang === "te" ? "నిష్క్రమించు" : "Sign Out"}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="container-site" style={{ marginTop: "2rem" }}>
+        {/* Navigation Tabs */}
+        <div style={{ display: "flex", gap: "0.5rem", marginBottom: "2rem", borderBottom: "1px solid var(--border)", paddingBottom: "0.5rem", overflowX: "auto" }}>
+          {[
+            { id: "ticker", labelEn: "Scrolling News Ticker", labelTe: "స్క్రోలింగ్ బ్రేకింగ్ అప్‌డేట్లు", icon: Megaphone },
+            { id: "hero", labelEn: "Hero Section Studio", labelTe: "హీరో సెక్షన్ డిజైన్", icon: Layout },
+            { id: "security", labelEn: "Security & Passcode", labelTe: "పాస్‌కోడ్ సెట్టింగ్‌లు", icon: Key },
+          ].map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                style={{
+                  padding: "0.65rem 1.25rem",
+                  borderRadius: "100px",
+                  border: "none",
+                  background: isActive ? "var(--saffron)" : "var(--white)",
+                  color: isActive ? "white" : "var(--charcoal)",
+                  fontSize: "0.875rem",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  boxShadow: isActive ? "0 4px 12px rgba(238,90,28,0.25)" : "none",
+                  transition: "all 0.2s ease",
+                  fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
+                }}
+              >
+                <Icon size={16} />
+                {lang === "te" ? tab.labelTe : tab.labelEn}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* TAB 1: SCROLLING TICKER MANAGER */}
+        {activeTab === "ticker" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }} className="grid-2-col">
+            {/* Add New Ticker Item */}
+            <div style={{ background: "var(--white)", padding: "1.75rem", borderRadius: "16px", border: "1px solid var(--border)" }}>
+              <h2 style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                <Plus size={18} color="var(--saffron)" />
+                {lang === "te" ? "క్రొత్త బ్రేకింగ్ అప్‌డేట్ జోడించండి" : "Add New Scrolling Update"}
+              </h2>
+
+              <form onSubmit={handleAddTicker}>
+                <div style={{ marginBottom: "1rem" }}>
+                  <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", marginBottom: "0.35rem" }}>
+                    Update Text (English)
+                  </label>
+                  <input
+                    type="text"
+                    value={newTickerEn}
+                    onChange={(e) => setNewTickerEn(e.target.value)}
+                    placeholder="e.g. MLA Beerla Ilaiah Inspects Alair Canal Works"
+                    style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "0.9rem" }}
+                  />
+                </div>
+
+                <div style={{ marginBottom: "1rem" }}>
+                  <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", marginBottom: "0.35rem" }}>
+                    అప్‌డేట్ పాఠం (తెలుగు)
+                  </label>
+                  <input
+                    type="text"
+                    value={newTickerTe}
+                    onChange={(e) => setNewTickerTe(e.target.value)}
+                    placeholder="ఉదా: ఎమ్మెల్యే బీర్ల ఇలయ్య గారి ఆలేరు కాలువల పరిశీలన"
+                    style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "0.9rem", fontFamily: "var(--font-telugu)" }}
+                  />
+                </div>
+
+                <div style={{ marginBottom: "1.5rem" }}>
+                  <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", marginBottom: "0.35rem" }}>
+                    Link URL (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={newTickerLink}
+                    onChange={(e) => setNewTickerLink(e.target.value)}
+                    placeholder="e.g. /news or /public-service"
+                    style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "0.9rem" }}
+                  />
+                </div>
+
+                <button type="submit" className="btn-primary" style={{ width: "100%", justifyContent: "center", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                  <Plus size={16} /> {lang === "te" ? "అప్‌డేట్ ప్రచురించండి" : "Publish Update to Marquee"}
+                </button>
+              </form>
+            </div>
+
+            {/* Existing Ticker Items List */}
+            <div style={{ background: "var(--white)", padding: "1.75rem", borderRadius: "16px", border: "1px solid var(--border)" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+                <h2 style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                  {lang === "te" ? "ప్రస్తుత అప్‌డేట్ల జాబితా" : "Active Marquee Items"} ({tickerItems.length})
+                </h2>
+                <button
+                  onClick={resetToDefaults}
+                  style={{ background: "transparent", border: "none", color: "var(--muted-light)", fontSize: "0.75rem", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.25rem" }}
+                >
+                  <RefreshCw size={12} /> Reset Defaults
+                </button>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.875rem" }}>
+                {tickerItems.map((item) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      padding: "1rem",
+                      borderRadius: "10px",
+                      border: "1px solid var(--border)",
+                      background: item.active ? "var(--white)" : "#F7F7F7",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      gap: "1rem",
+                    }}
+                  >
+                    <div>
+                      <p style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--charcoal)", marginBottom: "0.2rem" }}>
+                        {item.textEn}
+                      </p>
+                      <p style={{ fontSize: "0.8rem", color: "var(--muted)", fontFamily: "var(--font-telugu)" }}>
+                        {item.textTe}
+                      </p>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexShrink: 0 }}>
+                      <button
+                        onClick={() => toggleTickerItem(item.id)}
+                        style={{
+                          padding: "0.3rem 0.65rem",
+                          borderRadius: "100px",
+                          border: "none",
+                          background: item.active ? "rgba(22,106,47,0.12)" : "rgba(0,0,0,0.06)",
+                          color: item.active ? "var(--congress-green)" : "var(--muted)",
+                          fontSize: "0.72rem",
+                          fontWeight: 700,
+                          cursor: "pointer",
+                        }}
+                      >
+                        {item.active ? "LIVE" : "PAUSED"}
+                      </button>
+
+                      <button
+                        onClick={() => deleteTickerItem(item.id)}
+                        style={{ background: "transparent", border: "none", color: "#E53E3E", cursor: "pointer", padding: "0.3rem" }}
+                        aria-label="Delete ticker"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 2: HERO SECTION CUSTOMIZER */}
+        {activeTab === "hero" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "2rem" }} className="grid-2-col">
+            {/* Hero Form */}
+            <div style={{ background: "var(--white)", padding: "1.75rem", borderRadius: "16px", border: "1px solid var(--border)" }}>
+              <h2 style={{ fontSize: "1.15rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "1.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                {lang === "te" ? "హీరో సెక్షన్ ఫోటోలు & పాఠం నవీకరించండి" : "Customize Hero Section Assets & Typography"}
+              </h2>
+
+              <form onSubmit={handleHeroSave}>
+                <div style={{ marginBottom: "1.25rem" }}>
+                  <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", marginBottom: "0.35rem" }}>
+                    Background Image URL
+                  </label>
+                  <input
+                    type="text"
+                    value={heroForm.bgImage}
+                    onChange={(e) => setHeroForm({ ...heroForm, bgImage: e.target.value })}
+                    style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "0.875rem" }}
+                  />
+                  <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+                    {["/images/hero-bg.jpg", "/images/alair-agriculture.jpg", "/images/yadadri-temple.jpg"].map((url) => (
+                      <button
+                        key={url}
+                        type="button"
+                        onClick={() => setHeroForm({ ...heroForm, bgImage: url })}
+                        style={{ fontSize: "0.7rem", padding: "0.2rem 0.5rem", borderRadius: "4px", border: "1px solid var(--border)", background: "var(--warm-bg)", cursor: "pointer" }}
+                      >
+                        Preset {url.split("/").pop()}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ marginBottom: "1.25rem" }}>
+                  <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", marginBottom: "0.35rem" }}>
+                    Side Portrait Card Image URL
+                  </label>
+                  <input
+                    type="text"
+                    value={heroForm.sideImage}
+                    onChange={(e) => setHeroForm({ ...heroForm, sideImage: e.target.value })}
+                    style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "0.875rem" }}
+                  />
+                  <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+                    {["/images/beerla-standing.jpg", "/images/images (1).jpeg"].map((url) => (
+                      <button
+                        key={url}
+                        type="button"
+                        onClick={() => setHeroForm({ ...heroForm, sideImage: url })}
+                        style={{ fontSize: "0.7rem", padding: "0.2rem 0.5rem", borderRadius: "4px", border: "1px solid var(--border)", background: "var(--warm-bg)", cursor: "pointer" }}
+                      >
+                        Preset {url.split("/").pop()}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ marginBottom: "1.25rem" }}>
+                  <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", marginBottom: "0.35rem" }}>
+                    Text Placement Alignment
+                  </label>
+                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                    {(["left", "center", "right"] as const).map((align) => (
+                      <button
+                        key={align}
+                        type="button"
+                        onClick={() => setHeroForm({ ...heroForm, alignment: align })}
+                        style={{
+                          flex: 1,
+                          padding: "0.5rem",
+                          borderRadius: "8px",
+                          border: "1.5px solid",
+                          borderColor: heroForm.alignment === align ? "var(--saffron)" : "var(--border)",
+                          background: heroForm.alignment === align ? "rgba(238,90,28,0.1)" : "var(--white)",
+                          color: heroForm.alignment === align ? "var(--saffron)" : "var(--muted)",
+                          fontWeight: 700,
+                          textTransform: "capitalize",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {align}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <button type="submit" className="btn-primary" style={{ width: "100%", justifyContent: "center", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                  <CheckCircle size={16} /> {lang === "te" ? "మార్పులు సేవ్ చేయండి" : "Save Live Hero Customizations"}
+                </button>
+              </form>
+            </div>
+
+            {/* Live Card Preview */}
+            <div style={{ background: "var(--charcoal)", padding: "1.75rem", borderRadius: "16px", color: "white" }}>
+              <h3 style={{ fontSize: "0.85rem", fontWeight: 700, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "1rem" }}>
+                Live Hero Section Preview
+              </h3>
+
+              <div style={{ position: "relative", width: "100%", aspectRatio: "3/4", borderRadius: "12px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)" }}>
+                <Image src={heroForm.sideImage || "/images/beerla-standing.jpg"} alt="Preview" fill style={{ objectFit: "cover" }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)" }} />
+                <div style={{ position: "absolute", bottom: "1rem", left: "1rem", right: "1rem" }}>
+                  <span className="tag tag-saffron" style={{ marginBottom: "0.3rem", display: "inline-block" }}>
+                    {heroForm.partyBadgeEn}
+                  </span>
+                  <p style={{ fontSize: "1.25rem", fontWeight: 800, color: "white" }}>{heroForm.headlineEn}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3: SECURITY SETTINGS */}
+        {activeTab === "security" && (
+          <div style={{ maxWidth: "500px", margin: "0 auto", background: "var(--white)", padding: "2rem", borderRadius: "16px", border: "1px solid var(--border)" }}>
+            <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+              <Key size={20} color="var(--saffron)" />
+              {lang === "te" ? "ఎడ్మిన్ పాస్‌కోడ్ మార్చండి" : "Update Admin Passcode"}
+            </h2>
+
+            <form onSubmit={handlePinChange}>
+              <div style={{ marginBottom: "1.25rem" }}>
+                <label style={{ display: "block", fontSize: "0.78rem", fontWeight: 700, color: "var(--muted)", marginBottom: "0.35rem" }}>
+                  New Security PIN / Passcode
+                </label>
+                <input
+                  type="password"
+                  value={newPinInput}
+                  onChange={(e) => setNewPinInput(e.target.value)}
+                  placeholder="Enter new 4+ digit PIN"
+                  style={{ width: "100%", padding: "0.75rem", borderRadius: "8px", border: "1px solid var(--border)", fontSize: "1rem", letterSpacing: "0.2em", textAlign: "center" }}
+                />
+              </div>
+
+              {pinSuccessMsg && (
+                <p style={{ color: pinSuccessMsg.includes("సఫలం") || pinSuccessMsg.includes("successfully") ? "var(--congress-green)" : "#E53E3E", fontSize: "0.82rem", marginBottom: "1rem", fontWeight: 600 }}>
+                  {pinSuccessMsg}
+                </p>
+              )}
+
+              <button type="submit" className="btn-primary" style={{ width: "100%", justifyContent: "center", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
+                {lang === "te" ? "పాస్‌కోడ్ మార్చండి" : "Update Access Passcode"}
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

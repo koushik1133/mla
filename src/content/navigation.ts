@@ -25,5 +25,6 @@ export const footerLinks = {
     { label: "Photo Gallery", href: "/gallery" },
     { label: "News", href: "/news" },
     { label: "Contact", href: "/contact" },
+    { label: "Admin Portal", href: "/admin" },
   ],
 };
