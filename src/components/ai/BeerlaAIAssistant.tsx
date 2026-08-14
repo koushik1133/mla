@@ -127,6 +127,24 @@ export default function BeerlaAIAssistant() {
 
   const suggestions = lang === "te" ? suggestedQueriesTe : suggestedQueriesEn;
 
+  // Helper to format text and replace long raw URLs with clean handle names
+  const formatText = (txt: string) => {
+    if (!txt) return "";
+    return txt
+      .replace(/https?:\/\/(www\.)?instagram\.com\/([a-zA-Z0-9_\-\.]+)\/?/gi, "@$2")
+      .replace(/https?:\/\/(www\.)?facebook\.com\/([a-zA-Z0-9_\-\.]+)\/?/gi, "@$2")
+      .replace(/https?:\/\/(www\.)?twitter\.com\/([a-zA-Z0-9_\-\.]+)\/?/gi, "@$2")
+      .replace(/https?:\/\/(www\.)?x\.com\/([a-zA-Z0-9_\-\.]+)\/?/gi, "@$2")
+      .replace(/(https?:\/\/[^\s]+)/g, (url) => {
+        try {
+          const parsed = new URL(url);
+          return parsed.hostname + (parsed.pathname.length > 10 ? parsed.pathname.slice(0, 10) + "..." : parsed.pathname);
+        } catch {
+          return url.length > 25 ? url.slice(0, 25) + "..." : url;
+        }
+      });
+  };
+
   return (
     <>
       {/* Floating Trigger Button */}
@@ -246,10 +264,13 @@ export default function BeerlaAIAssistant() {
                       lineHeight: 1.55,
                       boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
                       border: msg.sender === "ai" ? "1px solid var(--border)" : "none",
+                      wordBreak: "break-word",
+                      overflowWrap: "anywhere",
+                      whiteSpace: "pre-wrap",
                       fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
                     }}
                   >
-                    <p style={{ margin: 0 }}>{msg.text}</p>
+                    <p style={{ margin: 0 }}>{formatText(msg.text)}</p>
 
                     {/* Interactive Social Media Buttons */}
                     {msg.sender === "ai" && msg.showSocialButtons && (

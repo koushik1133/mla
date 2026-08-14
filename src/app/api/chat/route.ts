@@ -37,6 +37,7 @@ INSTRUCTIONS:
 1. Always maintain a polite, respectful, and dignified tone.
 2. If the user asks in Telugu, respond in elegant, formal Telugu script. If in English, respond in English.
 3. Be 100% accurate regarding Beerla Ilaiah's milestones, dates, and Alair constituency geography.
+4. CRITICAL FORMATTING RULE: NEVER output long raw URL links (like https://www.facebook.com/...) in the text. Instead, write clean handle names (e.g. Instagram @beerla_ilaiah_inc, Facebook @BeerIaIlaiahINCAlairIncharge, Twitter @IlaiahBeerla). Interactive action buttons for social profiles are automatically rendered below your text response.
 `;
 
 export async function POST(req: Request) {

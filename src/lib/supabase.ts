@@ -96,51 +96,95 @@ export interface GalleryRecord {
 }
 
 // ----------------------------------------------------------------------
-// MESSAGES API
+// MESSAGES API (Hybrid Supabase + LocalStorage Fallback)
 // ----------------------------------------------------------------------
 export async function submitContactMessage(msg: MessageRecord) {
-  if (supabase) {
-    const { data, error } = await supabase.from("messages").insert([msg]).select();
-    if (error) throw error;
-    return data;
-  } else {
-    // LocalStorage Fallback
-    const existing = JSON.parse(localStorage.getItem("beerla_messages") || "[]");
-    const newMsg = {
-      ...msg,
-      id: "msg_" + Date.now(),
-      created_at: new Date().toISOString(),
-      is_read: false,
-    };
+  const newMsg: MessageRecord = {
+    ...msg,
+    id: msg.id || "msg_" + Date.now(),
+    created_at: msg.created_at || new Date().toISOString(),
+    is_read: false,
+  };
+
+  // Always save locally so messages are NEVER lost
+  try {
+    const existing: MessageRecord[] = JSON.parse(typeof window !== "undefined" ? localStorage.getItem("beerla_messages") || "[]" : "[]");
     existing.unshift(newMsg);
-    localStorage.setItem("beerla_messages", JSON.stringify(existing));
-    return [newMsg];
+    if (typeof window !== "undefined") {
+      localStorage.setItem("beerla_messages", JSON.stringify(existing));
+    }
+  } catch (e) {
+    console.error("Local storage error:", e);
   }
+
+  // Sync to Supabase if configured
+  if (supabase) {
+    try {
+      const { data, error } = await supabase.from("messages").insert([newMsg]).select();
+      if (error) {
+        console.warn("Supabase insert error (stored locally):", error.message);
+      } else if (data && data[0]) {
+        return data[0];
+      }
+    } catch (e) {
+      console.warn("Supabase network error (stored locally):", e);
+    }
+  }
+
+  return newMsg;
 }
 
 export async function fetchContactMessages(): Promise<MessageRecord[]> {
-  if (supabase) {
-    const { data, error } = await supabase
-      .from("messages")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (error) throw error;
-    return data || [];
-  } else {
-    // LocalStorage Fallback
-    const existing = JSON.parse(localStorage.getItem("beerla_messages") || "[]");
-    return existing;
+  let localMessages: MessageRecord[] = [];
+  try {
+    if (typeof window !== "undefined") {
+      localMessages = JSON.parse(localStorage.getItem("beerla_messages") || "[]");
+    }
+  } catch (e) {
+    console.error("Error reading local messages:", e);
   }
+
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("messages")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        // Merge Supabase items and Local items, deduplicating by ID or timestamp
+        const combinedMap = new Map<string, MessageRecord>();
+        data.forEach((m) => combinedMap.set(m.id || `${m.created_at}_${m.name}`, m));
+        localMessages.forEach((m) => combinedMap.set(m.id || `${m.created_at}_${m.name}`, m));
+        return Array.from(combinedMap.values()).sort(
+          (a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+        );
+      }
+    } catch (e) {
+      console.warn("Error fetching Supabase messages:", e);
+    }
+  }
+
+  return localMessages;
 }
 
 export async function deleteContactMessage(id: string) {
+  try {
+    if (typeof window !== "undefined") {
+      const existing: MessageRecord[] = JSON.parse(localStorage.getItem("beerla_messages") || "[]");
+      const filtered = existing.filter((m) => m.id !== id);
+      localStorage.setItem("beerla_messages", JSON.stringify(filtered));
+    }
+  } catch (e) {
+    console.error("Error deleting local message:", e);
+  }
+
   if (supabase) {
-    const { error } = await supabase.from("messages").delete().eq("id", id);
-    if (error) throw error;
-  } else {
-    const existing: MessageRecord[] = JSON.parse(localStorage.getItem("beerla_messages") || "[]");
-    const filtered = existing.filter((m) => m.id !== id);
-    localStorage.setItem("beerla_messages", JSON.stringify(filtered));
+    try {
+      await supabase.from("messages").delete().eq("id", id);
+    } catch (e) {
+      console.warn("Error deleting Supabase message:", e);
+    }
   }
 }
 
@@ -148,51 +192,83 @@ export async function deleteContactMessage(id: string) {
 // NEWS ARTICLES API
 // ----------------------------------------------------------------------
 export async function fetchNewsArticles(): Promise<NewsRecord[]> {
-  if (supabase) {
-    const { data, error } = await supabase
-      .from("news_articles")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (!error && data && data.length > 0) return data;
+  let localNews: NewsRecord[] = [];
+  try {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("beerla_news");
+      if (stored) localNews = JSON.parse(stored);
+    }
+  } catch (e) {
+    console.error("Error reading local news:", e);
   }
-  // LocalStorage / Default Fallback
-  const stored = localStorage.getItem("beerla_news");
-  if (stored) return JSON.parse(stored);
-  return [];
+
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("news_articles")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (!error && data && data.length > 0) {
+        const map = new Map<string, NewsRecord>();
+        data.forEach((n) => map.set(n.id || n.title, n));
+        localNews.forEach((n) => map.set(n.id || n.title, n));
+        return Array.from(map.values());
+      }
+    } catch (e) {
+      console.warn("Error fetching Supabase news:", e);
+    }
+  }
+
+  return localNews;
 }
 
 export async function saveNewsArticle(news: NewsRecord) {
-  if (supabase) {
-    if (news.id) {
-      const { data, error } = await supabase.from("news_articles").update(news).eq("id", news.id).select();
-      if (error) throw error;
-      return data;
-    } else {
-      const { data, error } = await supabase.from("news_articles").insert([news]).select();
-      if (error) throw error;
-      return data;
+  const item = { ...news, id: news.id || "news_" + Date.now() };
+
+  try {
+    if (typeof window !== "undefined") {
+      const existing: NewsRecord[] = JSON.parse(localStorage.getItem("beerla_news") || "[]");
+      const idx = existing.findIndex((n) => n.id === item.id);
+      if (idx !== -1) existing[idx] = item;
+      else existing.unshift(item);
+      localStorage.setItem("beerla_news", JSON.stringify(existing));
     }
-  } else {
-    const existing: NewsRecord[] = JSON.parse(localStorage.getItem("beerla_news") || "[]");
-    if (news.id) {
-      const idx = existing.findIndex((n) => n.id === news.id);
-      if (idx !== -1) existing[idx] = news;
-    } else {
-      existing.unshift({ ...news, id: "news_" + Date.now() });
-    }
-    localStorage.setItem("beerla_news", JSON.stringify(existing));
-    return existing;
+  } catch (e) {
+    console.error("Error saving local news:", e);
   }
+
+  if (supabase) {
+    try {
+      if (news.id) {
+        await supabase.from("news_articles").update(news).eq("id", news.id);
+      } else {
+        await supabase.from("news_articles").insert([item]);
+      }
+    } catch (e) {
+      console.warn("Error saving Supabase news:", e);
+    }
+  }
+
+  return item;
 }
 
 export async function deleteNewsArticle(id: string) {
+  try {
+    if (typeof window !== "undefined") {
+      const existing: NewsRecord[] = JSON.parse(localStorage.getItem("beerla_news") || "[]");
+      const filtered = existing.filter((n) => n.id !== id);
+      localStorage.setItem("beerla_news", JSON.stringify(filtered));
+    }
+  } catch (e) {
+    console.error("Error deleting local news:", e);
+  }
+
   if (supabase) {
-    const { error } = await supabase.from("news_articles").delete().eq("id", id);
-    if (error) throw error;
-  } else {
-    const existing: NewsRecord[] = JSON.parse(localStorage.getItem("beerla_news") || "[]");
-    const filtered = existing.filter((n) => n.id !== id);
-    localStorage.setItem("beerla_news", JSON.stringify(filtered));
+    try {
+      await supabase.from("news_articles").delete().eq("id", id);
+    } catch (e) {
+      console.warn("Error deleting Supabase news:", e);
+    }
   }
 }
 
@@ -200,50 +276,83 @@ export async function deleteNewsArticle(id: string) {
 // MEDIA VIDEOS API
 // ----------------------------------------------------------------------
 export async function fetchMediaVideos(): Promise<MediaRecord[]> {
-  if (supabase) {
-    const { data, error } = await supabase
-      .from("media_videos")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (!error && data && data.length > 0) return data;
+  let localMedia: MediaRecord[] = [];
+  try {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("beerla_media");
+      if (stored) localMedia = JSON.parse(stored);
+    }
+  } catch (e) {
+    console.error("Error reading local media:", e);
   }
-  const stored = localStorage.getItem("beerla_media");
-  if (stored) return JSON.parse(stored);
-  return [];
+
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("media_videos")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (!error && data && data.length > 0) {
+        const map = new Map<string, MediaRecord>();
+        data.forEach((v) => map.set(v.id || v.youtube_id, v));
+        localMedia.forEach((v) => map.set(v.id || v.youtube_id, v));
+        return Array.from(map.values());
+      }
+    } catch (e) {
+      console.warn("Error fetching Supabase media:", e);
+    }
+  }
+
+  return localMedia;
 }
 
 export async function saveMediaVideo(video: MediaRecord) {
-  if (supabase) {
-    if (video.id) {
-      const { data, error } = await supabase.from("media_videos").update(video).eq("id", video.id).select();
-      if (error) throw error;
-      return data;
-    } else {
-      const { data, error } = await supabase.from("media_videos").insert([video]).select();
-      if (error) throw error;
-      return data;
+  const item = { ...video, id: video.id || "vid_" + Date.now() };
+
+  try {
+    if (typeof window !== "undefined") {
+      const existing: MediaRecord[] = JSON.parse(localStorage.getItem("beerla_media") || "[]");
+      const idx = existing.findIndex((v) => v.id === item.id);
+      if (idx !== -1) existing[idx] = item;
+      else existing.unshift(item);
+      localStorage.setItem("beerla_media", JSON.stringify(existing));
     }
-  } else {
-    const existing: MediaRecord[] = JSON.parse(localStorage.getItem("beerla_media") || "[]");
-    if (video.id) {
-      const idx = existing.findIndex((v) => v.id === video.id);
-      if (idx !== -1) existing[idx] = video;
-    } else {
-      existing.unshift({ ...video, id: "vid_" + Date.now() });
-    }
-    localStorage.setItem("beerla_media", JSON.stringify(existing));
-    return existing;
+  } catch (e) {
+    console.error("Error saving local media:", e);
   }
+
+  if (supabase) {
+    try {
+      if (video.id) {
+        await supabase.from("media_videos").update(video).eq("id", video.id);
+      } else {
+        await supabase.from("media_videos").insert([item]);
+      }
+    } catch (e) {
+      console.warn("Error saving Supabase media:", e);
+    }
+  }
+
+  return item;
 }
 
 export async function deleteMediaVideo(id: string) {
+  try {
+    if (typeof window !== "undefined") {
+      const existing: MediaRecord[] = JSON.parse(localStorage.getItem("beerla_media") || "[]");
+      const filtered = existing.filter((v) => v.id !== id);
+      localStorage.setItem("beerla_media", JSON.stringify(filtered));
+    }
+  } catch (e) {
+    console.error("Error deleting local media:", e);
+  }
+
   if (supabase) {
-    const { error } = await supabase.from("media_videos").delete().eq("id", id);
-    if (error) throw error;
-  } else {
-    const existing: MediaRecord[] = JSON.parse(localStorage.getItem("beerla_media") || "[]");
-    const filtered = existing.filter((v) => v.id !== id);
-    localStorage.setItem("beerla_media", JSON.stringify(filtered));
+    try {
+      await supabase.from("media_videos").delete().eq("id", id);
+    } catch (e) {
+      console.warn("Error deleting Supabase media:", e);
+    }
   }
 }
 
@@ -251,49 +360,82 @@ export async function deleteMediaVideo(id: string) {
 // GALLERY IMAGES API
 // ----------------------------------------------------------------------
 export async function fetchGalleryImages(): Promise<GalleryRecord[]> {
-  if (supabase) {
-    const { data, error } = await supabase
-      .from("gallery_images")
-      .select("*")
-      .order("created_at", { ascending: false });
-    if (!error && data && data.length > 0) return data;
+  let localGallery: GalleryRecord[] = [];
+  try {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("beerla_gallery");
+      if (stored) localGallery = JSON.parse(stored);
+    }
+  } catch (e) {
+    console.error("Error reading local gallery:", e);
   }
-  const stored = localStorage.getItem("beerla_gallery");
-  if (stored) return JSON.parse(stored);
-  return [];
+
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from("gallery_images")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (!error && data && data.length > 0) {
+        const map = new Map<string, GalleryRecord>();
+        data.forEach((g) => map.set(g.id || g.src, g));
+        localGallery.forEach((g) => map.set(g.id || g.src, g));
+        return Array.from(map.values());
+      }
+    } catch (e) {
+      console.warn("Error fetching Supabase gallery:", e);
+    }
+  }
+
+  return localGallery;
 }
 
 export async function saveGalleryImage(img: GalleryRecord) {
-  if (supabase) {
-    if (img.id) {
-      const { data, error } = await supabase.from("gallery_images").update(img).eq("id", img.id).select();
-      if (error) throw error;
-      return data;
-    } else {
-      const { data, error } = await supabase.from("gallery_images").insert([img]).select();
-      if (error) throw error;
-      return data;
+  const item = { ...img, id: img.id || "img_" + Date.now() };
+
+  try {
+    if (typeof window !== "undefined") {
+      const existing: GalleryRecord[] = JSON.parse(localStorage.getItem("beerla_gallery") || "[]");
+      const idx = existing.findIndex((g) => g.id === item.id);
+      if (idx !== -1) existing[idx] = item;
+      else existing.unshift(item);
+      localStorage.setItem("beerla_gallery", JSON.stringify(existing));
     }
-  } else {
-    const existing: GalleryRecord[] = JSON.parse(localStorage.getItem("beerla_gallery") || "[]");
-    if (img.id) {
-      const idx = existing.findIndex((g) => g.id === img.id);
-      if (idx !== -1) existing[idx] = img;
-    } else {
-      existing.unshift({ ...img, id: "img_" + Date.now() });
-    }
-    localStorage.setItem("beerla_gallery", JSON.stringify(existing));
-    return existing;
+  } catch (e) {
+    console.error("Error saving local gallery:", e);
   }
+
+  if (supabase) {
+    try {
+      if (img.id) {
+        await supabase.from("gallery_images").update(img).eq("id", img.id);
+      } else {
+        await supabase.from("gallery_images").insert([item]);
+      }
+    } catch (e) {
+      console.warn("Error saving Supabase gallery:", e);
+    }
+  }
+
+  return item;
 }
 
 export async function deleteGalleryImage(id: string) {
+  try {
+    if (typeof window !== "undefined") {
+      const existing: GalleryRecord[] = JSON.parse(localStorage.getItem("beerla_gallery") || "[]");
+      const filtered = existing.filter((g) => g.id !== id);
+      localStorage.setItem("beerla_gallery", JSON.stringify(filtered));
+    }
+  } catch (e) {
+    console.error("Error deleting local gallery:", e);
+  }
+
   if (supabase) {
-    const { error } = await supabase.from("gallery_images").delete().eq("id", id);
-    if (error) throw error;
-  } else {
-    const existing: GalleryRecord[] = JSON.parse(localStorage.getItem("beerla_gallery") || "[]");
-    const filtered = existing.filter((g) => g.id !== id);
-    localStorage.setItem("beerla_gallery", JSON.stringify(filtered));
+    try {
+      await supabase.from("gallery_images").delete().eq("id", id);
+    } catch (e) {
+      console.warn("Error deleting Supabase gallery:", e);
+    }
   }
 }

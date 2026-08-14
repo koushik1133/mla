@@ -55,9 +55,9 @@ export default function ContactPage() {
     if (!validate()) return;
 
     // Rate Limiting check
-    const lastSub = localStorage.getItem("beerla_last_contact_sub");
-    if (lastSub && Date.now() - parseInt(lastSub, 10) < 45000) {
-      setErrors({ form: lang === "te" ? "దయచేసి కొద్దిసేపు ఆగి మళ్ళీ పంపండి." : "Please wait 45 seconds before submitting another request." });
+    const lastSub = typeof window !== "undefined" ? localStorage.getItem("beerla_last_contact_sub") : null;
+    if (lastSub && Date.now() - parseInt(lastSub, 10) < 30000) {
+      setErrors({ form: lang === "te" ? "దయచేసి కొద్దిసేపు ఆగి మళ్ళీ పంపండి." : "Please wait 30 seconds before submitting another request." });
       return;
     }
 
@@ -73,17 +73,16 @@ export default function ContactPage() {
       };
 
       await submitContactMessage(sanitizedMsg);
-      localStorage.setItem("beerla_last_contact_sub", Date.now().toString());
+      if (typeof window !== "undefined") {
+        localStorage.setItem("beerla_last_contact_sub", Date.now().toString());
+      }
 
       setStatus("sent");
       setForm({ name: "", email: "", phone: "", message: "" });
-    } catch {
+    } catch (err) {
+      console.error("Failed to submit contact message:", err);
       setStatus("error");
     }
-
-    await new Promise((r) => setTimeout(r, 1000));
-    localStorage.setItem("beerla_last_contact_sub", Date.now().toString());
-    setStatus("sent");
   };
 
   return (
