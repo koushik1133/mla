@@ -32,33 +32,6 @@ export default function MediaPage() {
   const t = translations[lang].media;
   const [allVideos, setAllVideos] = useState<MediaRecord[]>(staticFallback);
   const [activeFilter, setActiveFilter] = useState<Category>("all");
-  const [videoList, setVideoList] = useState<VideoItem[]>(defaultVideos);
-
-  useEffect(() => {
-    async function loadVideos() {
-      try {
-        const dynamicVideos = await fetchMediaVideos();
-        if (dynamicVideos && dynamicVideos.length > 0) {
-          const mapped: VideoItem[] = dynamicVideos.map((v) => ({
-            id: v.id || `vid_${Math.random()}`,
-            title: v.title,
-            titleTelugu: v.title_telugu || v.title,
-            publisher: v.channel || "Telugu News",
-            date: v.date,
-            dateTelugu: v.date,
-            category: (v.category?.toLowerCase().includes("interview") ? "interview" : "public-event") as any,
-            youtubeId: extractYouTubeId(v.youtube_id),
-            thumbnailUrl: v.thumbnail_url,
-            youtubeSearchQuery: `Beerla Ilaiah ${v.title}`,
-          }));
-          setVideoList(mapped);
-        }
-      } catch (e) {
-        console.error("Using default video list:", e);
-      }
-    }
-    loadVideos();
-  }, []);
 
   useEffect(() => {
     fetchMediaVideos().then((dynamic) => {

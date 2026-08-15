@@ -71,6 +71,7 @@ export interface GalleryRecord {
   caption_telugu?: string;
   object_fit?: "cover" | "contain";
   object_position?: string;
+  display_order?: number;
   created_at?: string;
 }
 
@@ -713,8 +714,11 @@ export async function fetchGalleryCategories(): Promise<GalleryCategoryRecord[]>
   return localCats;
 }
 
-export async function saveGalleryCategory(cat: GalleryCategoryRecord) {
-  const item = { ...cat, id: cat.id || "cat_" + Date.now() };
+export async function saveGalleryCategory(catOrEn: GalleryCategoryRecord | string, te?: string) {
+  const item: GalleryCategoryRecord =
+    typeof catOrEn === "string"
+      ? { en: catOrEn, te: te || catOrEn, id: "cat_" + Date.now() }
+      : { ...catOrEn, id: catOrEn.id || "cat_" + Date.now() };
 
   try {
     if (typeof window !== "undefined") {

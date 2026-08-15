@@ -354,12 +354,13 @@ export default function AdminPage() {
     setAuthError("");
 
     try {
-      const res = await supabaseAdminLogin(authEmail, authPassword);
-      if (res.success) {
-        setCurrentUserEmail(res.user?.email || authEmail);
+      const res: any = await supabaseAdminLogin(authEmail, authPassword);
+      if (!res?.error && (res?.data?.user || res?.user)) {
+        setCurrentUserEmail(res?.data?.user?.email || res?.user?.email || authEmail);
         window.location.reload();
       } else {
-        setAuthError(res.error || "Authentication failed. Check your credentials.");
+        const errMsg = typeof res?.error === "string" ? res.error : res?.error?.message || "Authentication failed. Check your credentials.";
+        setAuthError(errMsg);
       }
     } catch (err: any) {
       setAuthError(err?.message || "An unexpected error occurred during login.");
