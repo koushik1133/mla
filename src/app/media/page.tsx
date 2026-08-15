@@ -139,7 +139,6 @@ export default function MediaPage() {
       </a>
     );
   };
->>>>>>> Stashed changes
 
   return (
     <div style={{ background: "var(--warm-bg)" }}>
