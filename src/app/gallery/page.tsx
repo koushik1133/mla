@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { X, Info } from "lucide-react";
+import { X } from "lucide-react";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
-import { fetchGalleryImages, GalleryRecord } from "@/lib/supabase";
+import { fetchGalleryImages } from "@/lib/supabase";
 
 interface GalleryItem {
   id: string;
@@ -36,18 +36,6 @@ const defaultGalleryImages: GalleryItem[] = [
   },
   {
     id: "g2",
-    src: "/images/yadadri-temple.jpg",
-    title: "Yadadri Sri Lakshmi Narasimha Swamy Temple",
-    titleTelugu: "యాదాద్రి శ్రీ లక్ష్మీ నరసింహ స్వామి దేవాలయం",
-    category: "Heritage",
-    categoryTelugu: "పుణ్యక్షేత్రం",
-    caption: "The magnificent 4K stone-carved Yadadri temple complex in Yadagirigutta mandal.",
-    captionTelugu: "యాదగిరిగుట్ట మండలంలో కొలువైన 4K ఆధ్యాత్మిక క్షేత్రం యాదాద్రి ఆలయం.",
-    objectFit: "cover",
-    objectPosition: "center 25%",
-  },
-  {
-    id: "g3",
     src: "/images/beerla-portrait.jpg",
     title: "Beerla Ilaiah — MLA, Alair",
     titleTelugu: "బీర్ల ఐలయ్య — ఆలేరు శాసనసభ్యులు",
@@ -59,19 +47,7 @@ const defaultGalleryImages: GalleryItem[] = [
     objectPosition: "center top",
   },
   {
-    id: "g4",
-    src: "/images/alair-agriculture.jpg",
-    title: "Agricultural Farmlands of Alair",
-    titleTelugu: "ఆలేరు నియోజకవర్గ వ్యవసాయ క్షేత్రాలు",
-    category: "Agriculture",
-    categoryTelugu: "వ్యవసాయం",
-    caption: "Lush green agricultural fields representing the rural farming economy of Alair.",
-    captionTelugu: "ఆలేరు నియోజకవర్గ పచ్చని వ్యవసాయ పొలాలు.",
-    objectFit: "cover",
-    objectPosition: "center center",
-  },
-  {
-    id: "g5",
+    id: "g3",
     src: "/images/constituency-map.jpg",
     title: "Alair Constituency Mandal Map",
     titleTelugu: "ఆలేరు నియోజకవర్గ మండలాల పటం",
@@ -84,9 +60,33 @@ const defaultGalleryImages: GalleryItem[] = [
     bgColor: "#FAF6F0",
   },
   {
+    id: "g4",
+    src: "/images/yadadri-temple.jpg",
+    title: "Yadadri Sri Lakshmi Narasimha Swamy Temple",
+    titleTelugu: "యాదాద్రి శ్రీ లక్ష్మీ నరసింహ స్వామి దేవాలయం",
+    category: "Heritage",
+    categoryTelugu: "పుణ్యక్షేత్రం",
+    caption: "The magnificent 4K stone-carved Yadadri temple complex in Yadagirigutta mandal.",
+    captionTelugu: "యాదగిరిగుట్ట మండలంలో కొలువైన 4K ఆధ్యాత్మిక క్షేత్రం యాదాద్రి ఆలయం.",
+    objectFit: "cover",
+    objectPosition: "center 25%",
+  },
+  {
+    id: "g5",
+    src: "/images/alair-agriculture.jpg",
+    title: "Agricultural Farmlands of Alair",
+    titleTelugu: "ఆలేరు నియోజకవర్గ వ్యవసాయ క్షేత్రాలు",
+    category: "Agriculture",
+    categoryTelugu: "వ్యవసాయం",
+    caption: "Lush green agricultural fields representing the rural farming economy of Alair.",
+    captionTelugu: "ఆలేరు నియోజకవర్గ పచ్చని వ్యవసాయ పొలాలు.",
+    objectFit: "cover",
+    objectPosition: "center center",
+  },
+  {
     id: "g6",
     src: "/images/kolanupaka-temple.jpg",
-    title: "Historic Kolanupaka Temple Complex",
+    title: "Kolanupaka Jain & Someswara Temple",
     titleTelugu: "ప్రాచీన కొలనుపాక జైన దేవాలయం",
     category: "Heritage",
     categoryTelugu: "పుణ్యక్షేత్రం",
@@ -129,8 +129,9 @@ export default function GalleryPage() {
             categoryTelugu: g.category_telugu || "ఫోటో",
             caption: g.caption || g.title,
             captionTelugu: g.caption_telugu || g.title_telugu || g.title,
-            objectFit: g.object_fit || "cover",
-            objectPosition: g.object_position || "center center",
+            objectFit: (g.object_fit as any) || (g.src.includes("map") ? "contain" : g.src.includes("portrait") ? "cover" : "cover"),
+            objectPosition: g.object_position || (g.src.includes("portrait") ? "center top" : "center center"),
+            bgColor: g.src.includes("map") ? "#FAF6F0" : undefined,
           }));
           setPhotos(mapped);
         }
@@ -160,40 +161,102 @@ export default function GalleryPage() {
       {/* Gallery Grid */}
       <section className="section-padding">
         <div className="container-site">
-          <div className="gallery-masonry">
-            {photos.map((img) => (
-              <div
-                key={img.id}
-                className="gallery-item"
-                onClick={() => setSelected(img)}
-                tabIndex={0}
-                role="button"
-                aria-label={`View image: ${img.title}`}
-                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelected(img); }}
-              >
-                <div style={{ position: "relative", width: "100%", aspectRatio: "4/3", borderRadius: "12px", overflow: "hidden", background: img.bgColor || "var(--charcoal)" }}>
-                  <Image
-                    src={img.src}
-                    alt={img.title}
-                    fill
-                    style={{
-                      objectFit: img.objectFit || "cover",
-                      objectPosition: img.objectPosition || "center center",
-                      padding: img.objectFit === "contain" ? "12px" : "0",
-                    }}
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  <div className="gallery-overlay">
-                    <span className="tag tag-saffron" style={{ marginBottom: "0.4rem", alignSelf: "flex-start", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                      {lang === "te" ? img.categoryTelugu : img.category}
-                    </span>
-                    <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "white", lineHeight: 1.25, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                      {lang === "te" ? img.titleTelugu : img.title}
-                    </p>
+          <div className="grid-3-col">
+            {photos.map((img) => {
+              const isPortrait = img.src.includes("portrait");
+              const isMap = img.src.includes("map");
+
+              return (
+                <div
+                  key={img.id}
+                  className="gallery-item"
+                  onClick={() => setSelected(img)}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`View image: ${img.title}`}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setSelected(img); }}
+                  style={{ borderRadius: "14px", overflow: "hidden", background: img.bgColor || "var(--white)", border: "1px solid var(--border)" }}
+                >
+                  <div style={{ position: "relative", width: "100%", aspectRatio: "4/3", overflow: "hidden", background: img.bgColor || "var(--charcoal)" }}>
+                    <Image
+                      src={img.src}
+                      alt={img.title}
+                      fill
+                      unoptimized
+                      style={{
+                        objectFit: img.objectFit || (isMap ? "contain" : "cover"),
+                        objectPosition: img.objectPosition || (isPortrait ? "center top" : "center center"),
+                        padding: isMap ? "1rem" : "0",
+                      }}
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div
+                      className="gallery-overlay"
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        padding: "0.85rem",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "flex-end",
+                        alignItems: "flex-start",
+                        gap: "0.35rem",
+                        pointerEvents: "none",
+                      }}
+                    >
+                      <span
+                        style={{
+                          display: "inline-block",
+                          width: "fit-content",
+                          background: "rgba(255, 245, 235, 0.88)",
+                          backdropFilter: "blur(6px)",
+                          WebkitBackdropFilter: "blur(6px)",
+                          border: "1px solid rgba(255, 255, 255, 0.5)",
+                          color: "#C85A17",
+                          fontSize: "0.68rem",
+                          fontWeight: 800,
+                          padding: "0.22rem 0.7rem",
+                          borderRadius: "9999px",
+                          letterSpacing: "0.04em",
+                          textTransform: "uppercase",
+                          boxShadow: "0 2px 6px rgba(0, 0, 0, 0.12)",
+                          fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
+                        }}
+                      >
+                        {lang === "te" ? img.categoryTelugu : img.category}
+                      </span>
+                      <div
+                        style={{
+                          display: "inline-block",
+                          width: "fit-content",
+                          maxWidth: "92%",
+                          background: "rgba(15, 23, 42, 0.5)",
+                          backdropFilter: "blur(6px)",
+                          WebkitBackdropFilter: "blur(6px)",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                          borderRadius: "8px",
+                          padding: "0.35rem 0.65rem",
+                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
+                        }}
+                      >
+                        <p
+                          style={{
+                            fontSize: "0.88rem",
+                            fontWeight: 700,
+                            color: "#FFFFFF",
+                            lineHeight: 1.25,
+                            margin: 0,
+                            fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
+                          }}
+                        >
+                          {lang === "te" ? img.titleTelugu : img.title}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -201,78 +264,72 @@ export default function GalleryPage() {
       {/* Lightbox Modal */}
       {selected && (
         <div
+          onClick={() => setSelected(null)}
           style={{
             position: "fixed",
             inset: 0,
-            zIndex: 300,
-            background: "rgba(0,0,0,0.9)",
-            backdropFilter: "blur(12px)",
+            zIndex: 1000,
+            background: "rgba(0,0,0,0.85)",
+            backdropFilter: "blur(8px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             padding: "2rem",
           }}
-          onClick={() => setSelected(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label={selected.title}
         >
           <div
-            style={{
-              position: "relative",
-              maxWidth: "900px",
-              width: "100%",
-              background: "var(--charcoal)",
-              borderRadius: "16px",
-              overflow: "hidden",
-            }}
             onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "var(--white)",
+              borderRadius: "16px",
+              maxWidth: "760px",
+              width: "100%",
+              overflow: "hidden",
+              boxShadow: "0 24px 48px rgba(0,0,0,0.4)",
+            }}
           >
-            <button
-              onClick={() => setSelected(null)}
-              style={{
-                position: "absolute",
-                top: "1rem",
-                right: "1rem",
-                zIndex: 10,
-                background: "rgba(0,0,0,0.6)",
-                border: "none",
-                borderRadius: "50%",
-                width: "44px",
-                height: "44px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                color: "white",
-              }}
-              aria-label="Close lightbox"
-            >
-              <X size={18} />
-            </button>
-
-            <div style={{ position: "relative", width: "100%", aspectRatio: "16/10", background: selected.bgColor || "var(--charcoal)" }}>
+            <div style={{ position: "relative", width: "100%", height: "420px", background: selected.bgColor || "var(--charcoal)" }}>
               <Image
                 src={selected.src}
                 alt={selected.title}
                 fill
+                unoptimized
                 style={{
-                  objectFit: selected.objectFit || "cover",
-                  objectPosition: selected.objectPosition || "center center",
-                  padding: selected.objectFit === "contain" ? "16px" : "0",
+                  objectFit: selected.objectFit || (selected.src.includes("map") ? "contain" : "cover"),
+                  objectPosition: selected.objectPosition || (selected.src.includes("portrait") ? "center top" : "center center"),
+                  padding: selected.src.includes("map") ? "1.5rem" : "0",
                 }}
-                sizes="900px"
               />
+              <button
+                onClick={() => setSelected(null)}
+                aria-label="Close modal"
+                style={{
+                  position: "absolute",
+                  top: "1rem",
+                  right: "1rem",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  background: "rgba(0,0,0,0.6)",
+                  border: "none",
+                  color: "white",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <X size={18} />
+              </button>
             </div>
-
-            <div style={{ padding: "1.5rem", color: "white" }}>
-              <span className="tag tag-saffron" style={{ marginBottom: "0.5rem", display: "inline-block", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            <div style={{ padding: "1.5rem" }}>
+              <span className="tag tag-saffron" style={{ fontSize: "0.7rem", marginBottom: "0.5rem", display: "inline-block", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                 {lang === "te" ? selected.categoryTelugu : selected.category}
               </span>
-              <p style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: "0.35rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                 {lang === "te" ? selected.titleTelugu : selected.title}
-              </p>
-              <p style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              </h2>
+              <p style={{ fontSize: "0.9rem", color: "var(--muted)", lineHeight: 1.6, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                 {lang === "te" ? selected.captionTelugu : selected.caption}
               </p>
             </div>

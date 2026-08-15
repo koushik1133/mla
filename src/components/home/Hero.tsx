@@ -14,7 +14,6 @@ import { useSiteConfig } from "@/context/SiteConfigContext";
 const defaultSlides = [
   "/images/hero-bg.jpg",
   "/images/yadadri-temple.jpg",
-  "/images/hero2.png",
   "/images/alair-agriculture.jpg",
   "/images/kolanupaka-temple.jpg",
   "/images/alair-development.jpg",
@@ -30,7 +29,6 @@ export default function Hero() {
     new Set([
       heroConfig.bgImage || "/images/hero-bg.jpg",
       "/images/yadadri-temple.jpg",
-      "/images/hero2.png",
       ...(heroConfig.bgImages || defaultSlides),
     ])
   ).filter(Boolean);

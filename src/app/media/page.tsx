@@ -1,18 +1,36 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { Play, ExternalLink, Filter } from "lucide-react";
-import { videos as defaultVideos, VideoItem } from "@/content/videos";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
-import { fetchMediaVideos, getYouTubeThumbnail, extractYouTubeId } from "@/lib/supabase";
+import { fetchMediaVideos, extractYouTubeId, MediaRecord } from "@/lib/supabase";
+import { videos as staticVideos } from "@/content/videos";
 
-type Category = "all" | "interview" | "public-event" | "government" | "congress" | "development";
+type Category = "all" | "interview" | "public-event" | "government" | "congress" | "development" | string;
+
+// Adapt static videos (src/content/videos.ts format) to MediaRecord shape
+const staticFallback: MediaRecord[] = staticVideos.map((v) => ({
+  id: v.id,
+  title: v.title,
+  title_telugu: v.titleTelugu || v.title,
+  youtube_id: v.youtubeSearchQuery || "",   // static videos store a search query
+  category: v.category === "interview" ? "Interview" :
+            v.category === "public-event" ? "Public Event" :
+            v.category === "government" ? "Government" :
+            v.category === "congress" ? "Congress" :
+            v.category === "development" ? "Development" : "Assembly Speech",
+  category_telugu: v.category,
+  date: v.date,
+  channel: v.publisher,
+  channel_telugu: v.publisher,
+  is_featured: false,
+}));
 
 export default function MediaPage() {
   const { lang } = useLang();
   const t = translations[lang].media;
+  const [allVideos, setAllVideos] = useState<MediaRecord[]>(staticFallback);
   const [activeFilter, setActiveFilter] = useState<Category>("all");
   const [videoList, setVideoList] = useState<VideoItem[]>(defaultVideos);
 
@@ -42,9 +60,86 @@ export default function MediaPage() {
     loadVideos();
   }, []);
 
+  useEffect(() => {
+    fetchMediaVideos().then((dynamic) => {
+      if (dynamic && dynamic.length > 0) setAllVideos(dynamic);
+    }).catch(() => {/* keep static fallback */});
+  }, []);
+
+  // Collect distinct categories from loaded videos
+  const categories = Array.from(new Set(allVideos.map((v) => v.category.toLowerCase().replace(/\s+/g, "-"))));
+
   const filtered = activeFilter === "all"
-    ? videoList
-    : videoList.filter((v) => v.category === activeFilter);
+    ? allVideos
+    : allVideos.filter((v) => v.category.toLowerCase().replace(/\s+/g, "-") === activeFilter);
+
+  // Render a single video card
+  const renderCard = (video: MediaRecord, idx: number) => {
+    const ytId = extractYouTubeId(video.youtube_id || "");
+    const hasYtId = Boolean(ytId && ytId.length === 11);
+    const thumb = video.thumbnail_url || "/images/alair-agriculture.jpg";
+    const ytUrl = hasYtId
+      ? `https://www.youtube.com/watch?v=${ytId}`
+      : `https://www.google.com/search?q=${encodeURIComponent("Beerla Ilaiah MLA " + video.title)}`;
+
+    const title = lang === "te" ? (video.title_telugu || video.title) : video.title;
+    const channel = lang === "te" ? (video.channel_telugu || video.channel || "") : (video.channel || "");
+    const catLabel = lang === "te" ? (video.category_telugu || video.category) : video.category;
+
+    return (
+      <a
+        key={video.id || idx}
+        href={ytUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="video-card"
+        style={{ display: "block", textDecoration: "none" }}
+        aria-label={title}
+      >
+        <div className="video-thumbnail" style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden", background: "#0F172A" }}>
+          <img
+            src={thumb}
+            alt={title}
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = "/images/alair-agriculture.jpg";
+            }}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+          <div className="play-button" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.25)" }}>
+            <div style={{ width: "44px", height: "44px", borderRadius: "50%", background: "var(--saffron)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(0,0,0,0.3)" }}>
+              <Play size={18} color="white" fill="white" style={{ marginLeft: "2px" }} />
+            </div>
+          </div>
+          {video.is_featured && (
+            <span style={{ position: "absolute", top: "0.5rem", right: "0.5rem", background: "var(--saffron)", color: "#fff", fontSize: "0.6rem", fontWeight: 700, padding: "0.15rem 0.45rem", borderRadius: "4px", textTransform: "uppercase" }}>Featured</span>
+          )}
+        </div>
+
+        <div style={{ padding: "1.25rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem", flexWrap: "wrap" }}>
+            <span className="tag tag-saffron" style={{ fontSize: "0.65rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {catLabel}
+            </span>
+            <span style={{ fontSize: "0.72rem", color: "var(--muted-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {video.date}
+            </span>
+          </div>
+          <p style={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--charcoal)", lineHeight: 1.3, marginBottom: "0.4rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+            {title}
+          </p>
+          {channel && (
+            <p style={{ fontSize: "0.8rem", color: "var(--muted)", marginBottom: "0.75rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+              {channel}
+            </p>
+          )}
+          <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.75rem", color: "var(--saffron)", fontWeight: 600 }}>
+            <ExternalLink size={12} /> {t.searchYoutube || "Watch on YouTube"}
+          </div>
+        </div>
+      </a>
+    );
+  };
+>>>>>>> Stashed changes
 
   return (
     <div style={{ background: "var(--warm-bg)" }}>
@@ -67,100 +162,35 @@ export default function MediaPage() {
         <div className="container-site">
           <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexWrap: "wrap" }}>
             <Filter size={14} color="var(--muted-light)" />
-            {(Object.keys(t.categories) as Category[]).map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveFilter(cat)}
-                style={{
-                  padding: "0.35rem 0.875rem",
-                  border: "1.5px solid",
-                  borderColor: activeFilter === cat ? "var(--saffron)" : "var(--border)",
-                  borderRadius: "100px",
-                  background: activeFilter === cat ? "var(--saffron)" : "transparent",
-                  color: activeFilter === cat ? "white" : "var(--muted)",
-                  fontSize: "0.8rem",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
-                  fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)",
-                }}
-              >
-                {t.categories[cat]}
-              </button>
-            ))}
+            <button
+              onClick={() => setActiveFilter("all")}
+              style={{ padding: "0.35rem 0.875rem", border: "1.5px solid", borderColor: activeFilter === "all" ? "var(--saffron)" : "var(--border)", borderRadius: "100px", background: activeFilter === "all" ? "var(--saffron)" : "transparent", color: activeFilter === "all" ? "white" : "var(--muted)", fontSize: "0.8rem", fontWeight: 600, cursor: "pointer" }}
+            >
+              {lang === "te" ? "అన్నీ" : "All"}
+            </button>
+            {categories.map((cat) => {
+              const sample = allVideos.find((v) => v.category.toLowerCase().replace(/\s+/g, "-") === cat);
+              const label = lang === "te" ? (sample?.category_telugu || cat) : (sample?.category || cat);
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveFilter(cat)}
+                  style={{ padding: "0.35rem 0.875rem", border: "1.5px solid", borderColor: activeFilter === cat ? "var(--saffron)" : "var(--border)", borderRadius: "100px", background: activeFilter === cat ? "var(--saffron)" : "transparent", color: activeFilter === cat ? "white" : "var(--muted)", fontSize: "0.8rem", fontWeight: 600, cursor: "pointer", transition: "all 0.2s ease", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Videos Grid */}
+      {/* Videos grid */}
       <section className="section-padding">
         <div className="container-site">
           <div className="grid-3-col">
-            {filtered.map((video) => {
-              const thumb = getYouTubeThumbnail(video.youtubeId, video.thumbnailUrl);
-              const cleanId = extractYouTubeId(video.youtubeId);
-              const videoUrl = cleanId && cleanId.length === 11
-                ? `https://www.youtube.com/watch?v=${cleanId}`
-                : `https://www.youtube.com/results?search_query=${encodeURIComponent(video.youtubeSearchQuery)}`;
-
-              return (
-                <a
-                  key={video.id}
-                  href={videoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="video-card"
-                  style={{ display: "block", textDecoration: "none", borderRadius: "14px", overflow: "hidden", background: "white", border: "1px solid var(--border)" }}
-                  aria-label={`Watch ${video.title}`}
-                >
-                  <div className="video-thumbnail" style={{ position: "relative", width: "100%", aspectRatio: "16/9", overflow: "hidden", background: "var(--charcoal)" }}>
-                    <Image
-                      src={thumb}
-                      alt={video.title}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      unoptimized
-                    />
-                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)" }} />
-
-                    {/* Channel Overlay Badge */}
-                    <div style={{ position: "absolute", top: "0.75rem", left: "0.75rem", background: "rgba(0,0,0,0.65)", backdropFilter: "blur(4px)", padding: "0.25rem 0.6rem", borderRadius: "6px", fontSize: "0.7rem", color: "white", fontWeight: 700 }}>
-                      {video.publisher}
-                    </div>
-
-                    {/* Centered Play Button */}
-                    <div className="play-button" style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "var(--saffron)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 6px 20px rgba(0,0,0,0.4)" }}>
-                        <Play size={20} color="white" fill="white" style={{ marginLeft: "3px" }} />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div style={{ padding: "1.25rem" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.5rem", flexWrap: "wrap" }}>
-                      <span className="tag tag-saffron" style={{ fontSize: "0.65rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {t.categories[video.category] || video.category}
-                      </span>
-                      <span style={{ fontSize: "0.72rem", color: "var(--muted-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {lang === "te" && video.dateTelugu ? video.dateTelugu : video.date}
-                      </span>
-                    </div>
-                    <p style={{ fontSize: "0.92rem", fontWeight: 700, color: "var(--charcoal)", lineHeight: 1.35, marginBottom: "0.4rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                      {lang === "te" && video.titleTelugu ? video.titleTelugu : video.title}
-                    </p>
-                    <p style={{ fontSize: "0.8rem", color: "var(--muted)", marginBottom: "0.75rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                      {video.publisher}
-                    </p>
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.35rem", fontSize: "0.75rem", color: "var(--saffron)", fontWeight: 600, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                      <ExternalLink size={12} /> {t.searchYoutube}
-                    </div>
-                  </div>
-                </a>
-              );
-            })}
+            {filtered.map((video, idx) => renderCard(video, idx))}
           </div>
-
           {filtered.length === 0 && (
             <div style={{ textAlign: "center", padding: "5rem 2rem" }}>
               <p style={{ fontSize: "1.1rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>

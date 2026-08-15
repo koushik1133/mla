@@ -62,13 +62,13 @@ export default function ContactPage() {
     }
 
     setStatus("sending");
-
     try {
       const sanitizedMsg = {
         name: sanitize(form.name),
-        email: sanitize(form.email),
         phone: sanitize(form.phone || ""),
+        email: sanitize(form.email || ""),
         mandal: "Alair Constituency",
+        subject: "Public Office Grievance",
         message: sanitize(form.message),
       };
 

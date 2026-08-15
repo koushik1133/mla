@@ -1,5 +1,22 @@
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV === "development";
+
+const ContentSecurityPolicy = `
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' ${isDev ? "'unsafe-eval'" : ""};
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com data:;
+  img-src 'self' data: blob: https://upload.wikimedia.org https://commons.wikimedia.org https://img.youtube.com https://*.supabase.co;
+  connect-src 'self' https://*.supabase.co https://fonts.googleapis.com https://fonts.gstatic.com;
+  frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com;
+  object-src 'none';
+  base-uri 'self';
+  form-action 'self';
+  frame-ancestors 'none';
+  upgrade-insecure-requests;
+`.replace(/\s{2,}/g, ' ').trim();
+
 const securityHeaders = [
   {
     key: "X-DNS-Prefetch-Control",
@@ -31,8 +48,7 @@ const securityHeaders = [
   },
   {
     key: "Content-Security-Policy",
-    value:
-      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self';",
+    value: ContentSecurityPolicy,
   },
   {
     key: "Permissions-Policy",

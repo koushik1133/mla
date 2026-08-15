@@ -17,21 +17,29 @@ Official public website and digital administration portal for **Beerla Ilaiah**,
 ## 🌟 Key Features
 
 ### 🗄️ Supabase Cloud & Resilient Storage Engine
-- **Supabase Cloud Backend**: Connected to Supabase Postgres database (`messages`, `news_articles`, `media_videos`, `gallery_images`, `site_config`).
+- **Supabase Cloud Backend**: Connected to Supabase Postgres database (`messages`, `news_articles`, `media_videos`, `gallery_images`, `public_services`, `ticker_items`, `site_config`).
 - **Resilient Hybrid Sync**: Automatically mirrors all updates to `localStorage` and Supabase. Contact form submissions are saved locally and synced to cloud, ensuring 100% message persistence.
 
 ### 🤖 Beerla's AI Assistant ("బీర్ల AI సహాయకుడు")
 - **Groq LLaMA-3.3-70B Powered**: Live AI route `/api/chat` using Groq's high-speed inference engine.
 - **Interactive Action Buttons**: Directly renders clickable social action chips (Instagram, Facebook, X, Call Office) inside contact responses.
-- **Smart URL Formatting**: Automatically formats social handles (`@beerla_ilaiah_inc`, `@BeerIaIlaiahINCAlairIncharge`) and text wrapping (`overflowWrap: "anywhere"`) to keep chat UI clean and readable without box overflow.
+- **Smart URL Formatting**: Automatically formats social handles (`@beerla_ilaiah_inc`, `@BeerIaIlaiahINCAlairIncharge`) and text wrapping to keep chat UI clean and readable.
 
-### 🖼️ 4K High-Definition Visuals & Auto-Pull YouTube Thumbnails
+### 🖼️ 4K Visuals, Auto-Pull YouTube Thumbnails & Translucent Blur Overlays
 - **Yadadri & Kolanupaka Heritage**: High-resolution imagery for Yadadri Temple, Kolanupaka Jain Temple, Alair Farmlands, and MLA Beerla Ilaiah.
-- **Live YouTube Thumbnails**: Automatically extracts YouTube Video IDs (`extractYouTubeId`) and pulls crisp HD thumbnails (`https://img.youtube.com/vi/{id}/hqdefault.jpg`) for video cards.
+- **Translucent Frosted Blur Overlays**: Subtly blurred pill badges and title containers wrapping text tightly without obscuring underlying imagery.
+- **Live YouTube Thumbnails**: Automatically extracts YouTube Video IDs and pulls crisp HD thumbnails with automatic fallback to `/images/alair-agriculture.jpg`.
 
 ### 🎛️ Full Admin Portal (`/admin`)
 - **Protected Dashboard**: Passcode login (default `0000`) with emergency recovery option.
-- **100% Editable Content**: Complete controls to add, edit, and delete Ticker items, News, Media Videos, Photo Gallery items, and Hero Banner placeholders.
+- **100% Editable Content**: Complete inline controls to add, edit, and delete Ticker items, News Articles (with outbound URLs), Media Videos, Photo Gallery items, Public Services, and Hero Banner settings.
+
+### 🇮🇳 Dual Brand Theme Engine (Saffron & Congress Green `#138808`)
+- **Congress Green Theme**: Dedicated `/green` route displaying the official Congress Green color code (`#138808`).
+- **Live Theme Switcher**: Header toggle button allowing visitors and administrators to compare Saffron Orange (`#EE5A1C`) and Congress Green (`#138808`) themes side-by-side.
+
+### 🌐 100% Bilingual Phrasing (English & Telugu)
+- Full instant language switching (`English` / `తెలుగు`) with native `Noto Sans Telugu` typography support.
 
 ---
 
@@ -46,21 +54,21 @@ Official public website and digital administration portal for **Beerla Ilaiah**,
 | `/alair` | **Constituency Profile** (8 Mandals, Yadadri Temple, agriculture, demographics) |
 | `/public-service` | **Legislative Record & Work** (BC welfare, Assembly contributions, public works) |
 | `/election-2023` | **2023 Election Breakdown** (122,140 votes, 49,204 margin, vote shares) |
-| `/media` | **Speeches & Media Interviews** (HD YouTube video cards with auto-thumbnails) |
-| `/gallery` | **Photo Gallery** (High-resolution public service photo gallery) |
-| `/news` | **News & Updates** (Full archive with dynamic Supabase integration) |
+| `/media` | **Speeches & Media Interviews** (HD YouTube video cards with auto-thumbnails & fallback) |
+| `/gallery` | **Photo Gallery** (Translucent frosted blur text badges & lightbox modal) |
+| `/news` | **News & Updates** (Press archive with verified external publication links) |
 | `/contact` | **Public Office Grievance Form** & direct contact cards |
-| `/admin` | **Secure Admin Control Panel** (PIN: `0000`) |
+| `/admin` | **Secure Admin Control Panel** (PIN: `0000`, full CRUD for all content) |
 
 ---
 
 ## 📱 Official Contact & Social Media
 
-- **Instagram**: [@beerla_ilaiah_inc](https://www.instagram.com/beerla_ilaiah_inc/)
-- **Facebook Page**: [Beerla Ilaiah INC](https://www.facebook.com/BeerIaIlaiahINCAlairIncharge/)
+- **Facebook Page**: [Beerla Ilaiah INC](https://www.facebook.com/BeerIaIlaiahINCAlairIncharge/) (**43K Followers**)
+- **Instagram Personal**: [@beerla_ilaiah_inc](https://www.instagram.com/beerla_ilaiah_inc/)
 - **X (Twitter)**: [@IlaiahBeerla](https://twitter.com/IlaiahBeerla)
-- **Mobile Phone**: `+91 98666 52347`
-- **Email Address**: `beerlailaiah@gmail.com`
+- **Mobile Phone**: `+91 99590 26888` / `+91 98666 52347`
+- **Email Address**: `beerla.ilaiah.mla@gmail.com`
 - **MLA Public Office**: Main Road, Alair Town, Yadadri Bhuvanagiri District, Telangana, India.
 
 ---
@@ -84,7 +92,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Database**: [Supabase](https://supabase.com/) Postgres & RLS Policies
 - **AI Integration**: [Groq](https://groq.com/) (LLaMA-3.3-70B-versatile)
-- **Styling**: Vanilla CSS Variables, Responsive Layout Engine
+- **Styling**: Vanilla CSS Variables, Fluid Responsive Grid System
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Icons**: Lucide React & Vector SVGs
 
 ---

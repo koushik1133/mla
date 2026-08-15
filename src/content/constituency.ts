@@ -58,6 +58,7 @@ export const constituency = {
         "క్రీస్తు పూర్వం 2వ శతాబ్దానికి చెందిన చారిత్రక జైన దేవాలయం. ఆలేరు నియోజకవర్గ పరిధిలోని ప్రముఖ పురాతన వారసత్వ పుణ్యక్షేత్రం.",
       significance: "Cultural Heritage",
       significanceTelugu: "సాంస్కృతిక వారసత్వం",
+      image: "/images/kolanupaka-temple.jpg",
     },
     {
       name: "Alair Town",
@@ -68,6 +69,7 @@ export const constituency = {
         "నియోజకవర్గ కేంద్రమైన పురపాలక పట్టణం. చుట్టుపక్కల మండలాలకు వాణిజ్య, పరిపాలనా కేంద్రంగా సేవలందిస్తోంది.",
       significance: "Administration & Commerce",
       significanceTelugu: "పరిపాలన & వాణిజ్యం",
+      image: "/images/alair-development.jpg",
     },
   ],
   character:

@@ -504,23 +504,22 @@ h1, h2, h3, h4, h5, h6 {
 
 .gallery-item img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
 }
 
 .gallery-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.4) 50%, transparent 100%);
-  transition: all 0.25s ease;
+  background: transparent;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 1.25rem;
+  pointer-events: none;
 }
 
 .gallery-item:hover .gallery-overlay {
-  background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.55) 60%, rgba(10,10,10,0.2) 100%);
+  background: transparent;
 }
 
 /* Video & News Cards */
