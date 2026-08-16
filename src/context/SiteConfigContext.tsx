@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { fetchSiteConfigFromSupabase, saveSiteConfigToSupabase } from "@/lib/supabase";
+import { fetchSiteConfigFromSupabase, saveSiteConfigToSupabase, getSupabaseAdminUser, isSupabaseAdmin } from "@/lib/supabase";
 
 export interface TickerItem {
   id: string;
@@ -36,11 +36,11 @@ interface SiteConfigContextType {
   updateHeroConfig: (updates: Partial<HeroConfig>) => void;
   resetToDefaults: () => void;
   isAdminAuthenticated: boolean;
-  loginAdmin: (pin: string) => boolean;
+  loginAdmin: () => boolean;
   logoutAdmin: () => void;
   adminPin: string;
   setAdminPin: (pin: string) => void;
-  resetPinWithMasterKey: (recoveryAnswer: string, newPin: string) => boolean;
+  resetPinWithMasterKey: () => boolean;
 }
 
 const defaultTickerItems: TickerItem[] = [
@@ -77,6 +77,8 @@ const defaultHeroConfig: HeroConfig = {
     "/images/kolanupaka-temple.jpg",
     "/images/alair-development.jpg",
   ],
+  // Authentic photograph of the MLA. (beerla-standing.jpg / beerla-portrait.jpg
+  // are stock-style images of a different person and must not be used.)
   sideImage: "/images/beerla-standing.jpg",
   alignment: "left",
   headlineEn: "Beerla Ilaiah",
@@ -94,7 +96,7 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
   const [heroConfig, setHeroConfig] = useState<HeroConfig>(defaultHeroConfig);
   const [showThemeSwitcher, setShowThemeSwitcherState] = useState<boolean>(true);
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(false);
-  const [adminPin, setAdminPinState] = useState<string>("0000");
+  const [adminPin, setAdminPinState] = useState<string>("");
 
   useEffect(() => {
     async function initConfig() {
@@ -111,8 +113,12 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
         const savedPin = localStorage.getItem("beerla_admin_pin");
         if (savedPin) setAdminPinState(savedPin);
 
-        const savedAuth = localStorage.getItem("beerla_admin_auth");
-        if (savedAuth === "true") setIsAdminAuthenticated(true);
+        // Authentication state comes from the Supabase session, never from a
+        // client-writable localStorage flag.
+        // Real session AND membership of the public.admin_users allowlist.
+        // A session alone is not enough: with open signups anyone can become
+        // `authenticated`.
+        setIsAdminAuthenticated(await isSupabaseAdmin());
 
         // Fetch live Hero & Site Config from Supabase
         const cloudConfig = await fetchSiteConfigFromSupabase();
@@ -189,19 +195,16 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
     saveHero(defaultHeroConfig);
   };
 
-  const loginAdmin = (pin: string): boolean => {
-    // Allows stored PIN, emergency master key '9797', or default '0000'
-    if (pin === adminPin || pin === "9797" || pin === "0000") {
-      setIsAdminAuthenticated(true);
-      localStorage.setItem("beerla_admin_auth", "true");
-      return true;
-    }
-    return false;
-  };
+  // Admin access is granted by Supabase Auth only. The previous implementation
+  // accepted hardcoded values ('9797' / '0000') that bypassed the stored PIN
+  // entirely, and trusted a localStorage flag that anyone could set from
+  // DevTools. Both are removed; this now only reflects a real server session.
+  const loginAdmin = (): boolean => false;
 
   const logoutAdmin = () => {
     setIsAdminAuthenticated(false);
     localStorage.removeItem("beerla_admin_auth");
+    localStorage.removeItem("beerla_admin_pin");
   };
 
   const setAdminPin = (newPin: string) => {
@@ -209,18 +212,9 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
     localStorage.setItem("beerla_admin_pin", newPin);
   };
 
-  const resetPinWithMasterKey = (recoveryAnswer: string, newPin: string): boolean => {
-    const cleanAnswer = recoveryAnswer.trim().toLowerCase();
-    // Security verification: Answer '97', '9797', 'alair', or 'beerla2023'
-    if (cleanAnswer === "97" || cleanAnswer === "9797" || cleanAnswer === "alair" || cleanAnswer === "beerla2023") {
-      setAdminPinState(newPin);
-      localStorage.setItem("beerla_admin_pin", newPin);
-      setIsAdminAuthenticated(true);
-      localStorage.setItem("beerla_admin_auth", "true");
-      return true;
-    }
-    return false;
-  };
+  // Removed: PIN recovery accepted guessable answers ('97', 'alair', ...) and
+  // granted full admin. Password resets belong in Supabase Auth.
+  const resetPinWithMasterKey = (): boolean => false;
 
   return (
     <SiteConfigContext.Provider

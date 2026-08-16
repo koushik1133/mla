@@ -36,7 +36,7 @@ const defaultGalleryImages: GalleryItem[] = [
   },
   {
     id: "g2",
-    src: "/images/beerla-portrait.jpg",
+    src: "/images/images (1).jpeg",
     title: "Beerla Ilaiah — MLA, Alair",
     titleTelugu: "బీర్ల ఐలయ్య — ఆలేరు శాసనసభ్యులు",
     category: "Leadership",

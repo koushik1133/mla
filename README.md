@@ -31,7 +31,7 @@ Official public website and digital administration portal for **Beerla Ilaiah**,
 - **Live YouTube Thumbnails**: Automatically extracts YouTube Video IDs and pulls crisp HD thumbnails with automatic fallback to `/images/alair-agriculture.jpg`.
 
 ### 🎛️ Full Admin Portal (`/admin`)
-- **Protected Dashboard**: Passcode login (default `0000`) with emergency recovery option.
+- **Protected Dashboard**: Supabase Auth (email + password); admin allowlist enforced by Row Level Security.
 - **100% Editable Content**: Complete inline controls to add, edit, and delete Ticker items, News Articles (with outbound URLs), Media Videos, Photo Gallery items, Public Services, and Hero Banner settings.
 
 ### 🇮🇳 Dual Brand Theme Engine (Saffron & Congress Green `#138808`)
@@ -58,7 +58,7 @@ Official public website and digital administration portal for **Beerla Ilaiah**,
 | `/gallery` | **Photo Gallery** (Translucent frosted blur text badges & lightbox modal) |
 | `/news` | **News & Updates** (Press archive with verified external publication links) |
 | `/contact` | **Public Office Grievance Form** & direct contact cards |
-| `/admin` | **Secure Admin Control Panel** (PIN: `0000`, full CRUD for all content) |
+| `/admin` | **Admin Control Panel** — Supabase Auth required |
 
 ---
 

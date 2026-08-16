@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Megaphone } from "lucide-react";
 import { useSiteConfig } from "@/context/SiteConfigContext";
 import { useLang } from "@/lib/lang-context";
+import { safeExternalUrl } from "@/lib/supabase";
 
 export default function NewsTicker() {
   const { tickerItems } = useSiteConfig();
@@ -16,6 +17,7 @@ export default function NewsTicker() {
 
   return (
     <div
+      data-chrome="ticker"
       style={{
         background: "linear-gradient(90deg, #111111 0%, #1a1a1a 50%, #111111 100%)",
         color: "#FFFFFF",
@@ -76,7 +78,7 @@ export default function NewsTicker() {
             <React.Fragment key={item.id}>
               {item.link ? (
                 <Link
-                  href={item.link}
+                  href={item.link.startsWith("/") ? item.link : safeExternalUrl(item.link, "/news")}
                   style={{
                     color: "rgba(255,255,255,0.92)",
                     textDecoration: "none",
@@ -119,7 +121,7 @@ export default function NewsTicker() {
             <React.Fragment key={`dup_${item.id}`}>
               {item.link ? (
                 <Link
-                  href={item.link}
+                  href={item.link.startsWith("/") ? item.link : safeExternalUrl(item.link, "/news")}
                   style={{
                     color: "rgba(255,255,255,0.92)",
                     textDecoration: "none",

@@ -6,7 +6,7 @@ import { ArrowRight, Newspaper, Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
-import { fetchNewsArticles, NewsRecord } from "@/lib/supabase";
+import { fetchNewsArticles, NewsRecord, safeExternalUrl } from "@/lib/supabase";
 
 const staticNews: NewsRecord[] = [
   {
@@ -90,7 +90,7 @@ export default function NewsPreview() {
             const headline = lang === "te" ? (item.title_telugu || item.title) : item.title;
             const summary = lang === "te" ? (item.summary_telugu || item.summary) : item.summary;
             const category = lang === "te" ? (item.category_telugu || item.category) : item.category;
-            const linkUrl = item.url || `https://www.google.com/search?q=${encodeURIComponent("Beerla Ilaiah MLA " + item.title)}`;
+            const linkUrl = safeExternalUrl(item.url) || `https://www.google.com/search?q=${encodeURIComponent("Beerla Ilaiah MLA " + item.title)}`;
 
             return (
               <motion.a

@@ -1,7 +1,31 @@
 import type { Metadata } from "next";
+import { Manrope, Inter, Noto_Sans_Telugu } from "next/font/google";
 import "./globals.css";
 import { LangProvider } from "@/lib/lang-context";
 import SiteShell from "@/components/layout/SiteShell";
+
+// Self-hosted via next/font: same typefaces as before, but served from our own
+// origin with no render-blocking @import chain to fonts.googleapis.com.
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-display-src",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-body-src",
+  display: "swap",
+});
+
+const notoTelugu = Noto_Sans_Telugu({
+  subsets: ["telugu"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-telugu-src",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://beerla-ilaiah.in"),
@@ -31,9 +55,13 @@ export const metadata: Metadata = {
     locale: "en_IN",
     images: [
       {
-        url: "/images/beerla-portrait.jpg",
-        width: 1200,
-        height: 630,
+        // Authentic photograph. The previous file (beerla-portrait.jpg) is a
+        // stock-style image of a different person, and it was the image shown
+        // whenever this site was shared. Dimensions below are the real ones —
+        // a purpose-made 1200x630 share card should replace this when available.
+        url: "/images/images.jpeg",
+        width: 326,
+        height: 417,
         alt: "Beerla Ilaiah — MLA, Alair, Telangana",
       },
     ],
@@ -62,10 +90,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-IN">
+    <html lang="en-IN" className={`${manrope.variable} ${inter.variable} ${notoTelugu.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

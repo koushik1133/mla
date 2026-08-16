@@ -176,7 +176,7 @@ export default function BeerlaAIAssistant() {
         }}
       >
         <div style={{ position: "relative", width: "28px", height: "28px", borderRadius: "50%", overflow: "hidden", border: "2px solid white" }}>
-          <Image src="/images/images (1).jpeg" alt="Beerla AI Assistant" fill style={{ objectFit: "cover" }} />
+          <Image src="/images/images (1).jpeg" alt="Beerla AI Assistant" fill sizes="28px" style={{ objectFit: "cover" }} />
         </div>
         <span>{lang === "te" ? "బీర్ల AI సహాయకుడు" : "Beerla AI Assistant"}</span>
         <Sparkles size={16} color="#FFD700" />
@@ -220,7 +220,7 @@ export default function BeerlaAIAssistant() {
             >
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                 <div style={{ position: "relative", width: "38px", height: "38px", borderRadius: "50%", overflow: "hidden", border: "2px solid var(--saffron)" }}>
-                  <Image src="/images/images (1).jpeg" alt="Beerla Ilaiah MLA" fill style={{ objectFit: "cover" }} />
+                  <Image src="/images/images (1).jpeg" alt="Beerla Ilaiah MLA" fill sizes="38px" style={{ objectFit: "cover" }} />
                 </div>
                 <div>
                   <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "white", lineHeight: 1.2, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>

@@ -104,6 +104,40 @@ export interface GalleryCategoryRecord {
   te: string;
 }
 
+// Only ever emit http(s). Content rows are attacker-writable until the RLS
+// hardening script is applied, and React will happily render a javascript: href.
+export function safeExternalUrl(raw: string | undefined | null, fallback = ""): string {
+  if (!raw) return fallback;
+  try {
+    const u = new URL(String(raw).trim(), "https://beerla-ilaiah.in");
+    return u.protocol === "https:" || u.protocol === "http:" ? u.toString() : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+// Image sources must stay same-origin. A remote src reaching next/image both
+// crashes the render (host not in remotePatterns) and turns every visitor into
+// a beacon to an attacker-chosen host.
+export function safeImageSrc(src: string | undefined | null, fallback: string): string {
+  if (!src) return fallback;
+  const v = String(src).trim();
+  if (v.startsWith("/images/")) return v;
+  if (/^data:image\/(jpeg|png|webp);base64,/i.test(v)) return v;
+  return fallback;
+}
+
+// Verify the signed-in user is on the admin allowlist (public.admin_users).
+export async function isSupabaseAdmin(): Promise<boolean> {
+  if (!supabase) return false;
+  const { data: auth } = await supabase.auth.getUser();
+  const uid = auth?.user?.id;
+  if (!uid) return false;
+  const { data, error } = await supabase
+    .from("admin_users").select("user_id").eq("user_id", uid).maybeSingle();
+  return !error && Boolean(data);
+}
+
 // Utility: Extract pure YouTube Video ID from any URL or ID string
 export function extractYouTubeId(urlOrId: string): string {
   if (!urlOrId) return "";

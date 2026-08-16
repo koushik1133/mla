@@ -39,9 +39,12 @@ const securityHeaders = [
     value: "strict-origin-when-cross-origin",
   },
   {
+    // The legacy XSS auditor has itself been an XSS vector; modern guidance is 0.
     key: "X-XSS-Protection",
-    value: "1; mode=block",
+    value: "0",
   },
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+  { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
   {
     key: "X-Permitted-Cross-Domain-Policies",
     value: "none",
@@ -52,12 +55,20 @@ const securityHeaders = [
   },
   {
     key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=(), interest-cohort=(), payment=(), usb=(), vr=()",
+    value: "accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), screen-wake-lock=(), serial=(), usb=(), xr-spatial-tracking=(), interest-cohort=()",
   },
 ];
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Nothing from console.* reaches production DevTools. console.error is kept
+  // so genuine crashes are still reportable.
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error"] } : false,
+  },
+  // Never emit browser source maps in production — they hand attackers the
+  // original source and comments.
+  productionBrowserSourceMaps: false,
   reactStrictMode: true,
   images: {
     remotePatterns: [
@@ -75,7 +86,12 @@ const nextConfig: NextConfig = {
       },
     ],
     formats: ["image/avif", "image/webp"],
+    // Next 16 only serves qualities listed here; 80 is used by the hero slides.
+    qualities: [75, 80],
   },
+  // Allow reviewing the dev server from another device on the LAN
+  // (e.g. a phone at http://192.168.29.24:3000). Dev-only; ignored in prod.
+  allowedDevOrigins: ["192.168.29.24"],
   async headers() {
     return [
       {
