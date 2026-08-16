@@ -148,50 +148,69 @@ export default function Election2023Page() {
             </h2>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-              {result.candidates.map((candidate) => (
-                <div key={candidate.name}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "0.75rem" }}>
-                    <div>
-                      <p style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {lang === "te"
-                          ? candidate.name === "Beerla Ilaiah" ? "బీర్ల ఐలయ్య" : candidate.name === "Gongidi Sunitha" ? "గొంగిడి సునీత" : candidate.name === "Kallu Sanjeeva Reddy" ? "కల్లు సంజీవ రెడ్డి" : candidate.name
-                          : candidate.name}
-                        {candidate.isWinner && (
-                          <span style={{ marginLeft: "0.5rem", fontSize: "0.65rem", background: "rgba(22,106,47,0.12)", color: "var(--congress-green)", padding: "0.15rem 0.5rem", borderRadius: "100px", fontWeight: 700, letterSpacing: "0.04em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                            {t.winner}
-                          </span>
-                        )}
-                      </p>
-                      <p style={{ fontSize: "0.85rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {lang === "te"
-                          ? candidate.party === "Indian National Congress" ? "భారత జాతీయ కాంగ్రెస్" : candidate.party === "Bharat Rashtra Samithi" ? "భారత రాష్ట్ర సమితి" : candidate.party === "Bharatiya Janata Party" ? "భారతీయ జనతా పార్టీ" : candidate.party
-                          : candidate.party}
-                      </p>
-                    </div>
-                    <div style={{ textAlign: "right" }}>
-                      <p style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.75rem", color: "var(--charcoal)", letterSpacing: "-0.03em" }}>
-                        {candidate.votePercentage}%
-                      </p>
-                      <p style={{ fontSize: "0.85rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {candidate.votes.toLocaleString("en-IN")} {lang === "te" ? "ఓట్లు" : "votes"}
-                      </p>
-                    </div>
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "0.75rem", flexWrap: "wrap", gap: "0.5rem" }}>
+                  <div>
+                    <p style={{ fontSize: "1.25rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                      {lang === "te" ? "బీర్ల ఐలయ్య" : "Beerla Ilaiah"}
+                      <span style={{ marginLeft: "0.5rem", fontSize: "0.7rem", background: "rgba(22,106,47,0.12)", color: "var(--congress-green)", padding: "0.2rem 0.65rem", borderRadius: "100px", fontWeight: 700, letterSpacing: "0.04em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                        {t.winner}
+                      </span>
+                    </p>
+                    <p style={{ fontSize: "0.9rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                      {lang === "te" ? "భారత జాతీయ కాంగ్రెస్ (INC)" : "Indian National Congress (INC)"}
+                    </p>
                   </div>
-                  <div className="stat-bar" style={{ height: "12px" }}>
-                    <motion.div
-                      className="stat-bar-fill"
-                      initial={{ scaleX: 0 }}
-                      whileInView={{ scaleX: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                      style={{
-                        width: `${candidate.votePercentage}%`,
-                        background: candidate.isWinner ? "var(--saffron)" : "#D1D5DB",
-                      }}
-                    />
+                  <div style={{ textAlign: "right" }}>
+                    <p style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "2rem", color: "var(--saffron)", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                      57.41%
+                    </p>
+                    <p style={{ fontSize: "0.85rem", color: "var(--muted)", marginTop: "0.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                      1,22,140 {lang === "te" ? "ఓట్లు (నిర్ణయాత్మక మెజారిటీ)" : "votes (Landslide Majority)"}
+                    </p>
                   </div>
                 </div>
-              ))}
+                <div className="stat-bar" style={{ height: "16px" }}>
+                  <motion.div
+                    className="stat-bar-fill"
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                    style={{
+                      width: "57.41%",
+                      background: "linear-gradient(90deg, var(--saffron) 0%, #FF8A00 100%)",
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.5rem", background: "var(--warm-bg)", padding: "1.5rem", borderRadius: "12px" }}>
+                <div>
+                  <p style={{ fontSize: "0.75rem", color: "var(--muted)", textTransform: "uppercase", fontWeight: 700, margin: "0 0 0.3rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                    {lang === "te" ? "విజయ మెజారిటీ" : "Victory Margin"}
+                  </p>
+                  <p style={{ fontSize: "1.4rem", fontWeight: 800, color: "var(--congress-green)", margin: 0, fontFamily: "var(--font-display)" }}>
+                    +49,636 {lang === "te" ? "ఓట్లు" : "votes"}
+                  </p>
+                </div>
+                <div>
+                  <p style={{ fontSize: "0.75rem", color: "var(--muted)", textTransform: "uppercase", fontWeight: 700, margin: "0 0 0.3rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                    {lang === "te" ? "మొత్తం పోలైన ఓట్లు" : "Total Votes Polled"}
+                  </p>
+                  <p style={{ fontSize: "1.4rem", fontWeight: 800, color: "var(--charcoal)", margin: 0, fontFamily: "var(--font-display)" }}>
+                    2,12,710 / 2,27,738
+                  </p>
+                </div>
+                <div>
+                  <p style={{ fontSize: "0.75rem", color: "var(--muted)", textTransform: "uppercase", fontWeight: 700, margin: "0 0 0.3rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
+                    {lang === "te" ? "నియోజకవర్గ పోలింగ్ శాతం" : "Voter Turnout"}
+                  </p>
+                  <p style={{ fontSize: "1.4rem", fontWeight: 800, color: "var(--charcoal)", margin: 0, fontFamily: "var(--font-display)" }}>
+                    93.4%
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div style={{ marginTop: "2rem", padding: "1rem", background: "var(--warm-bg)", borderRadius: "8px", display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>

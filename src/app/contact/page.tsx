@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Send, CheckCircle, AlertCircle, Phone, Mail } from "lucide-react";
-import { TwitterXIcon, InstagramIcon, YoutubeIcon, FacebookIcon } from "@/components/icons/SocialIcons";
+import { TwitterXIcon, InstagramIcon, FacebookIcon } from "@/components/icons/SocialIcons";
 import { politician } from "@/content/politician";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
@@ -79,8 +79,7 @@ export default function ContactPage() {
 
       setStatus("sent");
       setForm({ name: "", email: "", phone: "", message: "" });
-    } catch (err) {
-      console.error("Failed to submit contact message:", err);
+    } catch {
       setStatus("error");
     }
   };

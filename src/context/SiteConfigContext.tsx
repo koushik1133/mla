@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { fetchSiteConfigFromSupabase, saveSiteConfigToSupabase, getSupabaseAdminUser, isSupabaseAdmin } from "@/lib/supabase";
+import { fetchSiteConfigFromSupabase, saveSiteConfigToSupabase, isSupabaseAdmin } from "@/lib/supabase";
 
 export interface TickerItem {
   id: string;
@@ -133,8 +133,8 @@ export function SiteConfigProvider({ children }: { children: React.ReactNode }) 
             subtitleTe: cloudConfig.hero_subtitle_telugu || prev.subtitleTe,
           }));
         }
-      } catch (e) {
-        console.warn("Using default site config:", e);
+      } catch {
+        // Fallback to default local site config
       }
     }
     initConfig();

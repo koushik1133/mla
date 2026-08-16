@@ -1,9 +1,8 @@
 "use client";
 
 import { serviceCategories } from "@/content/publicService";
-import { GraduationCap, Sprout, Building2, Home, Landmark, Users, Info } from "lucide-react";
+import { GraduationCap, Sprout, Building2, Home, Landmark, Users } from "lucide-react";
 import { useLang } from "@/lib/lang-context";
-import { translations } from "@/content/translations";
 
 const iconMap: Record<string, React.ReactNode> = {
   GraduationCap: <GraduationCap size={22} />,
@@ -16,7 +15,6 @@ const iconMap: Record<string, React.ReactNode> = {
 
 export default function PublicServicePageContent() {
   const { lang } = useLang();
-  const t = translations[lang].nav;
 
   return (
     <div style={{ background: "var(--warm-bg)" }}>

@@ -129,14 +129,14 @@ export default function GalleryPage() {
             categoryTelugu: g.category_telugu || "ఫోటో",
             caption: g.caption || g.title,
             captionTelugu: g.caption_telugu || g.title_telugu || g.title,
-            objectFit: (g.object_fit as any) || (g.src.includes("map") ? "contain" : g.src.includes("portrait") ? "cover" : "cover"),
+            objectFit: (g.object_fit as "cover" | "contain") || (g.src.includes("map") ? "contain" : "cover"),
             objectPosition: g.object_position || (g.src.includes("portrait") ? "center top" : "center center"),
             bgColor: g.src.includes("map") ? "#FAF6F0" : undefined,
           }));
           setPhotos(mapped);
         }
-      } catch (e) {
-        console.error("Using default gallery photos:", e);
+      } catch {
+        // Fallback to default bundled photos
       }
     }
     loadGallery();

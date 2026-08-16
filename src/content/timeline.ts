@@ -111,9 +111,9 @@ export const timelineEntries: TimelineEntry[] = [
     title: "Elected MLA, Alair Assembly Constituency",
     titleTelugu: "ఆలేరు ఎమ్మెల్యేగా ఘన విజయం",
     description:
-      "Contested 2023 Telangana Legislative Assembly election from Alair Constituency No. 97, securing a massive victory margin of 49,636 votes against BRS candidate Gongidi Sunitha.",
+      "Contested 2023 Telangana Legislative Assembly election from Alair Constituency No. 97, securing a historic landslide victory with 1,22,140 votes and a massive victory margin of 49,636 votes.",
     descriptionTelugu:
-      "2023 తెలంగాణ శాసనసభ ఎన్నికలలో ఆలేరు నియోజకవర్గం (సంఖ్య 97) నుండి కాంగ్రెస్ అభ్యర్థిగా పోటీ చేసి బీఆర్‌ఎస్ అభ్యర్థి గొంగిడి సునీతపై 49,636 ఓట్ల భారీ మెజారిటీతో ఎమ్మెల్యేగా విజయం సాధించారు.",
+      "2023 తెలంగాణ శాసనసభ ఎన్నికలలో ఆలేరు నియోజకవర్గం (సంఖ్య 97) నుండి కాంగ్రెస్ అభ్యర్థిగా పోటీ చేసి 1,22,140 ఓట్లు మరియు 49,636 ఓట్ల భారీ మెజారిటీతో ఎమ్మెల్యేగా చారిత్రక విజయం సాధించారు.",
     category: "election",
     source: "Election Commission of India / Telugu Wikipedia",
     sourceTelugu: "భారత ఎన్నికల సంఘం / తెలుగు వికీపీడియా",

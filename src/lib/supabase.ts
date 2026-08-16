@@ -16,6 +16,11 @@ export const supabase = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
+// Safe internal logger that never leaks traces or table info to browser DevTools
+const logQuiet = (..._args: unknown[]) => {
+  void _args;
+};
+
 // =========================================================================
 // TYPES
 // =========================================================================
@@ -180,19 +185,19 @@ export async function submitContactMessage(msg: MessageRecord) {
       localStorage.setItem("beerla_messages", JSON.stringify(existing));
     }
   } catch (e) {
-    console.error("Local storage error:", e);
+    logQuiet("Local storage error:", e);
   }
 
   if (supabase) {
     try {
       const { data, error } = await supabase.from("messages").insert([newMsg]).select();
       if (error) {
-        console.warn("Supabase insert error (stored locally):", error.message);
+        logQuiet("Supabase insert error (stored locally):", error.message);
       } else if (data && data[0]) {
         return data[0];
       }
     } catch (e) {
-      console.warn("Supabase network error (stored locally):", e);
+      logQuiet("Supabase network error (stored locally):", e);
     }
   }
 
@@ -206,7 +211,7 @@ export async function fetchContactMessages(): Promise<MessageRecord[]> {
       localMessages = JSON.parse(localStorage.getItem("beerla_messages") || "[]");
     }
   } catch (e) {
-    console.error("Error reading local messages:", e);
+    logQuiet("Error reading local messages:", e);
   }
 
   if (supabase) {
@@ -225,7 +230,7 @@ export async function fetchContactMessages(): Promise<MessageRecord[]> {
         );
       }
     } catch (e) {
-      console.warn("Error fetching Supabase messages:", e);
+      logQuiet("Error fetching Supabase messages:", e);
     }
   }
 
@@ -243,14 +248,14 @@ export async function toggleMessageReadStatus(id: string, isRead: boolean) {
       }
     }
   } catch (e) {
-    console.error("Error updating local message read status:", e);
+    logQuiet("Error updating local message read status:", e);
   }
 
   if (supabase) {
     try {
       await supabase.from("messages").update({ is_read: isRead }).eq("id", id);
     } catch (e) {
-      console.warn("Error updating Supabase message read status:", e);
+      logQuiet("Error updating Supabase message read status:", e);
     }
   }
 }
@@ -263,14 +268,14 @@ export async function deleteContactMessage(id: string) {
       localStorage.setItem("beerla_messages", JSON.stringify(filtered));
     }
   } catch (e) {
-    console.error("Error deleting local message:", e);
+    logQuiet("Error deleting local message:", e);
   }
 
   if (supabase) {
     try {
       await supabase.from("messages").delete().eq("id", id);
     } catch (e) {
-      console.warn("Error deleting Supabase message:", e);
+      logQuiet("Error deleting Supabase message:", e);
     }
   }
 }
@@ -286,7 +291,7 @@ export async function fetchNewsArticles(): Promise<NewsRecord[]> {
       if (stored) localNews = JSON.parse(stored);
     }
   } catch (e) {
-    console.error("Error reading local news:", e);
+    logQuiet("Error reading local news:", e);
   }
 
   if (supabase) {
@@ -302,7 +307,7 @@ export async function fetchNewsArticles(): Promise<NewsRecord[]> {
         return Array.from(map.values());
       }
     } catch (e) {
-      console.warn("Error fetching Supabase news:", e);
+      logQuiet("Error fetching Supabase news:", e);
     }
   }
 
@@ -321,7 +326,7 @@ export async function saveNewsArticle(news: NewsRecord) {
       localStorage.setItem("beerla_news", JSON.stringify(existing));
     }
   } catch (e) {
-    console.error("Error saving local news:", e);
+    logQuiet("Error saving local news:", e);
   }
 
   if (supabase) {
@@ -332,7 +337,7 @@ export async function saveNewsArticle(news: NewsRecord) {
         await supabase.from("news_articles").insert([item]);
       }
     } catch (e) {
-      console.warn("Error saving Supabase news:", e);
+      logQuiet("Error saving Supabase news:", e);
     }
   }
 
@@ -347,14 +352,14 @@ export async function deleteNewsArticle(id: string) {
       localStorage.setItem("beerla_news", JSON.stringify(filtered));
     }
   } catch (e) {
-    console.error("Error deleting local news:", e);
+    logQuiet("Error deleting local news:", e);
   }
 
   if (supabase) {
     try {
       await supabase.from("news_articles").delete().eq("id", id);
     } catch (e) {
-      console.warn("Error deleting Supabase news:", e);
+      logQuiet("Error deleting Supabase news:", e);
     }
   }
 }
@@ -370,7 +375,7 @@ export async function fetchMediaVideos(): Promise<MediaRecord[]> {
       if (stored) localMedia = JSON.parse(stored);
     }
   } catch (e) {
-    console.error("Error reading local media:", e);
+    logQuiet("Error reading local media:", e);
   }
 
   if (supabase) {
@@ -386,7 +391,7 @@ export async function fetchMediaVideos(): Promise<MediaRecord[]> {
         return Array.from(map.values());
       }
     } catch (e) {
-      console.warn("Error fetching Supabase media:", e);
+      logQuiet("Error fetching Supabase media:", e);
     }
   }
 
@@ -405,7 +410,7 @@ export async function saveMediaVideo(video: MediaRecord) {
       localStorage.setItem("beerla_media", JSON.stringify(existing));
     }
   } catch (e) {
-    console.error("Error saving local media:", e);
+    logQuiet("Error saving local media:", e);
   }
 
   if (supabase) {
@@ -416,7 +421,7 @@ export async function saveMediaVideo(video: MediaRecord) {
         await supabase.from("media_videos").insert([item]);
       }
     } catch (e) {
-      console.warn("Error saving Supabase media:", e);
+      logQuiet("Error saving Supabase media:", e);
     }
   }
 
@@ -431,14 +436,14 @@ export async function deleteMediaVideo(id: string) {
       localStorage.setItem("beerla_media", JSON.stringify(filtered));
     }
   } catch (e) {
-    console.error("Error deleting local media:", e);
+    logQuiet("Error deleting local media:", e);
   }
 
   if (supabase) {
     try {
       await supabase.from("media_videos").delete().eq("id", id);
     } catch (e) {
-      console.warn("Error deleting Supabase media:", e);
+      logQuiet("Error deleting Supabase media:", e);
     }
   }
 }
@@ -454,7 +459,7 @@ export async function fetchGalleryImages(): Promise<GalleryRecord[]> {
       if (stored) localGallery = JSON.parse(stored);
     }
   } catch (e) {
-    console.error("Error reading local gallery:", e);
+    logQuiet("Error reading local gallery:", e);
   }
 
   if (supabase) {
@@ -470,7 +475,7 @@ export async function fetchGalleryImages(): Promise<GalleryRecord[]> {
         return Array.from(map.values());
       }
     } catch (e) {
-      console.warn("Error fetching Supabase gallery:", e);
+      logQuiet("Error fetching Supabase gallery:", e);
     }
   }
 
@@ -489,7 +494,7 @@ export async function saveGalleryImage(img: GalleryRecord) {
       localStorage.setItem("beerla_gallery", JSON.stringify(existing));
     }
   } catch (e) {
-    console.error("Error saving local gallery:", e);
+    logQuiet("Error saving local gallery:", e);
   }
 
   if (supabase) {
@@ -500,7 +505,7 @@ export async function saveGalleryImage(img: GalleryRecord) {
         await supabase.from("gallery_images").insert([item]);
       }
     } catch (e) {
-      console.warn("Error saving Supabase gallery:", e);
+      logQuiet("Error saving Supabase gallery:", e);
     }
   }
 
@@ -515,14 +520,14 @@ export async function deleteGalleryImage(id: string) {
       localStorage.setItem("beerla_gallery", JSON.stringify(filtered));
     }
   } catch (e) {
-    console.error("Error deleting local gallery:", e);
+    logQuiet("Error deleting local gallery:", e);
   }
 
   if (supabase) {
     try {
       await supabase.from("gallery_images").delete().eq("id", id);
     } catch (e) {
-      console.warn("Error deleting Supabase gallery:", e);
+      logQuiet("Error deleting Supabase gallery:", e);
     }
   }
 }
@@ -533,7 +538,7 @@ export async function reorderGalleryImages(images: GalleryRecord[]) {
       localStorage.setItem("beerla_gallery", JSON.stringify(images));
     }
   } catch (e) {
-    console.error("Error reordering local gallery:", e);
+    logQuiet("Error reordering local gallery:", e);
   }
 }
 
@@ -548,7 +553,7 @@ export async function fetchHeroImages(): Promise<HeroImageRecord[]> {
       if (stored) localHero = JSON.parse(stored);
     }
   } catch (e) {
-    console.error("Error reading local hero images:", e);
+    logQuiet("Error reading local hero images:", e);
   }
 
   if (supabase) {
@@ -561,7 +566,7 @@ export async function fetchHeroImages(): Promise<HeroImageRecord[]> {
         return data;
       }
     } catch (e) {
-      console.warn("Error fetching Supabase hero images:", e);
+      logQuiet("Error fetching Supabase hero images:", e);
     }
   }
 
@@ -580,7 +585,7 @@ export async function saveHeroImage(img: HeroImageRecord) {
       localStorage.setItem("beerla_hero_images", JSON.stringify(existing));
     }
   } catch (e) {
-    console.error("Error saving local hero image:", e);
+    logQuiet("Error saving local hero image:", e);
   }
 
   if (supabase) {
@@ -591,7 +596,7 @@ export async function saveHeroImage(img: HeroImageRecord) {
         await supabase.from("hero_images").insert([item]);
       }
     } catch (e) {
-      console.warn("Error saving Supabase hero image:", e);
+      logQuiet("Error saving Supabase hero image:", e);
     }
   }
 
@@ -606,14 +611,14 @@ export async function deleteHeroImage(id: string) {
       localStorage.setItem("beerla_hero_images", JSON.stringify(filtered));
     }
   } catch (e) {
-    console.error("Error deleting local hero image:", e);
+    logQuiet("Error deleting local hero image:", e);
   }
 
   if (supabase) {
     try {
       await supabase.from("hero_images").delete().eq("id", id);
     } catch (e) {
-      console.warn("Error deleting Supabase hero image:", e);
+      logQuiet("Error deleting Supabase hero image:", e);
     }
   }
 }
@@ -624,7 +629,7 @@ export async function reorderHeroImages(images: HeroImageRecord[]) {
       localStorage.setItem("beerla_hero_images", JSON.stringify(images));
     }
   } catch (e) {
-    console.error("Error reordering local hero images:", e);
+    logQuiet("Error reordering local hero images:", e);
   }
 }
 
@@ -639,7 +644,7 @@ export async function fetchPublicServices(): Promise<PublicServiceRecord[]> {
       if (stored) localServices = JSON.parse(stored);
     }
   } catch (e) {
-    console.error("Error reading local public services:", e);
+    logQuiet("Error reading local public services:", e);
   }
 
   if (supabase) {
@@ -655,7 +660,7 @@ export async function fetchPublicServices(): Promise<PublicServiceRecord[]> {
         return Array.from(map.values());
       }
     } catch (e) {
-      console.warn("Error fetching Supabase public services:", e);
+      logQuiet("Error fetching Supabase public services:", e);
     }
   }
 
@@ -674,7 +679,7 @@ export async function savePublicService(srv: PublicServiceRecord) {
       localStorage.setItem("beerla_public_services", JSON.stringify(existing));
     }
   } catch (e) {
-    console.error("Error saving local public service:", e);
+    logQuiet("Error saving local public service:", e);
   }
 
   if (supabase) {
@@ -685,7 +690,7 @@ export async function savePublicService(srv: PublicServiceRecord) {
         await supabase.from("public_services").insert([item]);
       }
     } catch (e) {
-      console.warn("Error saving Supabase public service:", e);
+      logQuiet("Error saving Supabase public service:", e);
     }
   }
 
@@ -700,14 +705,14 @@ export async function deletePublicService(id: string) {
       localStorage.setItem("beerla_public_services", JSON.stringify(filtered));
     }
   } catch (e) {
-    console.error("Error deleting local public service:", e);
+    logQuiet("Error deleting local public service:", e);
   }
 
   if (supabase) {
     try {
       await supabase.from("public_services").delete().eq("id", id);
     } catch (e) {
-      console.warn("Error deleting Supabase public service:", e);
+      logQuiet("Error deleting Supabase public service:", e);
     }
   }
 }
@@ -734,7 +739,7 @@ export async function fetchGalleryCategories(): Promise<GalleryCategoryRecord[]>
       if (stored) localCats = JSON.parse(stored);
     }
   } catch (e) {
-    console.error("Error reading local gallery categories:", e);
+    logQuiet("Error reading local gallery categories:", e);
   }
 
   if (supabase) {
@@ -742,7 +747,7 @@ export async function fetchGalleryCategories(): Promise<GalleryCategoryRecord[]>
       const { data, error } = await supabase.from("gallery_categories").select("*");
       if (!error && data && data.length > 0) return data;
     } catch (e) {
-      console.warn("Error fetching Supabase gallery categories:", e);
+      logQuiet("Error fetching Supabase gallery categories:", e);
     }
   }
 
@@ -764,14 +769,14 @@ export async function saveGalleryCategory(catOrEn: GalleryCategoryRecord | strin
       localStorage.setItem("beerla_gallery_cats", JSON.stringify(existing));
     }
   } catch (e) {
-    console.error("Error saving local gallery category:", e);
+    logQuiet("Error saving local gallery category:", e);
   }
 
   if (supabase) {
     try {
       await supabase.from("gallery_categories").upsert([item]);
     } catch (e) {
-      console.warn("Error saving Supabase gallery category:", e);
+      logQuiet("Error saving Supabase gallery category:", e);
     }
   }
 
@@ -781,7 +786,18 @@ export async function saveGalleryCategory(catOrEn: GalleryCategoryRecord | strin
 // =========================================================================
 // SITE CONFIG API
 // =========================================================================
-export async function fetchSiteConfigFromSupabase(): Promise<any> {
+export interface SiteConfigRecord {
+  id?: string;
+  hero_bg_image?: string;
+  hero_side_image?: string;
+  hero_headline?: string;
+  hero_headline_telugu?: string;
+  hero_subtitle?: string;
+  hero_subtitle_telugu?: string;
+  [key: string]: unknown;
+}
+
+export async function fetchSiteConfigFromSupabase(): Promise<SiteConfigRecord | null> {
   if (supabase) {
     try {
       const { data, error } = await supabase
@@ -789,15 +805,15 @@ export async function fetchSiteConfigFromSupabase(): Promise<any> {
         .select("*")
         .eq("id", "default")
         .single();
-      if (!error && data) return data;
+      if (!error && data) return data as SiteConfigRecord;
     } catch (e) {
-      console.warn("Error fetching Supabase site config:", e);
+      logQuiet("Error fetching Supabase site config:", e);
     }
   }
   return null;
 }
 
-export async function saveSiteConfigToSupabase(cfg: any): Promise<boolean> {
+export async function saveSiteConfigToSupabase(cfg: Record<string, unknown>): Promise<boolean> {
   if (supabase) {
     try {
       const { error } = await supabase
@@ -805,7 +821,7 @@ export async function saveSiteConfigToSupabase(cfg: any): Promise<boolean> {
         .upsert({ id: "default", ...cfg, updated_at: new Date().toISOString() });
       if (!error) return true;
     } catch (e) {
-      console.warn("Error saving Supabase site config:", e);
+      logQuiet("Error saving Supabase site config:", e);
     }
   }
   return false;

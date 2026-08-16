@@ -202,7 +202,7 @@ export default function AdminPage() {
   const [heroSlides, setHeroSlides] = useState<HeroImageRecord[]>([]);
   const [publicServices, setPublicServices] = useState<PublicServiceRecord[]>([]);
   const [categories, setCategories] = useState<GalleryCategoryRecord[]>(DEFAULT_GALLERY_CATEGORIES);
-  const [loading, setLoading] = useState(false);
+  const [isRefreshingData, setIsRefreshingData] = useState(false);
 
   // Upload Processing States
   const [isProcessingGallery, setIsProcessingGallery] = useState(false);
@@ -323,7 +323,7 @@ export default function AdminPage() {
   }, [isAdminAuthenticated]);
 
   async function loadAll() {
-    setLoading(true);
+    setIsRefreshingData(true);
     try {
       const [msgs, news, media, gallery, heroes, ps, cats] = await Promise.all([
         fetchContactMessages(),
@@ -342,7 +342,7 @@ export default function AdminPage() {
       setPublicServices(ps);
       if (cats && cats.length > 0) setCategories(cats);
     } finally {
-      setLoading(false);
+      setIsRefreshingData(false);
     }
   }
 
@@ -354,16 +354,17 @@ export default function AdminPage() {
     setAuthError("");
 
     try {
-      const res: any = await supabaseAdminLogin(authEmail, authPassword);
-      if (!res?.error && (res?.data?.user || res?.user)) {
-        setCurrentUserEmail(res?.data?.user?.email || res?.user?.email || authEmail);
+      const res = await supabaseAdminLogin(authEmail, authPassword);
+      if (res && !res.error && res.data?.user) {
+        setCurrentUserEmail(res.data.user.email || authEmail);
         window.location.reload();
       } else {
-        const errMsg = typeof res?.error === "string" ? res.error : res?.error?.message || "Authentication failed. Check your credentials.";
+        const errMsg = res?.error?.message || "Authentication failed. Check your credentials.";
         setAuthError(errMsg);
       }
-    } catch (err: any) {
-      setAuthError(err?.message || "An unexpected error occurred during login.");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "An unexpected error occurred during login.";
+      setAuthError(message);
     } finally {
       setAuthLoading(false);
     }
@@ -760,8 +761,8 @@ export default function AdminPage() {
                 : "Local mode active. Configure Supabase for cloud sync."}
             </span>
           </div>
-          <button onClick={loadAll} style={{ background: "none", border: "none", color: "var(--saffron, #EE5A1C)", fontSize: "0.8rem", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", gap: "0.3rem" }}>
-            <RefreshCw size={13} /> Refresh
+          <button onClick={loadAll} disabled={isRefreshingData} style={{ background: "none", border: "none", color: "var(--saffron, #EE5A1C)", fontSize: "0.8rem", fontWeight: 700, cursor: isRefreshingData ? "wait" : "pointer", display: "flex", alignItems: "center", gap: "0.3rem" }}>
+            <RefreshCw size={13} style={{ animation: isRefreshingData ? "spin 1s linear infinite" : "none" }} /> {isRefreshingData ? "Refreshing..." : "Refresh"}
           </button>
         </div>
 
@@ -1663,7 +1664,7 @@ export default function AdminPage() {
                   <li>Open your <strong>Supabase Dashboard</strong>.</li>
                   <li>Click on <strong>Authentication</strong> in the left sidebar.</li>
                   <li>Click <strong>Users → Add User → Create User</strong>.</li>
-                  <li>Enter the admin's email and choose their password.</li>
+                  <li>Enter the admin&apos;s email and choose their password.</li>
                   <li>They can now log in to this portal using that ID & password!</li>
                 </ol>
               </div>

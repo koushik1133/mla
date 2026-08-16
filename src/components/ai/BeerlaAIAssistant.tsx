@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import { MessageSquare, X, Send, Bot, User, Sparkles, RefreshCw, ExternalLink, Phone, Mail } from "lucide-react";
+import { X, Send, Sparkles, Phone } from "lucide-react";
 import { InstagramIcon, FacebookIcon, TwitterXIcon } from "@/components/icons/SocialIcons";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
@@ -17,34 +16,29 @@ interface Message {
   showSocialButtons?: boolean;
 }
 
+let counter = 0;
+const createMsgId = (prefix: string) => `${prefix}_${++counter}_${Math.random().toString(36).slice(2, 7)}`;
+const getClockTime = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+const getWelcomeMessage = (currentLang: string): Message => ({
+  id: "welcome",
+  sender: "ai",
+  text:
+    currentLang === "te"
+      ? "నమస్కారం! నేను బీర్ల గారి సహాయకుడిని (Beerla's Assistant). ఆలేరు నియోజకవర్గం, అభివృద్ధి పనులు, ప్రజా సేవలు, యాదాద్రి ఆలయం లేదా సంప్రదింపు వివరాల గురించి నన్ను ఏమైనా అడగవచ్చు."
+      : "Namaste! I am Beerla's Assistant. Ask me anything about MLA Beerla Ilaiah, Alair Constituency No. 97, public services, Yadadri Temple, development works, or office contact details.",
+  timestamp: "Online",
+});
+
 export default function BeerlaAIAssistant() {
   const pathname = usePathname();
   const { lang } = useLang();
 
-  // Hide AI Assistant completely on Admin page
-  if (pathname && pathname.startsWith("/admin")) {
-    return null;
-  }
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(() => [getWelcomeMessage(lang)]);
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Initial welcome message
-    setMessages([
-      {
-        id: "welcome",
-        sender: "ai",
-        text:
-          lang === "te"
-            ? "నమస్కారం! నేను బీర్ల ఐలయ్య గారి AI సహాయకుని (Beerla's AI Assistant). ఆలేరు నియోజకవర్గం, ఎమ్మెల్యే గారి సేవలు, యాదాద్రి ఆలయం లేదా సంప్రదింపు వివరాల గురించి నన్ను ఏమైనా అడగవచ్చు."
-            : "Namaste! I am Beerla's AI Assistant. Ask me anything about MLA Beerla Ilaiah, Alair Constituency No. 97, Yadadri Temple, 2023 election results, or office contact details.",
-        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      },
-    ]);
-  }, [lang]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -54,11 +48,12 @@ export default function BeerlaAIAssistant() {
     const query = textToSend || input;
     if (!query.trim()) return;
 
+    const time = getClockTime();
     const userMsg: Message = {
-      id: `u_${Date.now()}`,
+      id: createMsgId("u"),
       sender: "user",
       text: query,
-      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      timestamp: time,
     };
 
     setMessages((prev) => [...prev, userMsg]);
@@ -80,10 +75,10 @@ export default function BeerlaAIAssistant() {
         const data = await apiRes.json();
         if (data.text) {
           const aiMsg: Message = {
-            id: `a_${Date.now()}`,
+            id: createMsgId("a"),
             sender: "ai",
             text: data.text,
-            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            timestamp: getClockTime(),
             showSocialButtons: query.toLowerCase().includes("contact") || query.toLowerCase().includes("social") || query.includes("సంప్రదించ"),
           };
           setMessages((prev) => [...prev, aiMsg]);
@@ -100,10 +95,10 @@ export default function BeerlaAIAssistant() {
       const topic = getAIResponseTopic(query);
       const responseText = getAIResponse(query, lang);
       const aiMsg: Message = {
-        id: `a_${Date.now()}`,
+        id: createMsgId("a"),
         sender: "ai",
         text: responseText,
-        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        timestamp: getClockTime(),
         showSocialButtons: topic?.showSocialButtons || query.toLowerCase().includes("contact") || query.includes("సంప్రదించ"),
       };
       setMessages((prev) => [...prev, aiMsg]);
@@ -145,12 +140,17 @@ export default function BeerlaAIAssistant() {
       });
   };
 
+  // Hide AI Assistant completely on Admin page
+  if (pathname && pathname.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <>
       {/* Floating Trigger Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Open Beerla AI Assistant"
+        aria-label="Open Beerla's Assistant"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         whileHover={{ scale: 1.06 }}
@@ -164,10 +164,10 @@ export default function BeerlaAIAssistant() {
           color: "white",
           border: "none",
           borderRadius: "100px",
-          padding: "0.75rem 1.25rem",
+          padding: "0.75rem 1.35rem",
           display: "flex",
           alignItems: "center",
-          gap: "0.6rem",
+          gap: "0.55rem",
           boxShadow: "0 12px 32px rgba(0,0,0,0.25), 0 4px 12px rgba(0,0,0,0.15)",
           cursor: "pointer",
           fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)",
@@ -175,11 +175,8 @@ export default function BeerlaAIAssistant() {
           fontSize: "0.875rem",
         }}
       >
-        <div style={{ position: "relative", width: "28px", height: "28px", borderRadius: "50%", overflow: "hidden", border: "2px solid white" }}>
-          <Image src="/images/images (1).jpeg" alt="Beerla AI Assistant" fill sizes="28px" style={{ objectFit: "cover" }} />
-        </div>
-        <span>{lang === "te" ? "బీర్ల AI సహాయకుడు" : "Beerla AI Assistant"}</span>
-        <Sparkles size={16} color="#FFD700" />
+        <Sparkles size={18} color="#FFD700" />
+        <span>{lang === "te" ? "బీర్ల సహాయకుడు" : "Beerla's Assistant"}</span>
       </motion.button>
 
       {/* Chat Window Drawer */}
@@ -219,12 +216,24 @@ export default function BeerlaAIAssistant() {
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                <div style={{ position: "relative", width: "38px", height: "38px", borderRadius: "50%", overflow: "hidden", border: "2px solid var(--saffron)" }}>
-                  <Image src="/images/images (1).jpeg" alt="Beerla Ilaiah MLA" fill sizes="38px" style={{ objectFit: "cover" }} />
+                <div
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "50%",
+                    background: "rgba(238,90,28,0.2)",
+                    border: "1.5px solid var(--saffron)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--saffron)",
+                  }}
+                >
+                  <Sparkles size={18} />
                 </div>
                 <div>
                   <h3 style={{ fontSize: "0.95rem", fontWeight: 800, color: "white", lineHeight: 1.2, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
-                    {lang === "te" ? "బీర్ల AI సహాయకుడు" : "Beerla's AI Assistant"}
+                    {lang === "te" ? "బీర్ల సహాయకుడు" : "Beerla's Assistant"}
                   </h3>
                   <p style={{ fontSize: "0.72rem", color: "#4CAF6E", display: "flex", alignItems: "center", gap: "0.35rem", fontWeight: 600, margin: 0 }}>
                     <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#4CAF6E" }} />
@@ -362,7 +371,7 @@ export default function BeerlaAIAssistant() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={lang === "te" ? "ప్రశ్నను ఇక్కడ నమోదు చేయండి..." : "Ask Beerla's AI Assistant..."}
+                placeholder={lang === "te" ? "ప్రశ్నను ఇక్కడ నమోదు చేయండి..." : "Ask Beerla's Assistant..."}
                 style={{
                   flex: 1,
                   padding: "0.6rem 0.875rem",

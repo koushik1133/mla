@@ -37,9 +37,9 @@ export const beerlaKnowledge: KnowledgeTopic[] = [
     id: "election",
     keywords: ["election", "2023", "votes", "margin", "win", "majority", "ఎన్నికలు", "ఓట్లు", "మెజారిటీ", "గెలుపు", "ఫలితాలు"],
     responseEn:
-      "In the 2023 Telangana Legislative Assembly Elections, Beerla Ilaiah won Alair Constituency No. 97 as the INC candidate, securing a massive victory margin of 49,636 votes against BRS candidate Gongidi Sunitha.",
+      "In the 2023 Telangana Legislative Assembly Elections, Beerla Ilaiah won Alair Constituency No. 97 as the INC candidate, securing a historic victory with 1,22,140 votes (57.41% vote share) and a massive margin of 49,636 votes.",
     responseTe:
-      "2023 తెలంగాణ శాసనసభ ఎన్నికలలో బీర్ల ఐలయ్య గారు ఆలేరు నియోజకవర్గంలో కాంగ్రెస్ అభ్యర్థిగా పోటీ చేసి, 49,636 ఓట్ల భారీ మెజారిటీతో బీఆర్‌ఎస్ అభ్యర్థి గొంగిడి సునీతపై ఘన విజయం సాధించి ఎమ్మెల్యేగా గెలిచారు.",
+      "2023 తెలంగాణ శాసనసభ ఎన్నికలలో బీర్ల ఐలయ్య గారు ఆలేరు నియోజకవర్గంలో కాంగ్రెస్ అభ్యర్థిగా పోటీ చేసి, 1,22,140 ఓట్లు (57.41% ఓట్ల వాటా) మరియు 49,636 ఓట్ల భారీ మెజారిటీతో ఘన విజయం సాధించి ఎమ్మెల్యేగా ఎన్నికయ్యారు.",
   },
   // 4. MANDALS & GEOGRAPHY
   {

@@ -14,23 +14,16 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeMode>("saffron");
   const pathname = usePathname();
+  const isGreenPath = Boolean(pathname?.startsWith("/green"));
+  const [theme, setThemeState] = useState<ThemeMode>(() => (isGreenPath ? "green" : "saffron"));
 
   useEffect(() => {
-    const isGreenPath = pathname?.startsWith("/green");
-    if (isGreenPath) {
-      setThemeState("green");
-      if (typeof document !== "undefined") {
-        document.documentElement.setAttribute("data-theme", "green");
-      }
-    } else {
-      setThemeState("saffron");
-      if (typeof document !== "undefined") {
-        document.documentElement.setAttribute("data-theme", "saffron");
-      }
+    const currentTheme = isGreenPath ? "green" : theme;
+    if (typeof document !== "undefined") {
+      document.documentElement.setAttribute("data-theme", currentTheme);
     }
-  }, [pathname]);
+  }, [isGreenPath, theme]);
 
   const setTheme = (newTheme: ThemeMode) => {
     setThemeState(newTheme);

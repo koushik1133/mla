@@ -11,18 +11,14 @@ import VideoSection from "@/components/home/VideoSection";
 import NewsPreview from "@/components/home/NewsPreview";
 import ContactCTA from "@/components/home/ContactCTA";
 import { useTheme } from "@/context/ThemeContext";
-import { useLang } from "@/lib/lang-context";
-import { CheckCircle2, Palette, ArrowLeft } from "lucide-react";
-import Link from "next/link";
 
 export default function GreenThemePage() {
-  const { theme, setTheme } = useTheme();
-  const { lang } = useLang();
+  const { setTheme } = useTheme();
 
   useEffect(() => {
     // Automatically set Congress Green theme when entering /green
     setTheme("green");
-  }, []);
+  }, [setTheme]);
 
   return (
     <div>

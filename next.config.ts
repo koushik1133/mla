@@ -8,13 +8,13 @@ const ContentSecurityPolicy = `
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com data:;
   img-src 'self' data: blob: https://upload.wikimedia.org https://commons.wikimedia.org https://img.youtube.com https://*.supabase.co;
-  connect-src 'self' https://*.supabase.co https://fonts.googleapis.com https://fonts.gstatic.com;
+  connect-src 'self' ws: wss: https://*.supabase.co https://fonts.googleapis.com https://fonts.gstatic.com;
   frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com;
   object-src 'none';
   base-uri 'self';
   form-action 'self';
   frame-ancestors 'none';
-  upgrade-insecure-requests;
+  ${!isDev ? "upgrade-insecure-requests;" : ""}
 `.replace(/\s{2,}/g, ' ').trim();
 
 const securityHeaders = [
@@ -22,10 +22,14 @@ const securityHeaders = [
     key: "X-DNS-Prefetch-Control",
     value: "on",
   },
-  {
-    key: "Strict-Transport-Security",
-    value: "max-age=63072000; includeSubDomains; preload",
-  },
+  ...(!isDev
+    ? [
+        {
+          key: "Strict-Transport-Security",
+          value: "max-age=63072000; includeSubDomains; preload",
+        },
+      ]
+    : []),
   {
     key: "X-Frame-Options",
     value: "DENY",
@@ -39,12 +43,10 @@ const securityHeaders = [
     value: "strict-origin-when-cross-origin",
   },
   {
-    // The legacy XSS auditor has itself been an XSS vector; modern guidance is 0.
     key: "X-XSS-Protection",
     value: "0",
   },
-  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-  { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
   {
     key: "X-Permitted-Cross-Domain-Policies",
     value: "none",
@@ -61,10 +63,10 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
-  // Nothing from console.* reaches production DevTools. console.error is kept
-  // so genuine crashes are still reportable.
+  // Completely strip all console.* (log, warn, error, info) in production
+  // so that nothing leaks to browser DevTools or Google Chrome Console.
   compiler: {
-    removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error"] } : false,
+    removeConsole: process.env.NODE_ENV === "production" ? true : false,
   },
   // Never emit browser source maps in production — they hand attackers the
   // original source and comments.
@@ -86,8 +88,8 @@ const nextConfig: NextConfig = {
       },
     ],
     formats: ["image/avif", "image/webp"],
-    // Next 16 only serves qualities listed here; 80 is used by the hero slides.
-    qualities: [75, 80],
+    // Next 16 only serves qualities listed here;
+    qualities: [75, 78, 80, 85],
   },
   // Allow reviewing the dev server from another device on the LAN
   // (e.g. a phone at http://192.168.29.24:3000). Dev-only; ignored in prod.
