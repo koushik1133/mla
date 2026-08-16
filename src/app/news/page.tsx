@@ -10,9 +10,9 @@ const staticNews: NewsRecord[] = [
   {
     id: "news-dcc-2025",
     title: "Beerla Ilaiah Appointed President of Yadadri Bhuvanagiri District Congress Committee",
-    title_telugu: "యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డిసిసి) అధ్యక్షుడిగా ఎమ్మెల్యే బీర్ల ఐలయ్య నియామకం",
+    title_telugu: "యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డీసీసీ) అధ్యక్షుడిగా ఎమ్మెల్యే బీర్ల ఐలయ్య నియామకం",
     summary: "MLA Beerla Ilaiah was appointed as President of the Yadadri Bhuvanagiri District Congress Committee (DCC) in November 2025, according to Poliple and BCSamachar reports.",
-    summary_telugu: "ఆలేరు శాసనసభ్యులు బీర్ల ఐలయ్య గారు 2025 నవంబర్‌లో యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డిసిసి) అధ్యక్షుడిగా నియమితులయ్యారు.",
+    summary_telugu: "ఆలేరు శాసనసభ్యులు బీర్ల ఐలయ్య గారు 2025 నవంబర్‌లో యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డీసీసీ) అధ్యక్షుడిగా నియమితులయ్యారు.",
     category: "Congress",
     category_telugu: "కాంగ్రెస్",
     date: "November 2025",
@@ -46,7 +46,7 @@ const staticNews: NewsRecord[] = [
   {
     id: "news-whip-2023",
     title: "Beerla Ilaiah Among Government Whips Appointed by Telangana Congress",
-    title_telugu: "తెలంగాణ శాసనసభ ప్రభుత్వ విప్‌గా ఎమ్మెల్యే బీర్ల ఇలయ్య నియామకం",
+    title_telugu: "తెలంగాణ శాసనసభ ప్రభుత్వ విప్‌గా ఎమ్మెల్యే బీర్ల ఐలయ్య నియామకం",
     summary: "Following the INC victory in the 2023 Telangana Assembly elections, Beerla Ilaiah was among the MLAs appointed as Government Whips in the Telangana Legislative Assembly in December 2023.",
     summary_telugu: "2023 తెలంగాణ శాసనసభ ఎన్నికల విజయం అనంతరం డిసెంబర్ 2023లో శాసనసభ ప్రభుత్వ విప్‌గా నియమితులయ్యారు.",
     category: "Government",

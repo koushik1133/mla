@@ -50,7 +50,7 @@ export const serviceCategories: ServiceCategory[] = [
       {
         id: "edu-2",
         title: "SLNS College Support",
-        titleTelugu: "ఎస్‌ఎల్ఎన్ఎస్ కళాశాల అభివృద్ధి",
+        titleTelugu: "ఎస్‌ఎల్‌ఎన్‌ఎస్ కళాశాల అభివృద్ధి",
         description:
           "Supporting infrastructure upgrades at Sri Laxmi Narasimha Degree College, Bhongir — his alma mater.",
         descriptionTelugu:
@@ -114,7 +114,7 @@ export const serviceCategories: ServiceCategory[] = [
         description:
           "Advocating for road repairs and BT road laying connecting internal villages to Mandal headquarters.",
         descriptionTelugu:
-          "గ్రామాలను మండల కేంద్రాలకు అనుసంధానించే బిటి రోడ్ల నిర్మాణం మరియు గుంతల మరమ్మతులపై ప్రత్యేక శ్రద్ధ.",
+          "గ్రామాలను మండల కేంద్రాలకు అనుసంధానించే బీటీ రోడ్ల నిర్మాణం మరియు గుంతల మరమ్మతులపై ప్రత్యేక శ్రద్ధ.",
         category: "infrastructure",
         nature: "Development",
         natureTelugu: "అభివృద్ధి పనులు",

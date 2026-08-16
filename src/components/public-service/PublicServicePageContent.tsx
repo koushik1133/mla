@@ -31,7 +31,7 @@ export default function PublicServicePageContent() {
             {lang === "te" ? "ప్రజా సేవ & నియోజకవర్గ పనులు" : "Public Service & Constituency Work"}
           </h1>
           <p style={{ fontSize: "1.05rem", color: "rgba(255,255,255,0.55)", maxWidth: "560px", lineHeight: 1.65, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-            {lang === "te" ? "ఆలేరు శాసనసభ్యులు బీర్ల ఇలయ్య గారి నియోజకవర్గ అభివృద్ది మరియు ప్రజా సేవ రంగాలు." : "Areas of constituency engagement and public activity by Beerla Ilaiah, MLA, Alair No. 97."}
+            {lang === "te" ? "ఆలేరు శాసనసభ్యులు బీర్ల ఐలయ్య గారి నియోజకవర్గ అభివృద్ధి మరియు ప్రజా సేవ రంగాలు." : "Areas of constituency engagement and public activity by Beerla Ilaiah, MLA, Alair No. 97."}
           </p>
 
 
@@ -72,7 +72,7 @@ export default function PublicServicePageContent() {
                   {lang === "te" ? category.title : category.titleTelugu}
                 </p>
                 <p style={{ fontSize: "0.875rem", color: "var(--muted)", lineHeight: 1.6, marginBottom: "1.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                  {category.description}
+                  {lang === "te" && category.descriptionTelugu ? category.descriptionTelugu : category.description}
                 </p>
 
                 {/* Activities */}
@@ -88,13 +88,13 @@ export default function PublicServicePageContent() {
                       }}
                     >
                       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.3rem" }}>
-                        <span className="tag tag-dark" style={{ fontSize: "0.6rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{activity.nature}</span>
+                        <span className="tag tag-dark" style={{ fontSize: "0.6rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{lang === "te" && activity.natureTelugu ? activity.natureTelugu : activity.nature}</span>
                       </div>
                       <p style={{ fontSize: "0.82rem", fontWeight: 700, color: "var(--charcoal)", marginBottom: "0.25rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {activity.title}
+                        {lang === "te" && activity.titleTelugu ? activity.titleTelugu : activity.title}
                       </p>
                       <p style={{ fontSize: "0.78rem", color: "var(--muted)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {activity.description}
+                        {lang === "te" && activity.descriptionTelugu ? activity.descriptionTelugu : activity.description}
                       </p>
                     </div>
                   ))}

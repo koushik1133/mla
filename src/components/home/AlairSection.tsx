@@ -72,7 +72,7 @@ export default function AlairSection() {
                       {lang === "te" && landmark.nameTelugu ? landmark.nameTelugu : landmark.name}
                     </p>
                     <p style={{ fontSize: "0.78rem", color: "var(--muted)", lineHeight: 1.4, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                      {landmark.description.slice(0, 120)}…
+                      {(lang === "te" && landmark.descriptionTelugu ? landmark.descriptionTelugu : landmark.description).slice(0, 120)}…
                     </p>
                   </div>
                 </div>

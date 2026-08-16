@@ -53,6 +53,7 @@ export interface MediaRecord {
   category: string;
   category_telugu: string;
   date: string;
+  date_telugu?: string;
   channel?: string;
   channel_telugu?: string;
   thumbnail_url?: string;

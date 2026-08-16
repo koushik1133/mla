@@ -153,13 +153,13 @@ export default function AlairPageContent() {
                 )}
                 <div style={{ padding: "1.25rem" }}>
                   <span className="tag tag-saffron" style={{ marginBottom: "0.5rem", display: "inline-block", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                    {landmark.significance}
+                    {lang === "te" && landmark.significanceTelugu ? landmark.significanceTelugu : landmark.significance}
                   </span>
                   <p style={{ fontSize: "0.975rem", fontWeight: 700, color: "var(--charcoal)", marginBottom: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                     {lang === "te" && landmark.nameTelugu ? landmark.nameTelugu : landmark.name}
                   </p>
                   <p style={{ fontSize: "0.82rem", color: "var(--muted)", lineHeight: 1.55, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                    {landmark.description}
+                    {lang === "te" && landmark.descriptionTelugu ? landmark.descriptionTelugu : landmark.description}
                   </p>
                 </div>
               </div>

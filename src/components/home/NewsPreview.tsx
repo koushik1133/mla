@@ -12,7 +12,7 @@ const staticNews: NewsRecord[] = [
   {
     id: "news-1",
     title: "MLA Beerla Ilaiah Appointed President of Yadadri Bhuvanagiri District Congress Committee",
-    title_telugu: "యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ అధ్యక్షుడిగా ఎమ్మెల్యే బీర్ల ఇలయ్య నియామకం",
+    title_telugu: "యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ అధ్యక్షుడిగా ఎమ్మెల్యే బీర్ల ఐలయ్య నియామకం",
     source: "Poliple / BCSamachar",
     date: "November 2025",
     category: "Congress",
@@ -20,12 +20,12 @@ const staticNews: NewsRecord[] = [
     summary:
       "Beerla Ilaiah, MLA representing Alair constituency, was appointed as the President of the Yadadri Bhuvanagiri District Congress Committee (DCC) in November 2025.",
     summary_telugu:
-      "ఆలేరు శాసనసభ్యులు బీర్ల ఇలయ్య గారు 2025 నవంబర్‌లో యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డిసిసి) అధ్యక్షుడిగా నియమితులయ్యారు.",
+      "ఆలేరు శాసనసభ్యులు బీర్ల ఐలయ్య గారు 2025 నవంబర్‌లో యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డీసీసీ) అధ్యక్షుడిగా నియమితులయ్యారు.",
   },
   {
     id: "news-2",
     title: 'Beerla Ilaiah Discusses Constituency Development — "I Am a Servant"',
-    title_telugu: 'ఆలేరు నియోజకవర్గ అభివృద్ధిపై బీర్ల ఇలయ్య ప్రత్యేక ఇంటర్వ్యూ — "నేను సేవకుడిని"',
+    title_telugu: 'ఆలేరు నియోజకవర్గ అభివృద్ధిపై బీర్ల ఐలయ్య ప్రత్యేక ఇంటర్వ్యూ — "నేను సేవకుడిని"',
     source: "Suman TV Yadadri",
     date: "July 2026",
     category: "Interview",
@@ -33,12 +33,12 @@ const staticNews: NewsRecord[] = [
     summary:
       "In an exclusive interview with Suman TV, MLA Beerla Ilaiah discussed Alair constituency development, describing his role with the phrase \"I Am Not an MLA, I Am a Servant.\"",
     summary_telugu:
-      "సుమన్ టీవీ యాదాద్రికి ఇచ్చిన ఇంటర్వ్యూలో ఎమ్మెల్యే బీర్ల ఇలయ్య గారు ఆలేరు నియోజకవర్గ అభివృద్ధి, ప్రజా సేవ గురించి వివరించారు.",
+      "సుమన్ టీవీ యాదాద్రికి ఇచ్చిన ఇంటర్వ్యూలో ఎమ్మెల్యే బీర్ల ఐలయ్య గారు ఆలేరు నియోజకవర్గ అభివృద్ధి, ప్రజా సేవ గురించి వివరించారు.",
   },
   {
     id: "news-3",
     title: "Telangana Congress MLA Beerla Ilaiah Comments on BC Reservation",
-    title_telugu: "బిసి రిజర్వేషన్లపై వ్యాఖ్యానించిన కాంగ్రెస్ ఎమ్మెల్యే బీర్ల ఇలయ్య",
+    title_telugu: "బీసీ రిజర్వేషన్లపై వ్యాఖ్యానించిన కాంగ్రెస్ ఎమ్మెల్యే బీర్ల ఐలయ్య",
     source: "TV5 News",
     date: "2024",
     category: "Government",
@@ -46,7 +46,7 @@ const staticNews: NewsRecord[] = [
     summary:
       "Congress MLA Beerla Ilaiah publicly commented on the 42% BC reservation and local body elections, according to TV5 News reporting.",
     summary_telugu:
-      "తెలంగాణలో 42% బిసి రిజర్వేషన్లు మరియు స్థానిక సంస్థల ఎన్నికలపై కాంగ్రెస్ ఎమ్మెల్యే బీర్ల ఇలయ్య వ్యాఖ్యానించినట్లు టీవీ5 వార్తలు పేర్కొన్నాయి.",
+      "తెలంగాణలో 42% బీసీ రిజర్వేషన్లు మరియు స్థానిక సంస్థల ఎన్నికలపై కాంగ్రెస్ ఎమ్మెల్యే బీర్ల ఐలయ్య వ్యాఖ్యానించినట్లు టీవీ5 వార్తలు పేర్కొన్నాయి.",
   },
 ];
 

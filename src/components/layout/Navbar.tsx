@@ -177,7 +177,7 @@ export default function Navbar() {
                 }}
               >
                 <HandSymbolIcon size={12} style={{ fill: "#166A2F" }} />
-                <span style={{ fontSize: "0.65rem", fontWeight: 700, color: "var(--congress-green)", letterSpacing: "0.04em", textTransform: "uppercase", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{lang === "te" ? "ఐఎన్‌సి" : "INC"}</span>
+                <span style={{ fontSize: "0.65rem", fontWeight: 700, color: "var(--congress-green)", letterSpacing: "0.04em", textTransform: "uppercase", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>{lang === "te" ? "ఐఎన్‌సీ" : "INC"}</span>
               </div>
 
               {/* Hamburger Menu Button */}
@@ -321,7 +321,7 @@ export default function Navbar() {
                   }}
                 >
                   <HandSymbolIcon size={14} style={{ fill: "#166A2F" }} />
-                  <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--congress-green)", letterSpacing: "0.04em", textTransform: "uppercase" }}>{lang === "te" ? "ఐఎన్‌సి" : "INC"}</span>
+                  <span style={{ fontSize: "0.75rem", fontWeight: 700, color: "var(--congress-green)", letterSpacing: "0.04em", textTransform: "uppercase" }}>{lang === "te" ? "ఐఎన్‌సీ" : "INC"}</span>
                 </div>
               </div>
 
@@ -358,7 +358,7 @@ export default function Navbar() {
 
               <div style={{ marginTop: "1.5rem", padding: "1rem", background: "var(--warm-bg)", borderRadius: "10px" }}>
                 <p style={{ fontSize: "0.75rem", color: "var(--muted)", lineHeight: 1.5, fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                  {lang === "te" ? "ప్రజా సమాచార జాలగూడు. సమాచార ప్రయోజనాల కోసం మాత్రమే." : "Public information website. Party affiliation presented for informational purposes only."}
+                  {lang === "te" ? "ప్రజా సమాచార వెబ్‌సైట్. సమాచార ప్రయోజనాల కోసం మాత్రమే." : "Public information website. Party affiliation presented for informational purposes only."}
                 </p>
               </div>
             </div>

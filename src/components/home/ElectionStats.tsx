@@ -8,6 +8,19 @@ import { electionResults2023 } from "@/content/election";
 import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
 
+// Telugu renderings of candidate and party names shown in the 2023 result comparison
+const candidateNamesTelugu: Record<string, string> = {
+  "Beerla Ilaiah": "బీర్ల ఐలయ్య",
+  "Gongidi Sunitha": "గొంగిడి సునీత",
+  "Padala Srinivas": "పడాల శ్రీనివాస్",
+};
+
+const partyNamesTelugu: Record<string, string> = {
+  "Indian National Congress": "భారత జాతీయ కాంగ్రెస్",
+  "Bharat Rashtra Samithi": "భారత రాష్ట్ర సమితి",
+  "Bharatiya Janata Party": "భారతీయ జనతా పార్టీ",
+};
+
 function AnimatedNumber({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [display, setDisplay] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
@@ -110,7 +123,7 @@ export default function ElectionStats() {
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "0.5rem", flexWrap: "wrap" }}>
                     <div>
                       <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "var(--charcoal)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {lang === "te" && candidate.name === "Beerla Ilaiah" ? "బీర్ల ఇలయ్య" : candidate.name}
+                        {lang === "te" ? (candidateNamesTelugu[candidate.name] || candidate.name) : candidate.name}
                         {candidate.isWinner && (
                           <span style={{ marginLeft: "0.5rem", fontSize: "0.65rem", background: "rgba(22,106,47,0.12)", color: "var(--congress-green)", padding: "0.15rem 0.5rem", borderRadius: "100px", fontWeight: 700, letterSpacing: "0.04em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                             {t.winner}
@@ -118,7 +131,7 @@ export default function ElectionStats() {
                         )}
                       </p>
                       <p style={{ fontSize: "0.78rem", color: "var(--muted)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-                        {lang === "te" && candidate.party === "Indian National Congress" ? "భారత జాతీయ కాంగ్రెస్" : candidate.party}
+                        {lang === "te" ? (partyNamesTelugu[candidate.party] || candidate.party) : candidate.party}
                       </p>
                     </div>
                     <div style={{ textAlign: "right" }}>

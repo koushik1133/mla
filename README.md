@@ -10,7 +10,7 @@ Official public website and digital administration portal for **Beerla Ilaiah**,
 
 - **Government Whip**, Telangana Legislative Assembly
 - **President**, Yadadri Bhuvanagiri District Congress Committee (DCC)
-- **Assembly Victory**: 122,140 votes (57.41% vote share) | 49,204 vote majority in 2023 Telangana Assembly Elections
+- **Assembly Victory**: 122,140 votes (57.41% vote share) | 49,636 vote majority in 2023 Telangana Assembly Elections
 
 ---
 
@@ -53,7 +53,7 @@ Official public website and digital administration portal for **Beerla Ilaiah**,
 | `/journey` | **Political Timeline** (NSUI -> Sarpanch -> DCC President -> MLA) |
 | `/alair` | **Constituency Profile** (8 Mandals, Yadadri Temple, agriculture, demographics) |
 | `/public-service` | **Legislative Record & Work** (BC welfare, Assembly contributions, public works) |
-| `/election-2023` | **2023 Election Breakdown** (122,140 votes, 49,204 margin, vote shares) |
+| `/election-2023` | **2023 Election Breakdown** (122,140 votes, 49,636 margin, vote shares) |
 | `/media` | **Speeches & Media Interviews** (HD YouTube video cards with auto-thumbnails & fallback) |
 | `/gallery` | **Photo Gallery** (Translucent frosted blur text badges & lightbox modal) |
 | `/news` | **News & Updates** (Press archive with verified external publication links) |

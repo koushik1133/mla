@@ -96,7 +96,7 @@ export default function Election2023Page() {
                 </span>
               </div>
               <p style={{ fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", fontSize: "clamp(1.5rem, 3vw, 2.25rem)", fontWeight: 800, color: "white", letterSpacing: "-0.02em", marginBottom: "0.25rem" }}>
-                {lang === "te" ? "బీర్ల ఇలయ్య" : "Beerla Ilaiah"}
+                {lang === "te" ? "బీర్ల ఐలయ్య" : "Beerla Ilaiah"}
               </p>
               <p style={{ fontSize: "0.9rem", color: "var(--saffron-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                 {lang === "te" ? "భారత జాతీయ కాంగ్రెస్" : "Indian National Congress"}
@@ -154,7 +154,7 @@ export default function Election2023Page() {
                     <div>
                       <p style={{ fontSize: "1.1rem", fontWeight: 800, color: "var(--charcoal)", marginBottom: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                         {lang === "te"
-                          ? candidate.name === "Beerla Ilaiah" ? "బీర్ల ఇలయ్య" : candidate.name === "Gongidi Sunitha" ? "గొంగిడి సునీత" : candidate.name === "Kallu Sanjeeva Reddy" ? "కల్లు సంజీవ రెడ్డి" : candidate.name
+                          ? candidate.name === "Beerla Ilaiah" ? "బీర్ల ఐలయ్య" : candidate.name === "Gongidi Sunitha" ? "గొంగిడి సునీత" : candidate.name === "Kallu Sanjeeva Reddy" ? "కల్లు సంజీవ రెడ్డి" : candidate.name
                           : candidate.name}
                         {candidate.isWinner && (
                           <span style={{ marginLeft: "0.5rem", fontSize: "0.65rem", background: "rgba(22,106,47,0.12)", color: "var(--congress-green)", padding: "0.15rem 0.5rem", borderRadius: "100px", fontWeight: 700, letterSpacing: "0.04em", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>

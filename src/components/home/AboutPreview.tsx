@@ -60,7 +60,7 @@ export default function AboutPreview() {
                   {t.bornIn}
                 </p>
                 <p style={{ fontSize: "0.95rem", fontWeight: 800, color: "white", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)", letterSpacing: "-0.01em", lineHeight: 1.2 }}>
-                  {lang === "te" ? "సైదాపూర్" : "Saidapur"}
+                  {lang === "te" ? "సైదాపురం" : "Saidapur"}
                 </p>
                 <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.5)", marginTop: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                   {t.saidapurLocation}
@@ -107,10 +107,10 @@ export default function AboutPreview() {
               }}
             >
               {[
-                { label: t.educationLabel, value: lang === "te" ? "బి.ఏ, ఎస్‌ఎల్ఎన్ఎస్ డిగ్రీ కళాశాల, భువనగిరి" : "B.A., SLNS Degree College, Bhongir" },
+                { label: t.educationLabel, value: lang === "te" ? "బి.ఏ., ఎస్‌ఎల్‌ఎన్‌ఎస్ డిగ్రీ కళాశాల, భువనగిరి" : "B.A., SLNS Degree College, Bhongir" },
                 { label: t.communityLabel, value: lang === "te" ? "గొల్ల-కురుమ" : "Golla-Kuruma" },
                 { label: t.partyLabel, value: lang === "te" ? "భారత జాతీయ కాంగ్రెస్" : "Indian National Congress" },
-                { label: t.lifeLabel, value: lang === "te" ? "1990ల నుండి (ఎన్.ఎస్.యు.ఐ)" : "1990s (NSUI)" },
+                { label: t.lifeLabel, value: lang === "te" ? "1990ల నుండి (ఎన్‌ఎస్‌యూఐ)" : "1990s (NSUI)" },
               ].map((item) => (
                 <div key={item.label}>
                   <p style={{ fontSize: "0.68rem", fontWeight: 700, color: "var(--muted-light)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "0.2rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>

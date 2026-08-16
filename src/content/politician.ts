@@ -3,7 +3,7 @@
 
 export const politician = {
   name: "Beerla Ilaiah",
-  nameTelugu: "బీర్ల ఇలయ్య",
+  nameTelugu: "బీర్ల ఐలయ్య",
   role: "Member of the Telangana Legislative Assembly",
   roleShort: "MLA",
   roleTeluguShort: "ఎమ్మెల్యే",
@@ -22,7 +22,7 @@ export const politician = {
   born: "June 6, 1975",
   birthplace: "Saidapur, Yadadri Bhuvanagiri, Telangana",
   community: "Golla-Kuruma",
-  education: "B.A., Sri Laxmi Narasimha Degree College, Bhongir (2000)",
+  education: "B.A., Sri Laxmi Narasimha Degree College, Bhongir (1997)",
   // Source: Telangana government reporting, news (Dec 2023 appointment)
   additionalRoles: [
     {

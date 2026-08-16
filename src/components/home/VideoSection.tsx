@@ -9,6 +9,15 @@ import { useLang } from "@/lib/lang-context";
 import { translations } from "@/content/translations";
 import { fetchMediaVideos, extractYouTubeId, MediaRecord } from "@/lib/supabase";
 
+// Telugu labels for the video category slugs used in src/content/videos.ts
+const categoryTeluguBySlug: Record<string, string> = {
+  interview: "ఇంటర్వ్యూ",
+  "public-event": "ప్రజా కార్యక్రమం",
+  government: "ప్రభుత్వం",
+  congress: "కాంగ్రెస్",
+  development: "అభివృద్ధి",
+};
+
 export default function VideoSection() {
   const { lang } = useLang();
   const t = translations[lang].media;
@@ -27,8 +36,9 @@ export default function VideoSection() {
               title_telugu: v.titleTelugu || v.title,
               youtube_id: v.youtubeSearchQuery || "",
               category: v.category === "interview" ? "Interview" : "Assembly Speech",
-              category_telugu: v.category,
+              category_telugu: categoryTeluguBySlug[v.category] || "అసెంబ్లీ ప్రసంగం",
               date: v.date,
+              date_telugu: v.dateTelugu || v.date,
               channel: v.publisher,
               channel_telugu: v.publisher,
             }))
@@ -43,8 +53,9 @@ export default function VideoSection() {
             title_telugu: v.titleTelugu || v.title,
             youtube_id: v.youtubeSearchQuery || "",
             category: v.category === "interview" ? "Interview" : "Assembly Speech",
-            category_telugu: v.category,
+            category_telugu: categoryTeluguBySlug[v.category] || "అసెంబ్లీ ప్రసంగం",
             date: v.date,
+            date_telugu: v.dateTelugu || v.date,
             channel: v.publisher,
             channel_telugu: v.publisher,
           }))
@@ -133,7 +144,7 @@ export default function VideoSection() {
                       <span className="tag tag-saffron" style={{ fontSize: "0.65rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                         {catLabel}
                       </span>
-                      <span style={{ fontSize: "0.72rem", color: "var(--muted-light)" }}>{video.date}</span>
+                      <span style={{ fontSize: "0.72rem", color: "var(--muted-light)" }}>{lang === "te" ? (video.date_telugu || video.date) : video.date}</span>
                     </div>
                     <p style={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--charcoal)", lineHeight: 1.3, marginBottom: "0.5rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
                       {title}

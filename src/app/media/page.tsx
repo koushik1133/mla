@@ -9,6 +9,15 @@ import { videos as staticVideos } from "@/content/videos";
 
 type Category = "all" | "interview" | "public-event" | "government" | "congress" | "development" | string;
 
+// Telugu labels for the video category slugs used in src/content/videos.ts
+const categoryTeluguBySlug: Record<string, string> = {
+  interview: "ఇంటర్వ్యూ",
+  "public-event": "ప్రజా కార్యక్రమం",
+  government: "ప్రభుత్వం",
+  congress: "కాంగ్రెస్",
+  development: "అభివృద్ధి",
+};
+
 // Adapt static videos (src/content/videos.ts format) to MediaRecord shape
 const staticFallback: MediaRecord[] = staticVideos.map((v) => ({
   id: v.id,
@@ -20,8 +29,9 @@ const staticFallback: MediaRecord[] = staticVideos.map((v) => ({
             v.category === "government" ? "Government" :
             v.category === "congress" ? "Congress" :
             v.category === "development" ? "Development" : "Assembly Speech",
-  category_telugu: v.category,
+  category_telugu: categoryTeluguBySlug[v.category] || "అసెంబ్లీ ప్రసంగం",
   date: v.date,
+  date_telugu: v.dateTelugu || v.date,
   channel: v.publisher,
   channel_telugu: v.publisher,
   is_featured: false,
@@ -58,6 +68,7 @@ export default function MediaPage() {
     const title = lang === "te" ? (video.title_telugu || video.title) : video.title;
     const channel = lang === "te" ? (video.channel_telugu || video.channel || "") : (video.channel || "");
     const catLabel = lang === "te" ? (video.category_telugu || video.category) : video.category;
+    const dateLabel = lang === "te" ? (video.date_telugu || video.date) : video.date;
 
     return (
       <a
@@ -94,7 +105,7 @@ export default function MediaPage() {
               {catLabel}
             </span>
             <span style={{ fontSize: "0.72rem", color: "var(--muted-light)", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>
-              {video.date}
+              {dateLabel}
             </span>
           </div>
           <p style={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--charcoal)", lineHeight: 1.3, marginBottom: "0.4rem", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-body)" }}>

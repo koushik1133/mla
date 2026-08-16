@@ -363,7 +363,7 @@ export default function Hero() {
                   PORTRAIT
                 </p>
                 <p style={{ fontSize: "0.95rem", fontWeight: 700, color: "white", fontFamily: lang === "te" ? "var(--font-telugu)" : "var(--font-display)" }}>
-                  {lang === "te" ? "బీర్ల ఇలయ్య — ఎమ్మెల్యే, ఆలేరు" : "Beerla Ilaiah — MLA, Alair"}
+                  {lang === "te" ? "బీర్ల ఐలయ్య — ఎమ్మెల్యే, ఆలేరు" : "Beerla Ilaiah — MLA, Alair"}
                 </p>
               </div>
             </div>

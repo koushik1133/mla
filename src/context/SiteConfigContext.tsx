@@ -47,7 +47,7 @@ const defaultTickerItems: TickerItem[] = [
   {
     id: "t1",
     textEn: "🔥 MLA Beerla Ilaiah Appointed President of Yadadri Bhuvanagiri District Congress Committee (DCC) — November 2025",
-    textTe: "🔥 యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ అధ్యక్షుడిగా ఎమ్మెల్యే బీర్ల ఇలయ్య నియామకం — నవంబర్ 2025",
+    textTe: "🔥 యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ అధ్యక్షుడిగా ఎమ్మెల్యే బీర్ల ఐలయ్య నియామకం — నవంబర్ 2025",
     link: "/news",
     active: true,
   },
@@ -80,7 +80,7 @@ const defaultHeroConfig: HeroConfig = {
   sideImage: "/images/beerla-standing.jpg",
   alignment: "left",
   headlineEn: "Beerla Ilaiah",
-  headlineTe: "బీర్ల ఇలయ్య",
+  headlineTe: "బీర్ల ఐలయ్య",
   subtitleEn: "Member of the Telangana Legislative Assembly — Alair No. 97",
   subtitleTe: "తెలంగాణ శాసనసభ సభ్యులు — ఆలేరు సంఖ్య 97",
   partyBadgeEn: "Indian National Congress",

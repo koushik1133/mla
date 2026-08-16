@@ -22,7 +22,7 @@ export const timelineEntries: TimelineEntry[] = [
     id: "birth",
     year: "1975",
     title: "Born in Saidapur",
-    titleTelugu: "సైదాపూర్‌లో జననం",
+    titleTelugu: "సైదాపురంలో జననం",
     description:
       "Beerla Ilaiah was born on June 6, 1975, in Saidapur village, Yadagirigutta mandal, Yadadri Bhuvanagiri district, Telangana, to Beerla Samaraju and Beerla Buchamma. His spouse is Anita.",
     descriptionTelugu:
@@ -52,11 +52,11 @@ export const timelineEntries: TimelineEntry[] = [
     period: "1994 - 1997",
     periodTelugu: "1994 - 1997",
     title: "Intermediate, NSUI Leadership & Degree",
-    titleTelugu: "ఇంటర్మీడియట్, ఎన్ఎస్యుఐ నాయకత్వం & డిగ్రీ",
+    titleTelugu: "ఇంటర్మీడియట్, ఎన్‌ఎస్‌యూఐ నాయకత్వం & డిగ్రీ",
     description:
       "Completed Intermediate at Sri Yadagiri Lakshmi Narasimha Swamy College, Alair in 1994. Joined NSUI at Sri Laxmi Narasimha Degree College, Bhongir, served as College Secretary, and earned his B.A. degree in 1997.",
     descriptionTelugu:
-      "1994లో ఆలేరులోని శ్రీ యాదగిరి లక్ష్మీ నరసింహ స్వామి కళాశాలలో ఇంటర్మీడియట్, 1997లో భువనగిరి శ్రీ లక్ష్మీ నరసింహ డిగ్రీ కళాశాల నుండి బి.ఏ పట్టా పొందారు. కాలేజీ రోజుల్లోనే ఎన్ఎస్యుఐ (NSUI) కళాశాల సెక్రటరీగా బాధ్యతలు నిర్వర్తించారు.",
+      "1994లో ఆలేరులోని శ్రీ యాదగిరి లక్ష్మీ నరసింహ స్వామి కళాశాలలో ఇంటర్మీడియట్, 1997లో భువనగిరి శ్రీ లక్ష్మీ నరసింహ డిగ్రీ కళాశాల నుండి బి.ఏ. పట్టా పొందారు. కాలేజీ రోజుల్లోనే ఎన్‌ఎస్‌యూఐ (NSUI) కళాశాల సెక్రటరీగా బాధ్యతలు నిర్వర్తించారు.",
     category: "party",
     source: "Telugu Wikipedia",
     sourceTelugu: "తెలుగు వికీపీడియా",
@@ -70,7 +70,7 @@ export const timelineEntries: TimelineEntry[] = [
     description:
       "Contested local body elections as Congress candidate and was elected Sarpanch of his native Saidapur village.",
     descriptionTelugu:
-      "2006 స్థానిక సంస్థల ఎన్నికలలో కాంగ్రెస్ పార్టీ అభ్యర్థిగా పోటీ చేసి తమ స్వగ్రామమైన సైదాపూర్ గ్రామ సర్పంచ్‌గా ఎన్నికయ్యారు.",
+      "2006 స్థానిక సంస్థల ఎన్నికలలో కాంగ్రెస్ పార్టీ అభ్యర్థిగా పోటీ చేసి తమ స్వగ్రామమైన సైదాపురం గ్రామ సర్పంచ్‌గా ఎన్నికయ్యారు.",
     category: "community",
     source: "Telugu Wikipedia",
     sourceTelugu: "తెలుగు వికీపీడియా",
@@ -111,9 +111,9 @@ export const timelineEntries: TimelineEntry[] = [
     title: "Elected MLA, Alair Assembly Constituency",
     titleTelugu: "ఆలేరు ఎమ్మెల్యేగా ఘన విజయం",
     description:
-      "Contested 2023 Telangana Legislative Assembly election from Alair Constituency No. 97, securing a massive victory margin of 49,204 votes against BRS candidate Gongidi Sunitha.",
+      "Contested 2023 Telangana Legislative Assembly election from Alair Constituency No. 97, securing a massive victory margin of 49,636 votes against BRS candidate Gongidi Sunitha.",
     descriptionTelugu:
-      "2023 తెలంగాణ శాసనసభ ఎన్నికలలో ఆలేరు నియోజకవర్గం (సంఖ్య 97) నుండి కాంగ్రెస్ అభ్యర్థిగా పోటీ చేసి బిఆర్‌ఎస్ అభ్యర్థి గొంగిడి సునీతపై 49,204 ఓట్ల భారీ మెజారిటీతో ఎమ్మెల్యేగా విజయం సాధించారు.",
+      "2023 తెలంగాణ శాసనసభ ఎన్నికలలో ఆలేరు నియోజకవర్గం (సంఖ్య 97) నుండి కాంగ్రెస్ అభ్యర్థిగా పోటీ చేసి బీఆర్‌ఎస్ అభ్యర్థి గొంగిడి సునీతపై 49,636 ఓట్ల భారీ మెజారిటీతో ఎమ్మెల్యేగా విజయం సాధించారు.",
     category: "election",
     source: "Election Commission of India / Telugu Wikipedia",
     sourceTelugu: "భారత ఎన్నికల సంఘం / తెలుగు వికీపీడియా",
@@ -150,7 +150,7 @@ export const timelineEntries: TimelineEntry[] = [
       "2025 నవంబర్ 22న యాదాద్రి భువనగిరి జిల్లా కాంగ్రెస్ కమిటీ (డీసీసీ) అధ్యక్షుడిగా నియమితులయ్యారు.",
     category: "party",
     source: "AICC / Telugu Wikipedia",
-    sourceTelugu: "ఎఐసిసి / తెలుగు వికీపీడియా",
+    sourceTelugu: "ఏఐసీసీ / తెలుగు వికీపీడియా",
     confidence: "high",
     isMilestone: true,
   },

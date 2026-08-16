@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "Yadadri Bhuvanagiri",
     "Indian National Congress Telangana",
     "Alair constituency",
-    "బీర్ల ఇలయ్య",
+    "బీర్ల ఐలయ్య",
     "ఆలేరు ఎమ్మెల్యే",
     "తెలంగాణ శాసనసభ",
   ],
@@ -73,7 +73,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Beerla Ilaiah",
-              alternateName: "బీర్ల ఇలయ్య",
+              alternateName: "బీర్ల ఐలయ్య",
               jobTitle: "Member of the Telangana Legislative Assembly",
               description:
                 "MLA representing Alair Constituency No. 97, Yadadri Bhuvanagiri District, Telangana. Indian National Congress.",
